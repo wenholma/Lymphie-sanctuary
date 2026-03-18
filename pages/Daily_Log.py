@@ -12,7 +12,7 @@ if "log_df" not in st.session_state:
     # Create an empty DataFrame with the expected columns
     columns = [
         "Date", "Time", "Heaviness", "Pain", "Limb Appearance",
-        "Measurement Taken", "Affected Areas", "Compression Type",
+        "Measurement Taken", "Affected Areas", "Compression Type", "Compression Hours",
         "Self Care", "Dietary Triggers", "Environmental Triggers",
         "Health Triggers", "Stress", "Sleep Quality", "Energy",
         "Mobility", "Self Compassion", "Biggest Challenge", "Small Win",
@@ -74,6 +74,16 @@ with st.form("daily_log_form"):
         ]
         compression = st.selectbox("Compression worn today", compression_options,
                                    help="OTC = over-the-counter; Circular knit = seamless, off-the-shelf; Flat knit = custom-made; Bandages/wraps = multilayer; Night garment = for sleep; Kinesio taping = lymphatic taping.")
+        
+        # NEW: Add compression hours
+        compression_hours = st.slider(
+            "Hours worn today", 
+            min_value=0, 
+            max_value=24, 
+            value=8,
+            help="How many hours did you wear compression today?"
+        )
+        
     with col2:
         selfcare_options = ["No", "Yes — Self MLD", "Yes — Dry brushing", "Yes — Both", "Not applicable"]
         self_care = st.selectbox("Self-MLD / Dry brushing performed?", selfcare_options,
@@ -86,7 +96,6 @@ with st.form("daily_log_form"):
         "Large meal late at night", "Processed foods", "Dehydration (low water intake)",
         "Food intolerance flare (e.g., gluten, dairy)", "Not applicable"
     ]
-    # FIXED: Added label text
     diet_triggers = st.multiselect(
         "Dietary triggers",
         diet_options,
@@ -100,7 +109,6 @@ with st.form("daily_log_form"):
         "Repetitive movement of affected limb", "Tight clothing / jewellery",
         "Heavy lifting", "Injury / skin break", "Insect bite", "Sunburn", "Not applicable"
     ]
-    # FIXED: Added label text
     env_triggers = st.multiselect(
         "Environmental triggers",
         env_options,
@@ -114,7 +122,6 @@ with st.form("daily_log_form"):
         "Stress spike", "Recent illness (cold, flu, virus)", "Dehydration",
         "Constipation", "Not applicable"
     ]
-    # FIXED: Added label text
     health_triggers = st.multiselect(
         "Health triggers",
         health_options,
@@ -161,6 +168,7 @@ if submitted:
         "Measurement Taken": measurement,
         "Affected Areas": ", ".join(affected_areas) if affected_areas else "",
         "Compression Type": compression,
+        "Compression Hours": compression_hours,
         "Self Care": self_care,
         "Dietary Triggers": ", ".join(diet_triggers) if diet_triggers else "",
         "Environmental Triggers": ", ".join(env_triggers) if env_triggers else "",
