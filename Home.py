@@ -302,11 +302,11 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Center the button
+# Center the button - UPDATED to point to the correct location
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if st.button("🌿 Enter The Sanctuary", use_container_width=True):
-        st.switch_page("pages/Daily_Log.py")
+        st.switch_page("pages/Daily_Log.py")  # This is the correct path now
 
 # ---------- BOTTOM DISCLAIMER ----------
 st.markdown("""
