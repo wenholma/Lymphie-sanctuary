@@ -15,35 +15,6 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
     
-    .hero {
-        background: linear-gradient(135deg, #f8fafc 0%, #e8f0f5 100%);
-        padding: 2.5rem;
-        border-radius: 20px;
-        margin-bottom: 2rem;
-        text-align: center;
-        border: 1px solid rgba(46, 125, 94, 0.1);
-    }
-    
-    .hero h1 {
-        font-size: 3.2rem;
-        font-weight: 700;
-        color: #1a3b2e;
-        margin-bottom: 0.5rem;
-        line-height: 1.2;
-    }
-    
-    .hero .green {
-        color: #2E7D5E;
-    }
-    
-    .hero .subhead {
-        font-size: 1.3rem;
-        color: #334155;
-        font-weight: 400;
-        max-width: 700px;
-        margin: 1rem auto;
-    }
-    
     .disclaimer-box {
         background-color: #fef2e0;
         border-left: 6px solid #e67e22;
@@ -153,11 +124,51 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- HERO SECTION ----------
+# ---------- HERO SECTION (MORE STRIKING) ----------
 st.markdown("""
-<div class="hero">
-    <h1>🌿 <span class="green">The Lymphie Sanctuary</span></h1>
-    <div class="subhead">Understand your body. Take control. Live better with lymphedema.</div>
+<div style="
+    background: linear-gradient(145deg, #1a4d3a 0%, #2E7D5E 50%, #3a9b7a 100%);
+    padding: 3.5rem 2rem;
+    border-radius: 30px;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+">
+    <h1 style="
+        font-size: 4.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        letter-spacing: -0.02em;
+    ">
+        🌿 The Lymphie Sanctuary
+    </h1>
+    <div style="
+        font-size: 1.8rem;
+        color: rgba(255,255,255,0.95);
+        font-weight: 400;
+        max-width: 700px;
+        margin: 1rem auto;
+        text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        line-height: 1.4;
+    ">
+        Understand your body. Take control.<br>Live better with lymphedema.
+    </div>
+    <div style="
+        margin-top: 2rem;
+        display: inline-block;
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(5px);
+        padding: 0.8rem 2rem;
+        border-radius: 60px;
+        border: 1px solid rgba(255,255,255,0.3);
+    ">
+        <span style="color: white; font-weight: 500; font-size: 1.1rem;">
+            ✨ Trusted by early access lymphies worldwide
+        </span>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
