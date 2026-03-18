@@ -294,6 +294,34 @@ with col2:
     )
 st.caption("You'll be taken to our secure signup page. Your privacy is respected.")
 
+# ---------- ANALYTICS SECTION ----------
+st.markdown("---")
+st.markdown("""
+<h3 style="text-align:center; color:#4f6b6a; font-weight:600; font-family:'Playfair Display', serif;">📊 Understand Your Patterns</h3>
+<p style="text-align:center; color:#4f6b6a; max-width:600px; margin:0.5rem auto 2rem auto; font-family:'Lato', sans-serif;">
+    See how your symptoms change over time and discover what impacts you most.
+</p>
+""", unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    if st.button("📊 View Analytics Dashboard", use_container_width=True):
+        st.switch_page("pages/Analytics.py")
+
+# ---------- REPORT SECTION (NEW) ----------
+st.markdown("---")
+st.markdown("""
+<h3 style="text-align:center; color:#4f6b6a; font-weight:600; font-family:'Playfair Display', serif;">📋 For Your Healthcare Team</h3>
+<p style="text-align:center; color:#4f6b6a; max-width:600px; margin:0.5rem auto 2rem auto; font-family:'Lato', sans-serif;">
+    Generate a structured PDF summary of your symptoms, adherence, and triggers to share with your GP or therapist.
+</p>
+""", unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    if st.button("📄 Generate GP Report", use_container_width=True):
+        st.switch_page("pages/Report.py")
+
 # ---------- CALL TO ACTION ----------
 st.markdown("""
 <div class="cta-section">
@@ -302,11 +330,11 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Center the button - UPDATED to point to the correct location
+# Center the button
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if st.button("🌿 Enter The Sanctuary", use_container_width=True):
-        st.switch_page("pages/Daily_Log.py")  # This is the correct path now
+        st.switch_page("pages/Daily_Log.py")
 
 # ---------- BOTTOM DISCLAIMER ----------
 st.markdown("""
