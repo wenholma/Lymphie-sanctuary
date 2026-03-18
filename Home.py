@@ -6,108 +6,295 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom CSS for a gentle, welcoming feel
+# Custom CSS for a professional, clean look
 st.markdown("""
 <style>
-    .big-title {
-        font-size: 3rem;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .hero {
+        background: linear-gradient(135deg, #f8fafc 0%, #e8f0f5 100%);
+        padding: 2.5rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        text-align: center;
+        border: 1px solid rgba(46, 125, 94, 0.1);
+    }
+    
+    .hero h1 {
+        font-size: 3.2rem;
         font-weight: 700;
+        color: #1a3b2e;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+    }
+    
+    .hero .green {
         color: #2E7D5E;
-        margin-bottom: 0;
     }
+    
+    .hero .subhead {
+        font-size: 1.3rem;
+        color: #334155;
+        font-weight: 400;
+        max-width: 700px;
+        margin: 1rem auto;
+    }
+    
     .disclaimer-box {
-        background-color: #fff3cd;
-        border-left: 5px solid #ffc107;
-        padding: 1rem;
-        border-radius: 5px;
-        margin: 1.5rem 0;
-        font-weight: 500;
+        background-color: #fef2e0;
+        border-left: 6px solid #e67e22;
+        padding: 1.2rem 1.8rem;
+        border-radius: 12px;
+        margin: 1.8rem 0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.03);
     }
+    
     .disclaimer-text {
-        color: #856404;
+        color: #9a5b13;
         margin: 0;
+        font-weight: 500;
+        font-size: 0.95rem;
     }
+    
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin: 2.5rem 0;
+    }
+    
     .feature-card {
-        background-color: #f9f9f9;
-        padding: 1.5rem;
-        border-radius: 10px;
-        border-left: 5px solid #2E7D5E;
-        margin: 1rem 0;
+        background: white;
+        padding: 1.8rem 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+        border: 1px solid #e9eef2;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+        border-color: #d0dde6;
+    }
+    
+    .feature-icon {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #1a3b2e;
+        margin-bottom: 0.8rem;
+    }
+    
+    .feature-desc {
+        color: #475569;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    
+    .cta-section {
+        background: linear-gradient(135deg, #2E7D5E 0%, #1e5f45 100%);
+        padding: 2.5rem;
+        border-radius: 20px;
+        text-align: center;
+        margin: 2.5rem 0;
+        color: white;
+    }
+    
+    .cta-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .cta-sub {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .stButton > button {
+        background-color: white !important;
+        color: #2E7D5E !important;
+        font-weight: 600 !important;
+        padding: 0.6rem 2rem !important;
+        border-radius: 40px !important;
+        border: none !important;
+        font-size: 1.1rem !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .stButton > button:hover {
+        background-color: #f8fafc !important;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.15) !important;
+        transform: scale(1.02);
+    }
+    
+    .footer {
+        text-align: center;
+        color: #64748b;
+        font-size: 0.9rem;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e2e8f0;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- Header ----------
-st.markdown('<p class="big-title">🌿 The Lymphie Sanctuary</p>', unsafe_allow_html=True)
-st.markdown("### Your daily companion for understanding and managing lymphoedema")
+# ---------- HERO SECTION ----------
+st.markdown("""
+<div class="hero">
+    <h1>🌿 <span class="green">The Lymphie Sanctuary</span></h1>
+    <div class="subhead">Understand your body. Take control. Live better with lymphedema.</div>
+</div>
+""", unsafe_allow_html=True)
 
-# ---------- PROMINENT DISCLAIMER (Top) ----------
+# ---------- PROMINENT DISCLAIMER (TOP) ----------
 st.markdown("""
 <div class="disclaimer-box">
     <p class="disclaimer-text">
-        ⚠️ <strong>IMPORTANT DISCLAIMER:</strong> This tool is for informational and self-tracking purposes only. 
+        ⚠️ <strong>Important:</strong> This tool is for informational and self-tracking purposes only. 
         It is not medical advice. Always consult your healthcare provider before making any changes 
         to your treatment, compression, or self-care routine.
     </p>
 </div>
 """, unsafe_allow_html=True)
 
-# ---------- Intro ----------
-st.write("")
-st.write(
-    "The Sanctuary is a gentle, data-informed space where you can track your symptoms, "
-    "identify triggers, and discover patterns that help you and your healthcare team make better decisions."
-)
+# ---------- INTRO ----------
+st.markdown("""
+<p style="font-size:1.2rem; color:#334155; margin:1.5rem 0 2rem 0; text-align:center; max-width:800px; margin-left:auto; margin-right:auto;">
+    The Sanctuary is a gentle, data-informed space where you can track your symptoms, 
+    identify triggers, and discover patterns that help you and your healthcare team make better decisions.
+</p>
+""", unsafe_allow_html=True)
 
-# ---------- Features ----------
-st.markdown('<div class="feature-card">', unsafe_allow_html=True)
-st.markdown("**🕊️ 2-minute daily check-in**")
-st.markdown("Simple, guided questions about your symptoms, compression, and potential triggers.")
-st.markdown("</div>", unsafe_allow_html=True)
+# ---------- FEATURE GRID (using columns for responsiveness) ----------
+st.markdown('<div class="feature-grid">', unsafe_allow_html=True)
 
-st.markdown('<div class="feature-card">', unsafe_allow_html=True)
-st.markdown("**📊 Visual insights**")
-st.markdown("See how your symptoms change over time and what might be influencing them.")
-st.markdown("</div>", unsafe_allow_html=True)
+col1, col2, col3 = st.columns(3)
 
-st.markdown('<div class="feature-card">', unsafe_allow_html=True)
-st.markdown("**📄 GP-ready summaries**")
-st.markdown("Export a one-page report to take to your appointments.")
-st.markdown("</div>", unsafe_allow_html=True)
+with col1:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">🕊️</div>
+        <div class="feature-title">2-Minute Daily Check-In</div>
+        <div class="feature-desc">Scientifically-grounded questions on symptoms, compression, triggers, and wellness. No fluff.</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-# ---------- Email Signup Section ----------
+with col2:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Visualize Your Patterns</div>
+        <div class="feature-desc">See how stress, diet, activity, and compression affect your swelling and pain over days, weeks, months.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <div class="feature-title">GP-Ready Reports</div>
+        <div class="feature-desc">Generate a one-page summary of your trends to discuss with your doctor or therapist.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# Second row of features
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <div class="feature-title">Discover Your Triggers</div>
+        <div class="feature-desc">Our algorithms rank what impacts you most: salt, long flights, stress? Know with confidence.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">Privacy First</div>
+        <div class="feature-desc">Your data stays yours. We never sell or share. Transparent, ethical, built for you.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <div class="feature-title">Export to CSV</div>
+        <div class="feature-desc">Download your raw data anytime for your own analysis or to share with specialists.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# ---------- EMAIL SIGNUP SECTION ----------
 st.markdown("---")
-st.markdown("### 💌 Join the Sanctuary Community")
-st.markdown(
-    "Be the first to know when we launch new features, and get early access to personalised insights. "
-    "No spam, ever."
-)
+st.markdown("""
+<h3 style="text-align:center; color:#1a3b2e; font-weight:600;">💌 Join the Sanctuary Community</h3>
+<p style="text-align:center; color:#475569; max-width:600px; margin:0.5rem auto 2rem auto;">
+    Be the first to know when we launch new features, and get early access to personalised insights. No spam, ever.
+</p>
+""", unsafe_allow_html=True)
 
-# Kit signup button
-st.link_button(
-    "📧 Sign up for updates", 
-    "https://thelymphiesanctuary.kit.com/landing-pages/9219430",
-    use_container_width=True,
-    type="primary"
-)
-
+# Center the button
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    st.link_button(
+        "📧 Sign up for updates", 
+        "https://thelymphiesanctuary.kit.com/landing-pages/9219430",
+        use_container_width=True,
+        type="primary"
+    )
 st.caption("You'll be taken to our secure signup page. Your privacy is respected.")
 
-# ---------- Call to Action ----------
-st.markdown("---")
-st.markdown("### Ready to begin?")
-if st.button("🌿 Go to today's log", type="primary", use_container_width=True):
-    st.switch_page("pages/Daily_Log.py")
+# ---------- CALL TO ACTION ----------
+st.markdown("""
+<div class="cta-section">
+    <div class="cta-title">Ready to understand your body?</div>
+    <div class="cta-sub">Join hundreds of lymphies using data to take control.</div>
+</div>
+""", unsafe_allow_html=True)
 
-# ---------- PROMINENT DISCLAIMER (Bottom) ----------
-st.markdown("---")
+# Center the button
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    if st.button("🌿 Start Your First Log", use_container_width=True):
+        st.switch_page("pages/Daily_Log.py")
+
+# ---------- BOTTOM DISCLAIMER ----------
 st.markdown("""
 <div class="disclaimer-box">
     <p class="disclaimer-text">
-        ⚠️ <strong>REMEMBER:</strong> The Lymphie Sanctuary is a self-tracking tool, not medical advice. 
+        ⚠️ <strong>Remember:</strong> The Lymphie Sanctuary is a self-tracking tool, not medical advice. 
         Always consult a qualified healthcare professional for medical guidance specific to your situation.
     </p>
 </div>
 """, unsafe_allow_html=True)
 
-st.caption("© 2026 The Lymphie Sanctuary. All rights reserved.")
+# ---------- FOOTER ----------
+st.markdown("""
+<div class="footer">
+    © 2026 The Lymphie Sanctuary. All rights reserved. | 
+    <a href="#" style="color:#64748b; text-decoration:none;">Privacy</a> • 
+    <a href="#" style="color:#64748b; text-decoration:none;">Terms</a>
+</div>
+""", unsafe_allow_html=True)
