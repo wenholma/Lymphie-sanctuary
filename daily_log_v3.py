@@ -86,7 +86,12 @@ with st.form("daily_log_form"):
         "Large meal late at night", "Processed foods", "Dehydration (low water intake)",
         "Food intolerance flare (e.g., gluten, dairy)", "Not applicable"
     ]
-    diet_triggers = st.multiselect("", diet_options, label_visibility="collapsed")
+    # FIXED: Added label text
+    diet_triggers = st.multiselect(
+        "Dietary triggers",
+        diet_options,
+        label_visibility="collapsed"
+    )
 
     st.markdown("**Environmental / activity triggers** (select all that apply)")
     env_options = [
@@ -95,7 +100,12 @@ with st.form("daily_log_form"):
         "Repetitive movement of affected limb", "Tight clothing / jewellery",
         "Heavy lifting", "Injury / skin break", "Insect bite", "Sunburn", "Not applicable"
     ]
-    env_triggers = st.multiselect("", env_options, label_visibility="collapsed")
+    # FIXED: Added label text
+    env_triggers = st.multiselect(
+        "Environmental triggers",
+        env_options,
+        label_visibility="collapsed"
+    )
 
     st.markdown("**Health triggers** (select all that apply)")
     health_options = [
@@ -104,7 +114,12 @@ with st.form("daily_log_form"):
         "Stress spike", "Recent illness (cold, flu, virus)", "Dehydration",
         "Constipation", "Not applicable"
     ]
-    health_triggers = st.multiselect("", health_options, label_visibility="collapsed")
+    # FIXED: Added label text
+    health_triggers = st.multiselect(
+        "Health triggers",
+        health_options,
+        label_visibility="collapsed"
+    )
 
     st.subheader("🧘 Wellness Context")
     col1, col2 = st.columns(2)
