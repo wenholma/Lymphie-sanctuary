@@ -274,7 +274,7 @@ with col3:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ---------- EMAIL SIGNUP (COMMUNITY FOCUSED) ----------
+# ---------- EMAIL SIGNUP WITH GOOGLE FORM ----------
 st.markdown("---")
 st.markdown("""
 <h3 style="text-align:center; color:#4f6b6a; font-weight:600; font-family:'Playfair Display', serif;">💌 Join the Early Access Community</h3>
@@ -288,7 +288,7 @@ col1, col2, col3 = st.columns([1,2,1])
 with col2:
     st.link_button(
         "🌿 Join the Early Access Community", 
-        "https://thelymphiesanctuary.kit.com/landing-pages/9219430",
+        "https://docs.google.com/forms/d/e/1FAIpQLScgr8njmR7cvlT_FkO_s73kkreOFw2EnphLAdeqinUVyG9lpw/viewform?usp=publish-editor",  # ← Replace with your actual Google Form URL
         use_container_width=True,
         type="primary"
     )
@@ -306,9 +306,9 @@ st.markdown("""
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if st.button("📊 View Analytics Dashboard", use_container_width=True):
-        st.switch_page("pages/Analytics.py")
+        st.switch_page("pages/2_Analytics.py")  # UPDATED with number
 
-# ---------- REPORT SECTION (NEW) ----------
+# ---------- REPORT SECTION ----------
 st.markdown("---")
 st.markdown("""
 <h3 style="text-align:center; color:#4f6b6a; font-weight:600; font-family:'Playfair Display', serif;">📋 For Your Healthcare Team</h3>
@@ -320,7 +320,7 @@ st.markdown("""
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if st.button("📄 Generate GP Report", use_container_width=True):
-        st.switch_page("pages/Report.py")
+        st.switch_page("pages/3_Report.py")  # UPDATED with number
 
 # ---------- CALL TO ACTION ----------
 st.markdown("""
@@ -334,7 +334,7 @@ st.markdown("""
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if st.button("🌿 Enter The Sanctuary", use_container_width=True):
-        st.switch_page("pages/Daily_Log.py")
+        st.switch_page("pages/1_Daily_Log.py")  # UPDATED with number
 
 # ---------- BOTTOM DISCLAIMER ----------
 st.markdown("""
