@@ -21,9 +21,7 @@ st.markdown("""
         color: #4f6b6a;
     }
     
-    /* Step 7: Hero section already enhanced in HTML below */
-    
-    /* Step 8: Prominent disclaimers */
+    /* Prominent disclaimers */
     .disclaimer-box {
         background-color: #fff3e0;
         border-left: 8px solid #e67e22;
@@ -49,7 +47,7 @@ st.markdown("""
         vertical-align: middle;
     }
     
-    /* Step 9 & 10: Improved feature grid */
+    /* Improved feature grid */
     .feature-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -155,7 +153,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- STEP 7: ENHANCED HERO SECTION ----------
+# ---------- ENHANCED HERO SECTION ----------
 st.markdown("""
 <div style="
     background: linear-gradient(145deg, #1a4d3a 0%, #2E7D5E 50%, #3a9b7a 100%);
@@ -231,7 +229,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ---------- STEP 8: TOP DISCLAIMER (WITH ICON) ----------
+# ---------- TOP DISCLAIMER ----------
 st.markdown("""
 <div class="disclaimer-box">
     <p class="disclaimer-text">
@@ -249,7 +247,7 @@ st.markdown("""
 </p>
 """, unsafe_allow_html=True)
 
-# ---------- STEPS 9 & 10: IMPROVED 6-BLOCK FEATURE GRID ----------
+# ---------- IMPROVED 6-BLOCK FEATURE GRID ----------
 st.markdown('<div class="feature-grid">', unsafe_allow_html=True)
 
 # Row 1
@@ -328,7 +326,7 @@ col1, col2, col3 = st.columns([1,2,1])
 with col2:
     st.link_button(
         "🌿 Join the Early Access Community", 
-        "https://docs.google.com/forms/d/1dO0Oryxyeeiuvj2GKqHWYPXDWzAHUKmkh__wlCZ9a1Y/edit",  # ← Replace with your actual Google Form URL
+        "https://docs.google.com/forms/d/e/1FAIpQLScgr8njmR7cvlT_FkO_s73kkreOFw2EnphLAdeqinUVyG9lpw/viewform",  # ← Replace with your actual Google Form URL
         use_container_width=True,
         type="primary"
     )
@@ -376,7 +374,7 @@ with col2:
     if st.button("🌿 Enter The Sanctuary", use_container_width=True):
         st.switch_page("pages/1_Daily_Log.py")
 
-# ---------- STEP 8: BOTTOM DISCLAIMER (WITH ICON) ----------
+# ---------- BOTTOM DISCLAIMER ----------
 st.markdown("""
 <div class="disclaimer-box">
     <p class="disclaimer-text">
