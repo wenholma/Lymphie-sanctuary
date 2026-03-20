@@ -6,7 +6,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom CSS with all UI improvements
+# Custom CSS
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;500;700&display=swap');
@@ -151,78 +151,13 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- HERO SECTION ----------
+# ---------- SIMPLIFIED HERO SECTION ----------
 st.markdown("""
-<div style="
-    background: linear-gradient(145deg, #1a4d3a 0%, #2E7D5E 50%, #3a9b7a 100%);
-    padding: 4rem 2rem;
-    border-radius: 40px;
-    margin-bottom: 2rem;
-    text-align: center;
-    box-shadow: 0 25px 40px -15px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.3);
-    position: relative;
-    overflow: hidden;
-">
-    <!-- Decorative circles -->
-    <div style="
-        position: absolute;
-        top: -50px;
-        right: -50px;
-        width: 200px;
-        height: 200px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 50%;
-    "></div>
-    <div style="
-        position: absolute;
-        bottom: -80px;
-        left: -80px;
-        width: 300px;
-        height: 300px;
-        background: rgba(255,255,255,0.05);
-        border-radius: 50%;
-    "></div>
-    
-    <h1 style="
-        font-size: 4.5rem;
-        font-weight: 800;
-        color: white;
-        margin-bottom: 0.5rem;
-        text-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        letter-spacing: -0.02em;
-        position: relative;
-        z-index: 2;
-    ">
-        🌿 The Lymphie Sanctuary
-    </h1>
-    <div style="
-        font-size: 2rem;
-        color: rgba(255,255,255,0.95);
-        font-weight: 400;
-        max-width: 700px;
-        margin: 1rem auto;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        line-height: 1.4;
-        position: relative;
-        z-index: 2;
-    ">
-        Decode Your Symptoms. Reclaim Your Days.
-    </div>
-    <div style="
-        margin-top: 2.5rem;
-        display: inline-block;
-        background: rgba(255,255,255,0.2);
-        backdrop-filter: blur(10px);
-        padding: 0.8rem 2.5rem;
-        border-radius: 60px;
-        border: 1px solid rgba(255,255,255,0.4);
-        position: relative;
-        z-index: 2;
-    ">
-        <span style="color: white; font-weight: 600; font-size: 1.2rem; letter-spacing: 0.5px;">
-            ✨ Trusted by early access lymphies worldwide
-        </span>
+<div style="background: linear-gradient(145deg, #1a4d3a, #2E7D5E); padding: 3rem 2rem; border-radius: 30px; text-align: center; margin-bottom: 2rem;">
+    <h1 style="font-size: 3.5rem; color: white; margin-bottom: 1rem;">🌿 The Lymphie Sanctuary</h1>
+    <p style="font-size: 1.5rem; color: white; opacity: 0.95; max-width: 600px; margin: 0 auto 1.5rem auto;">Decode Your Symptoms. Reclaim Your Days.</p>
+    <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.8rem 2rem; border-radius: 50px;">
+        <span style="color: white; font-weight: 600;">✨ Trusted by early access lymphies worldwide</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
