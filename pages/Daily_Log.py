@@ -62,8 +62,8 @@ with st.form("daily_log_form"):
     st.subheader("📍 Affected Areas")
     area_options = ["Left arm", "Right arm", "Left leg", "Right leg", "Trunk", "Head/neck", "Genital area", "Other"]
     affected_areas = st.multiselect("Select all that apply", area_options,
-                                    help="Trunk = chest, abdomen, back; Other = area not listed")
-    info_icon("Select all areas where you noticed swelling or symptoms today.")
+                                    help="Trunk = chest, abdomen, back; Select 'Other' and use Tags field below to specify.")
+    info_icon("Select all areas where you noticed swelling or symptoms today. Use Tags for 'Other' details.")
 
     st.subheader("🧦 Compression & Self-Care")
     col1, col2 = st.columns(2)
@@ -72,22 +72,31 @@ with st.form("daily_log_form"):
             "Not applicable", "None", "Light support (OTC)", "Circular knit (standard)",
             "Flat knit (custom)", "Bandages / wraps", "Night garment", "Kinesio taping"
         ]
+        # FIX 1: This is already a selectbox (single-select)
         compression = st.selectbox("Compression worn today", compression_options,
                                    help="OTC = over-the-counter; Circular knit = seamless, off-the-shelf; Flat knit = custom-made; Bandages/wraps = multilayer; Night garment = for sleep; Kinesio taping = lymphatic taping.")
         
-        # NEW: Add compression hours
+        # FIX 1: Clarified wording
         compression_hours = st.slider(
-            "Hours worn today", 
+            "Hours of compression worn today", 
             min_value=0, 
             max_value=24, 
             value=8,
-            help="How many hours did you wear compression today?"
+            help="How many hours did you wear compression today? 0 = none."
         )
         
     with col2:
-        selfcare_options = ["No", "Yes — Self MLD", "Yes — Dry brushing", "Yes — Both", "Not applicable"]
+        # FIX 1: Added "Yes – Therapist MLD" option
+        selfcare_options = [
+            "No", 
+            "Yes — Self MLD", 
+            "Yes — Therapist MLD", 
+            "Yes — Dry brushing", 
+            "Yes — Both", 
+            "Not applicable"
+        ]
         self_care = st.selectbox("Self-MLD / Dry brushing performed?", selfcare_options,
-                                 help="Self-MLD = gentle skin stretching; Dry brushing = soft brush to stimulate lymph flow.")
+                                 help="Self-MLD = gentle skin stretching; Dry brushing = soft brush to stimulate lymph flow; Therapist MLD = professional treatment.")
 
     st.subheader("🍽️ Lifestyle & Triggers")
     st.markdown("**Dietary triggers** (select all that apply)")
@@ -99,7 +108,8 @@ with st.form("daily_log_form"):
     diet_triggers = st.multiselect(
         "Dietary triggers",
         diet_options,
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        help="Select all that apply. The list stays open so you can choose multiple."
     )
 
     st.markdown("**Environmental / activity triggers** (select all that apply)")
@@ -112,7 +122,8 @@ with st.form("daily_log_form"):
     env_triggers = st.multiselect(
         "Environmental triggers",
         env_options,
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        help="Select all that apply. The list stays open so you can choose multiple."
     )
 
     st.markdown("**Health triggers** (select all that apply)")
@@ -125,7 +136,8 @@ with st.form("daily_log_form"):
     health_triggers = st.multiselect(
         "Health triggers",
         health_options,
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        help="Select all that apply. The list stays open so you can choose multiple."
     )
 
     st.subheader("🧘 Wellness Context")
@@ -140,18 +152,48 @@ with st.form("daily_log_form"):
     self_compassion = st.slider("Self-compassion (0–10)", 0, 10, 5,
                                 help="How kind were you to yourself today? 0 = not at all; 10 = very compassionate")
 
+    # ---------- FIX 2: Improved Reflection Text Fields ----------
     st.subheader("📝 Reflections")
-    challenge = st.text_input("Biggest challenge today", placeholder="e.g., pain after walking")
-    win = st.text_input("Small win / what helped", placeholder="e.g., remembered to elevate")
+    
+    challenge = st.text_area(
+        "What was your biggest challenge today?",
+        placeholder="e.g., pain after walking, emotional struggle, difficult appointment...",
+        max_chars=500,
+        height=100,
+        help="Describe in a few sentences (max 500 characters). This helps us understand your journey."
+    )
+    # Show character count
+    if challenge:
+        st.caption(f"Characters: {len(challenge)}/500")
+    
+    win = st.text_area(
+        "What was a small win or something that helped today?",
+        placeholder="e.g., remembered to elevate, had a good chat, wore compression all day...",
+        max_chars=500,
+        height=100,
+        help="What made today a bit better? (max 500 characters). Every small win counts."
+    )
+    # Show character count
+    if win:
+        st.caption(f"Characters: {len(win)}/500")
 
     st.subheader("🌤️ Environment (optional)")
     col1, col2 = st.columns(2)
     with col1:
-        temp = st.number_input("Temperature (°C)", value=None, step=0.1, format="%.1f")
+        # FIX 3: Temperature restriction
+        temp = st.number_input(
+            "Temperature (°C)", 
+            value=None, 
+            step=0.1, 
+            format="%.1f",
+            min_value=-50.0,
+            max_value=60.0,
+            help="Please enter a realistic temperature between -50°C and 60°C."
+        )
     with col2:
         humidity = st.number_input("Humidity (%)", value=None, min_value=0, max_value=100, step=1)
 
-    tags = st.text_input("Tags (optional)", placeholder="e.g., post-flight, flare, new garment")
+    tags = st.text_input("Tags (optional)", placeholder="e.g., post-flight, flare, new garment, other areas")
 
     # Submit button
     submitted = st.form_submit_button("Save Entry")
