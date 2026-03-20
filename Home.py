@@ -6,7 +6,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom CSS with your Serene Mineral Springs color palette
+# Custom CSS with all UI improvements
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;500;700&display=swap');
@@ -21,106 +21,80 @@ st.markdown("""
         color: #4f6b6a;
     }
     
-    .hero {
-        background: linear-gradient(145deg, #f1e4d3 0%, #d8e2e0 100%);
-        padding: 3.5rem 2rem;
-        border-radius: 30px;
-        margin-bottom: 2rem;
-        text-align: center;
-        box-shadow: 0 20px 30px -10px rgba(79, 107, 106, 0.15);
-        border: 1px solid rgba(169, 215, 208, 0.3);
-    }
+    /* Step 7: Hero section already enhanced in HTML below */
     
-    .hero h1 {
-        font-size: 4rem;
-        font-weight: 700;
-        color: #4f6b6a;
-        margin-bottom: 0.5rem;
-        letter-spacing: -0.02em;
-    }
-    
-    .hero .subhead {
-        font-size: 1.5rem;
-        color: #4f6b6a;
-        font-weight: 400;
-        max-width: 700px;
-        margin: 1rem auto;
-        line-height: 1.4;
-    }
-    
-    .community-badge {
-        margin-top: 2rem;
-        display: inline-block;
-        background: rgba(169, 215, 208, 0.3);
-        backdrop-filter: blur(5px);
-        padding: 0.8rem 2rem;
-        border-radius: 60px;
-        border: 1px solid rgba(79, 107, 106, 0.2);
-    }
-    
-    .community-badge span {
-        color: #4f6b6a;
-        font-weight: 500;
-        font-size: 1.1rem;
-    }
-    
+    /* Step 8: Prominent disclaimers */
     .disclaimer-box {
-        background-color: #f1e4d3;
-        border-left: 6px solid #a9d7d0;
-        padding: 1.2rem 1.8rem;
-        border-radius: 12px;
-        margin: 1.8rem 0;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+        background-color: #fff3e0;
+        border-left: 8px solid #e67e22;
+        border-radius: 16px;
+        padding: 1.5rem 2rem;
+        margin: 2rem 0;
+        box-shadow: 0 8px 15px rgba(230, 126, 34, 0.15);
+        border: 1px solid rgba(230, 126, 34, 0.2);
     }
     
     .disclaimer-text {
-        color: #4f6b6a;
+        color: #b85e00;
         margin: 0;
-        font-weight: 400;
-        font-size: 0.95rem;
-        font-style: italic;
+        font-weight: 600;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        text-shadow: 0 1px 2px rgba(255,255,255,0.5);
     }
     
+    .disclaimer-icon {
+        font-size: 1.5rem;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+    
+    /* Step 9 & 10: Improved feature grid */
     .feature-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin: 2.5rem 0;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
     }
     
     .feature-card {
-        background: #f1e4d3;
-        padding: 1.8rem 1.5rem;
-        border-radius: 16px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-        border: 1px solid #d8e2e0;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: white;
+        padding: 2rem 1.8rem;
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(79, 107, 106, 0.08);
+        border: 1px solid #e2eef0;
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
     
     .feature-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 24px rgba(79, 107, 106, 0.1);
+        transform: translateY(-6px);
+        box-shadow: 0 20px 35px rgba(79, 107, 106, 0.15);
         border-color: #a9d7d0;
     }
     
     .feature-icon {
-        font-size: 2.2rem;
-        margin-bottom: 1rem;
+        font-size: 2.5rem;
+        margin-bottom: 1.2rem;
     }
     
     .feature-title {
         font-family: 'Playfair Display', serif;
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: #4f6b6a;
-        margin-bottom: 0.8rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a3b2e;
+        margin-bottom: 1rem;
+        line-height: 1.3;
     }
     
     .feature-desc {
-        color: #4f6b6a;
-        font-size: 0.95rem;
-        line-height: 1.5;
-        opacity: 0.9;
+        color: #4a6a68;
+        font-size: 1rem;
+        line-height: 1.6;
+        opacity: 1;
+        flex-grow: 1;
     }
     
     .cta-section {
@@ -171,7 +145,7 @@ st.markdown("""
     
     .footer {
         text-align: center;
-        color: #4f6b6a;
+        color: #64748b;
         font-size: 0.9rem;
         margin-top: 3rem;
         padding-top: 2rem;
@@ -181,44 +155,112 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- HERO SECTION ----------
+# ---------- STEP 7: ENHANCED HERO SECTION ----------
 st.markdown("""
-<div class="hero">
-    <h1>🌿 The Lymphie Sanctuary</h1>
-    <div class="subhead">Decode Your Symptoms. Reclaim Your Days.</div>
-    <div class="community-badge">
-        <span>✨ Join a global community of lymphies using data to find their true baseline.</span>
+<div style="
+    background: linear-gradient(145deg, #1a4d3a 0%, #2E7D5E 50%, #3a9b7a 100%);
+    padding: 4rem 2rem;
+    border-radius: 40px;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 25px 40px -15px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.3);
+    position: relative;
+    overflow: hidden;
+">
+    <!-- Decorative circles -->
+    <div style="
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 200px;
+        height: 200px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+    "></div>
+    <div style="
+        position: absolute;
+        bottom: -80px;
+        left: -80px;
+        width: 300px;
+        height: 300px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+    "></div>
+    
+    <h1 style="
+        font-size: 4.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        letter-spacing: -0.02em;
+        position: relative;
+        z-index: 2;
+    ">
+        🌿 The Lymphie Sanctuary
+    </h1>
+    <div style="
+        font-size: 2rem;
+        color: rgba(255,255,255,0.95);
+        font-weight: 400;
+        max-width: 700px;
+        margin: 1rem auto;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        line-height: 1.4;
+        position: relative;
+        z-index: 2;
+    ">
+        Decode Your Symptoms. Reclaim Your Days.
+    </div>
+    <div style="
+        margin-top: 2.5rem;
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        padding: 0.8rem 2.5rem;
+        border-radius: 60px;
+        border: 1px solid rgba(255,255,255,0.4);
+        position: relative;
+        z-index: 2;
+    ">
+        <span style="color: white; font-weight: 600; font-size: 1.2rem; letter-spacing: 0.5px;">
+            ✨ Trusted by early access lymphies worldwide
+        </span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# ---------- INTRODUCTION (PATIENT-CENTRIC) ----------
+# ---------- STEP 8: TOP DISCLAIMER (WITH ICON) ----------
+st.markdown("""
+<div class="disclaimer-box">
+    <p class="disclaimer-text">
+        <span class="disclaimer-icon">⚠️</span>
+        <strong>IMPORTANT:</strong> The Lymphie Sanctuary is a self-care companion, not a substitute for clinical diagnostics. 
+        Always consult your certified lymphedema therapist or physician before altering your treatment plan.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# ---------- INTRODUCTION ----------
 st.markdown("""
 <p style="font-size:1.2rem; color:#4f6b6a; margin:1.5rem 0 2rem 0; text-align:center; max-width:800px; margin-left:auto; margin-right:auto; font-family:'Lato', sans-serif;">
     Navigating lymphedema shouldn't require constant guesswork. The Sanctuary provides a calm, secure space to log your daily symptoms, uncover hidden lifestyle triggers, and build a comprehensive health history for you and your care team.
 </p>
 """, unsafe_allow_html=True)
 
-# ---------- DISCLAIMER (ELEGANTLY INTEGRATED) ----------
-st.markdown("""
-<div class="disclaimer-box">
-    <p class="disclaimer-text">
-        The Lymphie Sanctuary is a dedicated self-care companion, not a substitute for clinical diagnostics. Always consult your certified lymphedema therapist or referring physician before altering your prescribed treatment plan.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ---------- FEATURE GRID (OPTIMIZED COPY) ----------
+# ---------- STEPS 9 & 10: IMPROVED 6-BLOCK FEATURE GRID ----------
 st.markdown('<div class="feature-grid">', unsafe_allow_html=True)
 
+# Row 1
 col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">🕊️</div>
-        <div class="feature-title">The 2-Minute Daily Log</div>
-        <div class="feature-desc">Thoughtfully designed to respect your limited energy. Track swelling fluctuations, compression compliance, and mental wellness without feeling overwhelmed.</div>
+        <div class="feature-title">2-Minute Daily Check-In</div>
+        <div class="feature-desc">Respects your limited energy. Track swelling, compression, and mental wellness without overwhelm.</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -226,8 +268,8 @@ with col2:
     st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">📊</div>
-        <div class="feature-title">Visualize Your Healing Journey</div>
-        <div class="feature-desc">Transform isolated daily logs into clear, readable visual trends. Discover exactly how stress, humidity, and movement impact your unique limb volume and pain levels.</div>
+        <div class="feature-title">Visual Healing Journey</div>
+        <div class="feature-desc">See how stress, humidity, and movement impact your limb volume and pain levels over time.</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -235,22 +277,20 @@ with col3:
     st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">📄</div>
-        <div class="feature-title">Specialist-Ready Summaries</div>
-        <div class="feature-desc">Say goodbye to appointment anxiety. Generate clean, objective PDF reports of your symptoms and therapy adherence to confidently share with your CLT or physician.</div>
+        <div class="feature-title">Specialist-Ready Reports</div>
+        <div class="feature-desc">Generate clean PDF summaries of your symptoms and adherence to share with your care team.</div>
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
-
-# Second row
+# Row 2
 col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">🔍</div>
-        <div class="feature-title">Pinpoint Your Hidden Triggers</div>
-        <div class="feature-desc">Stop wondering what caused a sudden flare-up. Our correlation tools help you clearly identify whether diet, travel, or weather are quietly impacting your swelling.</div>
+        <div class="feature-title">Pinpoint Hidden Triggers</div>
+        <div class="feature-desc">Identify whether diet, travel, or weather are quietly impacting your swelling and flares.</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -259,7 +299,7 @@ with col2:
     <div class="feature-card">
         <div class="feature-icon">🔒</div>
         <div class="feature-title">Uncompromising Privacy</div>
-        <div class="feature-desc">Your health data is intensely personal. It remains securely encrypted on your device and is never, under any circumstances, sold to third parties.</div>
+        <div class="feature-desc">Your health data is encrypted and never, under any circumstances, sold to third parties.</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -268,7 +308,7 @@ with col3:
     <div class="feature-card">
         <div class="feature-icon">📈</div>
         <div class="feature-title">Total Data Ownership</div>
-        <div class="feature-desc">Export your comprehensive raw data to CSV at any time for your own deep analysis or to contribute to specialized clinical research.</div>
+        <div class="feature-desc">Export your raw data to CSV anytime for your own analysis or to contribute to research.</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -288,7 +328,7 @@ col1, col2, col3 = st.columns([1,2,1])
 with col2:
     st.link_button(
         "🌿 Join the Early Access Community", 
-        "https://docs.google.com/forms/d/e/1FAIpQLScgr8njmR7cvlT_FkO_s73kkreOFw2EnphLAdeqinUVyG9lpw/viewform?usp=publish-editor",  # ← Replace with your actual Google Form URL
+        "https://docs.google.com/forms/d/1dO0Oryxyeeiuvj2GKqHWYPXDWzAHUKmkh__wlCZ9a1Y/edit",  # ← Replace with your actual Google Form URL
         use_container_width=True,
         type="primary"
     )
@@ -306,7 +346,7 @@ st.markdown("""
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if st.button("📊 View Analytics Dashboard", use_container_width=True):
-        st.switch_page("pages/2_Analytics.py")  # UPDATED with number
+        st.switch_page("pages/2_Analytics.py")
 
 # ---------- REPORT SECTION ----------
 st.markdown("---")
@@ -320,7 +360,7 @@ st.markdown("""
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if st.button("📄 Generate GP Report", use_container_width=True):
-        st.switch_page("pages/3_Report.py")  # UPDATED with number
+        st.switch_page("pages/3_Report.py")
 
 # ---------- CALL TO ACTION ----------
 st.markdown("""
@@ -334,13 +374,15 @@ st.markdown("""
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if st.button("🌿 Enter The Sanctuary", use_container_width=True):
-        st.switch_page("pages/1_Daily_Log.py")  # UPDATED with number
+        st.switch_page("pages/1_Daily_Log.py")
 
-# ---------- BOTTOM DISCLAIMER ----------
+# ---------- STEP 8: BOTTOM DISCLAIMER (WITH ICON) ----------
 st.markdown("""
 <div class="disclaimer-box">
     <p class="disclaimer-text">
-        The Lymphie Sanctuary is a self-care companion, not medical advice. Always consult your healthcare provider before making changes to your treatment plan.
+        <span class="disclaimer-icon">🔔</span>
+        <strong>REMEMBER:</strong> This tool is for informational and self-tracking purposes only. 
+        It is not medical advice. Always consult your healthcare provider before making changes to your treatment.
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -349,7 +391,7 @@ st.markdown("""
 st.markdown("""
 <div class="footer">
     © 2026 The Lymphie Sanctuary. All rights reserved. | 
-    <a href="#" style="color:#4f6b6a; text-decoration:none;">Privacy</a> • 
-    <a href="#" style="color:#4f6b6a; text-decoration:none;">Terms</a>
+    <a href="#" style="color:#64748b; text-decoration:none;">Privacy</a> • 
+    <a href="#" style="color:#64748b; text-decoration:none;">Terms</a>
 </div>
 """, unsafe_allow_html=True)
