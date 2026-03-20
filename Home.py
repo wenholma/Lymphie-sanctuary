@@ -248,69 +248,40 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------- IMPROVED 6-BLOCK FEATURE GRID ----------
-st.markdown('<div class="feature-grid">', unsafe_allow_html=True)
-
-# Row 1
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("""
+st.markdown("""
+<div class="feature-grid">
     <div class="feature-card">
         <div class="feature-icon">🕊️</div>
         <div class="feature-title">2-Minute Daily Check-In</div>
         <div class="feature-desc">Respects your limited energy. Track swelling, compression, and mental wellness without overwhelm.</div>
     </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">📊</div>
         <div class="feature-title">Visual Healing Journey</div>
         <div class="feature-desc">See how stress, humidity, and movement impact your limb volume and pain levels over time.</div>
     </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">📄</div>
         <div class="feature-title">Specialist-Ready Reports</div>
         <div class="feature-desc">Generate clean PDF summaries of your symptoms and adherence to share with your care team.</div>
     </div>
-    """, unsafe_allow_html=True)
-
-# Row 2
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">🔍</div>
         <div class="feature-title">Pinpoint Hidden Triggers</div>
         <div class="feature-desc">Identify whether diet, travel, or weather are quietly impacting your swelling and flares.</div>
     </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">🔒</div>
         <div class="feature-title">Uncompromising Privacy</div>
         <div class="feature-desc">Your health data is encrypted and never, under any circumstances, sold to third parties.</div>
     </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">📈</div>
         <div class="feature-title">Total Data Ownership</div>
         <div class="feature-desc">Export your raw data to CSV anytime for your own analysis or to contribute to research.</div>
     </div>
-    """, unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
+</div>
+""", unsafe_allow_html=True)
 
 # ---------- EMAIL SIGNUP WITH GOOGLE FORM ----------
 st.markdown("---")
@@ -326,7 +297,7 @@ col1, col2, col3 = st.columns([1,2,1])
 with col2:
     st.link_button(
         "🌿 Join the Early Access Community", 
-        "https://docs.google.com/forms/d/e/1FAIpQLScgr8njmR7cvlT_FkO_s73kkreOFw2EnphLAdeqinUVyG9lpw/viewform",  # ← Replace with your actual Google Form URL
+        "https://docs.google.com/forms/d/1dO0Oryxyeeiuvj2GKqHWYPXDWzAHUKmkh__wlCZ9a1Y/edit",  # Your Google Form link
         use_container_width=True,
         type="primary"
     )
