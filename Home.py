@@ -6,13 +6,13 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom CSS
+# ---------- REFINED CSS (Better fonts, fixed disclaimer line-height) ----------
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
     
     html, body, [class*="css"] {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         background-color: #f7fbfa;
     }
     
@@ -25,23 +25,22 @@ st.markdown("""
         background-color: #fff3e0;
         border-left: 8px solid #e67e22;
         border-radius: 16px;
-        padding: 1.5rem 2rem;
-        margin: 2rem 0;
-        box-shadow: 0 8px 15px rgba(230, 126, 34, 0.15);
-        border: 1px solid rgba(230, 126, 34, 0.2);
+        padding: 1.2rem 1.8rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 4px 10px rgba(230, 126, 34, 0.1);
     }
     
     .disclaimer-text {
         color: #b85e00;
         margin: 0;
-        font-weight: 600;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+        font-weight: 500;
+        font-size: 1rem;
+        line-height: 1.4;
+        text-shadow: 0 1px 2px rgba(255,255,255,0.3);
     }
     
     .disclaimer-icon {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         margin-right: 10px;
         vertical-align: middle;
     }
@@ -89,7 +88,6 @@ st.markdown("""
         color: #4a6a68;
         font-size: 1rem;
         line-height: 1.6;
-        opacity: 1;
         flex-grow: 1;
     }
     
@@ -123,7 +121,7 @@ st.markdown("""
     .stButton > button {
         background-color: #4f6b6a !important;
         color: #f7fbfa !important;
-        font-family: 'Lato', sans-serif !important;
+        font-family: 'Inter', sans-serif !important;
         font-weight: 500 !important;
         padding: 0.6rem 2rem !important;
         border-radius: 40px !important;
@@ -175,7 +173,7 @@ st.markdown("""
 
 # ---------- INTRODUCTION ----------
 st.markdown("""
-<p style="font-size:1.2rem; color:#4f6b6a; margin:1.5rem 0 2rem 0; text-align:center; max-width:800px; margin-left:auto; margin-right:auto; font-family:'Lato', sans-serif;">
+<p style="font-size:1.2rem; color:#4f6b6a; margin:1.5rem 0 2rem 0; text-align:center; max-width:800px; margin-left:auto; margin-right:auto; font-family:'Inter', sans-serif;">
     Navigating lymphedema shouldn't require constant guesswork. The Sanctuary provides a calm, secure space to log your daily symptoms, uncover hidden lifestyle triggers, and build a comprehensive health history for you and your care team.
 </p>
 """, unsafe_allow_html=True)
@@ -220,7 +218,7 @@ st.markdown("""
 st.markdown("---")
 st.markdown("""
 <h3 style="text-align:center; color:#4f6b6a; font-weight:600; font-family:'Playfair Display', serif;">💌 Join the Early Access Community</h3>
-<p style="text-align:center; color:#4f6b6a; max-width:600px; margin:0.5rem auto 2rem auto; font-family:'Lato', sans-serif;">
+<p style="text-align:center; color:#4f6b6a; max-width:600px; margin:0.5rem auto 2rem auto; font-family:'Inter', sans-serif;">
     Be the first to experience new features, gain early access to personalized insights, and receive evidence-based lymphedema management strategies. Your inbox is an extension of our sanctuary; we respect your peace and never spam.
 </p>
 """, unsafe_allow_html=True)
@@ -239,7 +237,7 @@ st.caption("You'll be taken to our secure signup page. Your privacy is respected
 st.markdown("---")
 st.markdown("""
 <h3 style="text-align:center; color:#4f6b6a; font-weight:600; font-family:'Playfair Display', serif;">📊 Understand Your Patterns</h3>
-<p style="text-align:center; color:#4f6b6a; max-width:600px; margin:0.5rem auto 2rem auto; font-family:'Lato', sans-serif;">
+<p style="text-align:center; color:#4f6b6a; max-width:600px; margin:0.5rem auto 2rem auto; font-family:'Inter', sans-serif;">
     See how your symptoms change over time and discover what impacts you most.
 </p>
 """, unsafe_allow_html=True)
@@ -253,7 +251,7 @@ with col2:
 st.markdown("---")
 st.markdown("""
 <h3 style="text-align:center; color:#4f6b6a; font-weight:600; font-family:'Playfair Display', serif;">📋 For Your Healthcare Team</h3>
-<p style="text-align:center; color:#4f6b6a; max-width:600px; margin:0.5rem auto 2rem auto; font-family:'Lato', sans-serif;">
+<p style="text-align:center; color:#4f6b6a; max-width:600px; margin:0.5rem auto 2rem auto; font-family:'Inter', sans-serif;">
     Generate a structured PDF summary of your symptoms, adherence, and triggers to share with your GP or therapist.
 </p>
 """, unsafe_allow_html=True)
