@@ -2,14 +2,12 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 
-# -------------------- Page config --------------------
 st.set_page_config(page_title="Daily Lymphie Log", layout="centered")
 st.title("🌿 Daily Lymphie Log")
 st.markdown("Track your symptoms, triggers, and wellness in under 2 minutes.")
 
-# -------------------- Initialize session state --------------------
+# Initialize session state for data and form key
 if "log_df" not in st.session_state:
-    # Create an empty DataFrame with the expected columns
     columns = [
         "Date", "Time", "Heaviness", "Pain", "Limb Appearance",
         "Measurement Taken", "Affected Areas", "Compression Type", "Compression Hours",
@@ -20,12 +18,15 @@ if "log_df" not in st.session_state:
     ]
     st.session_state.log_df = pd.DataFrame(columns=columns)
 
-# -------------------- Helper for info icons --------------------
+# Unique form key that increments after each save to reset the form
+if "form_key" not in st.session_state:
+    st.session_state.form_key = 0
+
 def info_icon(text):
     st.markdown(f"<small style='color: gray;'>ℹ️ {text}</small>", unsafe_allow_html=True)
 
-# -------------------- Main Form --------------------
-with st.form("daily_log_form"):
+# Main form – key changes on each successful save
+with st.form(key=f"daily_log_form_{st.session_state.form_key}"):
     st.subheader("📅 Entry Details")
     col1, col2 = st.columns(2)
     with col1:
@@ -36,12 +37,10 @@ with st.form("daily_log_form"):
     st.subheader("🦵 Limb Sensations")
     col1, col2 = st.columns(2)
     with col1:
-        heaviness = st.slider("Heaviness / Tightness (0–10)", 0, 10, 5,
-                              help="Internal sensation of fullness, pressure, or weight.")
+        heaviness = st.slider("Heaviness / Tightness (0–10)", 0, 10, 5, help="Internal sensation of fullness, pressure, or weight.")
         info_icon("0 = none; 10 = affects movement or comfort")
     with col2:
-        pain = st.slider("Pain / Discomfort (0–10)", 0, 10, 5,
-                        help="Aching, throbbing, burning, or discomfort.")
+        pain = st.slider("Pain / Discomfort (0–10)", 0, 10, 5, help="Aching, throbbing, burning, or discomfort.")
         info_icon("0 = none; 10 = interferes with daily activities")
 
     st.subheader("👁️ Limb Appearance (vs baseline)")
@@ -72,11 +71,8 @@ with st.form("daily_log_form"):
             "Not applicable", "None", "Light support (OTC)", "Circular knit (standard)",
             "Flat knit (custom)", "Bandages / wraps", "Night garment", "Kinesio taping"
         ]
-        # FIX 1: This is already a selectbox (single-select)
         compression = st.selectbox("Compression worn today", compression_options,
                                    help="OTC = over-the-counter; Circular knit = seamless, off-the-shelf; Flat knit = custom-made; Bandages/wraps = multilayer; Night garment = for sleep; Kinesio taping = lymphatic taping.")
-        
-        # FIX 1: Clarified wording
         compression_hours = st.slider(
             "Hours of compression worn today", 
             min_value=0, 
@@ -84,9 +80,7 @@ with st.form("daily_log_form"):
             value=8,
             help="How many hours did you wear compression today? 0 = none."
         )
-        
     with col2:
-        # FIX 1: Added "Yes – Therapist MLD" option
         selfcare_options = [
             "No", 
             "Yes — Self MLD", 
@@ -152,17 +146,14 @@ with st.form("daily_log_form"):
     self_compassion = st.slider("Self-compassion (0–10)", 0, 10, 5,
                                 help="How kind were you to yourself today? 0 = not at all; 10 = very compassionate")
 
-    # ---------- FIX 2: Improved Reflection Text Fields ----------
     st.subheader("📝 Reflections")
-    
     challenge = st.text_area(
         "What was your biggest challenge today?",
         placeholder="e.g., pain after walking, emotional struggle, difficult appointment...",
         max_chars=500,
         height=100,
-        help="Describe in a few sentences (max 500 characters). This helps us understand your journey."
+        help="Describe in a few sentences (max 500 characters)."
     )
-    # Show character count
     if challenge:
         st.caption(f"Characters: {len(challenge)}/500")
     
@@ -171,16 +162,14 @@ with st.form("daily_log_form"):
         placeholder="e.g., remembered to elevate, had a good chat, wore compression all day...",
         max_chars=500,
         height=100,
-        help="What made today a bit better? (max 500 characters). Every small win counts."
+        help="What made today a bit better? (max 500 characters)"
     )
-    # Show character count
     if win:
         st.caption(f"Characters: {len(win)}/500")
 
     st.subheader("🌤️ Environment (optional)")
     col1, col2 = st.columns(2)
     with col1:
-        # FIX 3: Temperature restriction
         temp = st.number_input(
             "Temperature (°C)", 
             value=None, 
@@ -195,12 +184,11 @@ with st.form("daily_log_form"):
 
     tags = st.text_input("Tags (optional)", placeholder="e.g., post-flight, flare, new garment, other areas")
 
-    # Submit button
     submitted = st.form_submit_button("Save Entry")
 
-# -------------------- Handle form submission --------------------
+# ---------- Handle form submission ----------
 if submitted:
-    # Collect all data into a dictionary
+    # Validate required fields? (skip for now)
     new_entry = {
         "Date": entry_date.strftime("%Y-%m-%d"),
         "Time": entry_time.strftime("%H:%M"),
@@ -226,17 +214,23 @@ if submitted:
         "Humidity": humidity if humidity is not None else "",
         "Tags": tags
     }
-    # Append to session state dataframe
+    # Append to dataframe
     st.session_state.log_df = pd.concat(
         [st.session_state.log_df, pd.DataFrame([new_entry])],
         ignore_index=True
     )
-    st.success("Entry saved! You can view all entries below.")
+    st.success("Entry saved!")
+    # Increment form key to reset all input widgets
+    st.session_state.form_key += 1
+    st.rerun()
 
-# -------------------- Display past entries --------------------
+# ---------- Display recent entries with index starting at 1 ----------
 st.subheader("📋 Your Recent Entries")
 if not st.session_state.log_df.empty:
-    st.dataframe(st.session_state.log_df.tail(10), use_container_width=True)
+    display_df = st.session_state.log_df.tail(10).copy()
+    # Reset index to start at 1
+    display_df.index = range(1, len(display_df) + 1)
+    st.dataframe(display_df, use_container_width=True)
 
     # Download button
     csv = st.session_state.log_df.to_csv(index=False).encode("utf-8")
@@ -249,7 +243,7 @@ if not st.session_state.log_df.empty:
 else:
     st.info("No entries yet. Use the form above to add your first log.")
 
-# -------------------- Footer disclaimer --------------------
+# Footer disclaimer
 st.divider()
 st.caption(
     "⚠️ This tool is for informational and self-tracking purposes only. "
