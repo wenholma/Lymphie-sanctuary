@@ -14,7 +14,7 @@ st.markdown("""
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
     }
 
-    /* Headings – use serif if you like, but a clean sans-serif works too */
+    /* Headings – clean sans-serif */
     h1, h2, h3, h4, h5, h6 {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
         font-weight: 600;
@@ -172,7 +172,7 @@ st.markdown("""
 </p>
 """, unsafe_allow_html=True)
 
-# ---------- FEATURE GRID (same as before, but now styled by CSS) ----------
+# ---------- FEATURE GRID ----------
 st.markdown("""
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
     <div class="feature-card">
@@ -225,7 +225,14 @@ with col2:
         use_container_width=True,
         type="primary"
     )
-st.caption("You'll be taken to our secure signup page. Your privacy is respected.")
+
+# --- MODIFIED CAPTION: split into two lines and centre-aligned ---
+st.markdown("""
+<div style="text-align: center; font-size: 0.8rem; color: #6c757d; margin-top: 0.2rem;">
+    You'll be taken to our secure signup page.<br>
+    Your privacy is respected.
+</div>
+""", unsafe_allow_html=True)
 
 # ---------- ANALYTICS ----------
 st.markdown("---")
