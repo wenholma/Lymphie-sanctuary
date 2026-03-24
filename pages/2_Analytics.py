@@ -6,8 +6,23 @@ from plotly.subplots import make_subplots
 from datetime import datetime, timedelta
 
 st.set_page_config(page_title="Analytics", page_icon="📊", layout="wide")
-st.title("📊 Your Sanctuary Insights")
-st.markdown("Discover patterns in your symptoms over time.")
+
+# CSS for centering and sidebar fix
+st.markdown("""
+<style>
+    /* Center main page headings and metrics */
+    h1, h2, h3, .stSubheader, .stMetric {
+        text-align: center;
+    }
+    /* Remove the "keyboard_double_" fallback text in the sidebar collapse button */
+    [data-testid="stSidebarCollapseButton"] svg + span {
+        display: none;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown('<h1 style="text-align: center;">📊 Your Sanctuary Insights</h1>', unsafe_allow_html=True)
+st.markdown('<p style="text-align: center;">Discover patterns in your symptoms over time.</p>', unsafe_allow_html=True)
 
 if "log_df" not in st.session_state or st.session_state.log_df.empty:
     st.warning("No data yet. Complete a few daily logs to see insights!")
@@ -18,7 +33,7 @@ df['Date'] = pd.to_datetime(df['Date'])
 df['Compression Hours'] = pd.to_numeric(df['Compression Hours'], errors='coerce').fillna(0)
 df = df.sort_values('Date')
 
-# Date range picker
+# Date range picker (remains left‑aligned in sidebar – fine)
 st.sidebar.header("Select Date Range")
 min_date = df['Date'].min().date()
 max_date = df['Date'].max().date()
@@ -40,7 +55,7 @@ if filtered_df.empty:
 total_days = len(filtered_df)
 st.success(f"Showing data from {start_date} to {end_date} ({total_days} days)")
 
-# ---------- Metrics ----------
+# ---------- Metrics (centered via CSS) ----------
 col1, col2, col3, col4, col5 = st.columns(5)
 with col1:
     avg_heaviness = filtered_df['Heaviness'].mean()
@@ -84,7 +99,7 @@ fig.update_yaxes(title_text="Compression Hours", secondary_y=True)
 fig.update_layout(title="See how symptoms decrease when compression hours increase",
                   hovermode='x unified', template='simple_white', height=500,
                   legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-fig.update_xaxes(tickformat="%Y-%m-%d")  # ensure date format without time
+fig.update_xaxes(tickformat="%Y-%m-%d")
 st.plotly_chart(fig, use_container_width=True)
 st.info("💡 **Insight**: Look for patterns where symptom lines drop when compression bars rise — that's your proof it's working!")
 

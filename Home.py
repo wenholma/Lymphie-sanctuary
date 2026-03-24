@@ -144,7 +144,7 @@ st.markdown("""
     <h1 style="font-size: 2.8rem; color: white; margin-bottom: 0.5rem; font-weight: 700;">🌿 The Lymphie Sanctuary</h1>
     <p style="font-size: 1.3rem; color: rgba(255,255,255,0.9); max-width: 550px; margin: 0 auto 1rem auto;">Decode Your Symptoms. Reclaim Your Days.</p>
     <div style="display: inline-block; background: rgba(255,255,255,0.15); padding: 0.5rem 1.5rem; border-radius: 50px;">
-        <span style="color: white; font-weight: 500;">✨ Trusted by early access lymphies worldwide</span>
+        <span style="color: white; font-weight: 500;">✨ Trusted by lymphies worldwide.</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
