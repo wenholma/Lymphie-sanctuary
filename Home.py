@@ -6,7 +6,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# ---------- SIMPLE, RELIABLE CSS (system fonts, no external import) ----------
+# ---------- CSS (unchanged, consistent styling) ----------
 st.markdown("""
 <style>
     /* Global font for everything */
@@ -14,25 +14,22 @@ st.markdown("""
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
     }
 
-    /* Headings – clean sans-serif */
     h1, h2, h3, h4, h5, h6 {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
         font-weight: 600;
         color: #4f6b6a;
     }
 
-    /* Sidebar navigation font */
     [data-testid="stSidebarNav"] * {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
         font-weight: 500;
     }
 
-    /* Disclaimer box – improved spacing */
     .disclaimer-box {
         background-color: #fff3e0;
         border-left: 8px solid #e67e22;
         border-radius: 16px;
-        padding: 1rem 1.5rem;  /* less vertical padding */
+        padding: 1rem 1.5rem;
         margin: 1.5rem 0;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
@@ -42,8 +39,7 @@ st.markdown("""
         margin: 0;
         font-weight: 500;
         font-size: 1rem;
-        line-height: 1.4;      /* tighter line height */
-        letter-spacing: normal;
+        line-height: 1.4;
     }
 
     .disclaimer-icon {
@@ -52,7 +48,6 @@ st.markdown("""
         vertical-align: middle;
     }
 
-    /* Feature cards – ensure font inherits */
     .feature-card {
         background: white;
         padding: 1.8rem 1.5rem;
@@ -208,6 +203,20 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# ---------- HOW YOUR DATA WORKS ----------
+st.markdown("---")
+st.markdown("""
+<h3 style="text-align:center; color:#4f6b6a; font-weight:600;">🔒 How Your Data Works</h3>
+<div style="background-color: #f0f6f4; padding: 1.5rem; border-radius: 20px; margin: 1rem 0;">
+    <p style="color:#2c5a54; font-size:1rem; text-align:center;">
+        Every entry you make is saved privately in your browser. You can download all your logs as a CSV file anytime – perfect for sharing with your care team or keeping a personal archive.
+    </p>
+    <p style="color:#2c5a54; font-size:1rem; text-align:center;">
+        <strong>✨ Analytics & Reports unlock after 7 days of logging.</strong> Once you have a week of data, you'll see your patterns and can generate a GP‑ready PDF.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 # ---------- EMAIL SIGNUP ----------
 st.markdown("---")
 st.markdown("""
@@ -226,37 +235,12 @@ with col2:
         type="primary"
     )
 
-# --- MODIFIED CAPTION: split into two lines and centre-aligned ---
 st.markdown("""
 <div style="text-align: center; font-size: 0.8rem; color: #6c757d; margin-top: 0.2rem;">
     You'll be taken to our secure signup page.<br>
     Your privacy is respected.
 </div>
 """, unsafe_allow_html=True)
-
-# ---------- ANALYTICS ----------
-st.markdown("---")
-st.markdown("""
-<h3 style="text-align:center; color:#4f6b6a; font-weight:600;">📊 Understand Your Patterns</h3>
-<p style="text-align:center; color:#4f6b6a;">See how your symptoms change over time and discover what impacts you most.</p>
-""", unsafe_allow_html=True)
-
-col1, col2, col3 = st.columns([1,2,1])
-with col2:
-    if st.button("📊 View Analytics Dashboard", use_container_width=True):
-        st.switch_page("pages/2_Analytics.py")
-
-# ---------- REPORT ----------
-st.markdown("---")
-st.markdown("""
-<h3 style="text-align:center; color:#4f6b6a; font-weight:600;">📋 For Your Healthcare Team</h3>
-<p style="text-align:center; color:#4f6b6a;">Generate a structured PDF summary of your symptoms, adherence, and triggers to share with your GP or therapist.</p>
-""", unsafe_allow_html=True)
-
-col1, col2, col3 = st.columns([1,2,1])
-with col2:
-    if st.button("📄 Generate GP Report", use_container_width=True):
-        st.switch_page("pages/3_Report.py")
 
 # ---------- CALL TO ACTION ----------
 st.markdown("""
@@ -286,7 +270,7 @@ st.markdown("""
 st.markdown("""
 <div class="footer">
     © 2026 The Lymphie Sanctuary. All rights reserved. | 
-    <a href="#" style="color:#64748b; text-decoration:none;">Privacy</a> • 
+    <a href="#" style="color:#64748b; text-decoration:none;">Privacy</a> | 
     <a href="#" style="color:#64748b; text-decoration:none;">Terms</a>
 </div>
 """, unsafe_allow_html=True)
