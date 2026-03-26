@@ -21,7 +21,7 @@ if premium:
     """)
     if st.button("Remove License (for testing)", type="secondary"):
         remove_from_localstorage("premium")
-        st.experimental_rerun()
+        st.rerun()
 else:
     st.info("✨ **Unlock CSV Export**")
     st.markdown("""
@@ -50,7 +50,7 @@ else:
         if license_key in valid_keys:
             save_to_localstorage("premium", True)
             st.success("License activated! You can now export your data.")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Invalid key. Please check and try again.")
 
@@ -62,4 +62,4 @@ if st.button("⚠️ Delete ALL local data (logs)", type="secondary"):
     if "log_df" in st.session_state:
         del st.session_state.log_df
     st.success("All logs have been erased from this browser.")
-    st.experimental_rerun()
+    st.rerun()
