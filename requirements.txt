@@ -7,3 +7,4 @@ wordcloud
 textblob
 fpdf2
 pillow
+streamlit-javascript

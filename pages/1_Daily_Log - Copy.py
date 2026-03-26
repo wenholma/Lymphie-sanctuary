@@ -1,46 +1,32 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-import sys
-sys.path.append('.')
-from utils.local_storage import load_from_localstorage, save_to_localstorage
 
 st.set_page_config(page_title="Daily Lymphie Log", layout="centered")
-
 st.title("🌿 Daily Lymphie Log")
 st.markdown("Track your symptoms, triggers, and wellness in under 2 minutes.")
 
-# ---------- Legal Disclaimer Banner ----------
-st.warning("""
-🔒 **Your data stays on this device.**  
-This app works like a digital notebook – everything you enter is saved only in your browser.  
-If you clear your browser cache or use a different device, your logs will not be available.  
-**The Lymphie Sanctuary does not store, transmit, or have access to your health data.**  
-⚠️ This tool is for personal tracking only. It is not medical advice. Always consult your healthcare provider.
-""")
-
-# ---------- Initialize session state from localStorage ----------
+# Initialize session state for data and form key
 if "log_df" not in st.session_state:
-    data = load_from_localstorage("lymphie_logs", [])
-    if data:
-        st.session_state.log_df = pd.DataFrame(data)
-    else:
-        columns = [
-            "Date", "Time", "Heaviness", "Pain", "Limb Appearance",
-            "Measurement Taken", "Affected Areas", "Compression Type", "Compression Hours",
-            "Self Care", "Dietary Triggers", "Environmental Triggers",
-            "Health Triggers", "Stress", "Sleep Quality", "Energy",
-            "Mobility", "Self Compassion", "Biggest Challenge", "Small Win",
-            "Temperature", "Humidity", "Tags"
-        ]
-        st.session_state.log_df = pd.DataFrame(columns=columns)
+    columns = [
+        "Date", "Time", "Heaviness", "Pain", "Limb Appearance",
+        "Measurement Taken", "Affected Areas", "Compression Type", "Compression Hours",
+        "Self Care", "Dietary Triggers", "Environmental Triggers",
+        "Health Triggers", "Stress", "Sleep Quality", "Energy",
+        "Mobility", "Self Compassion", "Biggest Challenge", "Small Win",
+        "Temperature", "Humidity", "Tags"
+    ]
+    st.session_state.log_df = pd.DataFrame(columns=columns)
 
-# Helper for info icons
+# Unique form key that increments after each save to reset the form
+if "form_key" not in st.session_state:
+    st.session_state.form_key = 0
+
 def info_icon(text):
     st.markdown(f"<small style='color: gray;'>ℹ️ {text}</small>", unsafe_allow_html=True)
 
-# ---------- Form ----------
-with st.form("daily_log_form"):
+# Main form – key changes on each successful save
+with st.form(key=f"daily_log_form_{st.session_state.form_key}"):
     st.subheader("📅 Entry Details")
     col1, col2 = st.columns(2)
     with col1:
@@ -51,12 +37,10 @@ with st.form("daily_log_form"):
     st.subheader("🦵 Limb Sensations")
     col1, col2 = st.columns(2)
     with col1:
-        heaviness = st.slider("Heaviness / Tightness (0–10)", 0, 10, 5,
-                              help="Internal sensation of fullness, pressure, or weight.")
+        heaviness = st.slider("Heaviness / Tightness (0–10)", 0, 10, 5, help="Internal sensation of fullness, pressure, or weight.")
         info_icon("0 = none; 10 = affects movement or comfort")
     with col2:
-        pain = st.slider("Pain / Discomfort (0–10)", 0, 10, 5,
-                        help="Aching, throbbing, burning, or discomfort.")
+        pain = st.slider("Pain / Discomfort (0–10)", 0, 10, 5, help="Aching, throbbing, burning, or discomfort.")
         info_icon("0 = none; 10 = interferes with daily activities")
 
     st.subheader("👁️ Limb Appearance (vs baseline)")
@@ -98,8 +82,12 @@ with st.form("daily_log_form"):
         )
     with col2:
         selfcare_options = [
-            "No", "Yes — Self MLD", "Yes — Therapist MLD", 
-            "Yes — Dry brushing", "Yes — Both", "Not applicable"
+            "No", 
+            "Yes — Self MLD", 
+            "Yes — Therapist MLD", 
+            "Yes — Dry brushing", 
+            "Yes — Both", 
+            "Not applicable"
         ]
         self_care = st.selectbox("Self-MLD / Dry brushing performed?", selfcare_options,
                                  help="Self-MLD = gentle skin stretching; Dry brushing = soft brush to stimulate lymph flow; Therapist MLD = professional treatment.")
@@ -164,7 +152,7 @@ with st.form("daily_log_form"):
         placeholder="e.g., pain after walking, emotional struggle, difficult appointment...",
         max_chars=500,
         height=100,
-        help="Describe in a few sentences (max 500 characters). This helps us understand your journey."
+        help="Describe in a few sentences (max 500 characters)."
     )
     if challenge:
         st.caption(f"Characters: {len(challenge)}/500")
@@ -174,7 +162,7 @@ with st.form("daily_log_form"):
         placeholder="e.g., remembered to elevate, had a good chat, wore compression all day...",
         max_chars=500,
         height=100,
-        help="What made today a bit better? (max 500 characters). Every small win counts."
+        help="What made today a bit better? (max 500 characters)"
     )
     if win:
         st.caption(f"Characters: {len(win)}/500")
@@ -200,6 +188,7 @@ with st.form("daily_log_form"):
 
 # ---------- Handle form submission ----------
 if submitted:
+    # Validate required fields? (skip for now)
     new_entry = {
         "Date": entry_date.strftime("%Y-%m-%d"),
         "Time": entry_time.strftime("%H:%M"),
@@ -225,17 +214,39 @@ if submitted:
         "Humidity": humidity if humidity is not None else "",
         "Tags": tags
     }
+    # Append to dataframe
     st.session_state.log_df = pd.concat(
         [st.session_state.log_df, pd.DataFrame([new_entry])],
         ignore_index=True
     )
-    # Save to localStorage
-    save_to_localstorage("lymphie_logs", st.session_state.log_df.to_dict('records'))
-    st.success("Entry saved! It will remain in your browser until you clear cache or export it.")
+    st.success("Entry saved!")
+    # Increment form key to reset all input widgets
+    st.session_state.form_key += 1
+    st.rerun()
 
-# ---------- Display recent entries ----------
+# ---------- Display recent entries with index starting at 1 ----------
 st.subheader("📋 Your Recent Entries")
 if not st.session_state.log_df.empty:
-    st.dataframe(st.session_state.log_df.tail(10), use_container_width=True)
+    display_df = st.session_state.log_df.tail(10).copy()
+    # Reset index to start at 1
+    display_df.index = range(1, len(display_df) + 1)
+    st.dataframe(display_df, use_container_width=True)
+
+    # Download button
+    csv = st.session_state.log_df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="Download All Entries as CSV",
+        data=csv,
+        file_name=f"lymphie_log_{datetime.now().strftime('%Y%m%d')}.csv",
+        mime="text/csv"
+    )
 else:
     st.info("No entries yet. Use the form above to add your first log.")
+
+# Footer disclaimer
+st.divider()
+st.caption(
+    "⚠️ This tool is for informational and self-tracking purposes only. "
+    "It is not medical advice. Always consult your healthcare provider "
+    "before making changes to your treatment."
+)
