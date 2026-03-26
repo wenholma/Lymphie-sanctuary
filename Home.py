@@ -1,276 +1,90 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="The Lymphie Sanctuary",
-    page_icon="🌿",
-    layout="centered"
-)
+st.set_page_config(page_title="The Lymphie Sanctuary", page_icon="🌿", layout="centered")
 
-# ---------- CSS (unchanged, consistent styling) ----------
+# Custom CSS (minimal version – you can keep your previous styling if you prefer)
 st.markdown("""
 <style>
-    /* Global font for everything */
-    html, body, [class*="css"], .stApp, .stMarkdown, .stText, .stButton, .stSidebar, .stSidebar * {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-        font-weight: 600;
-        color: #4f6b6a;
-    }
-
-    [data-testid="stSidebarNav"] * {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-        font-weight: 500;
-    }
-
-    .disclaimer-box {
-        background-color: #fff3e0;
-        border-left: 8px solid #e67e22;
-        border-radius: 16px;
-        padding: 1rem 1.5rem;
-        margin: 1.5rem 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .disclaimer-text {
-        color: #b85e00;
-        margin: 0;
-        font-weight: 500;
-        font-size: 1rem;
-        line-height: 1.4;
-    }
-
-    .disclaimer-icon {
-        font-size: 1.3rem;
-        margin-right: 8px;
-        vertical-align: middle;
-    }
-
-    .feature-card {
-        background: white;
-        padding: 1.8rem 1.5rem;
-        border-radius: 24px;
-        box-shadow: 0 8px 20px rgba(79,107,106,0.08);
-        border: 1px solid #e2eef0;
-        transition: all 0.2s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .feature-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 28px rgba(79,107,106,0.12);
-    }
-
-    .feature-icon {
-        font-size: 2.2rem;
-        margin-bottom: 1rem;
-    }
-
-    .feature-title {
-        font-weight: 700;
-        font-size: 1.3rem;
-        color: #1a3b2e;
-        margin-bottom: 0.8rem;
-        line-height: 1.3;
-    }
-
-    .feature-desc {
-        color: #4a6a68;
-        font-size: 0.95rem;
-        line-height: 1.5;
-        flex-grow: 1;
-    }
-
-    .cta-section {
-        background: linear-gradient(135deg, #a9d7d0 0%, #d8e2e0 100%);
-        padding: 2rem;
-        border-radius: 24px;
-        text-align: center;
-        margin: 2rem 0;
-        color: #4f6b6a;
-    }
-
-    .cta-title {
-        font-weight: 700;
-        font-size: 1.8rem;
-        margin-bottom: 0.8rem;
-        color: #2c5a54;
-    }
-
-    .cta-sub {
-        font-size: 1rem;
-        opacity: 0.9;
-        margin-bottom: 1.5rem;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-        color: #3a5f5a;
-    }
-
-    .stButton > button {
-        background-color: #4f6b6a !important;
-        color: white !important;
-        font-weight: 500 !important;
-        border-radius: 40px !important;
-        border: none !important;
-        font-size: 1rem !important;
-        padding: 0.5rem 1.8rem !important;
-        transition: all 0.2s ease !important;
-    }
-
-    .stButton > button:hover {
-        background-color: #3a504f !important;
-        transform: scale(1.02);
-    }
-
-    .footer {
-        text-align: center;
-        color: #64748b;
-        font-size: 0.85rem;
-        margin-top: 2.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid #d8e2e0;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;500;700&display=swap');
+    html, body, [class*="css"] { font-family: 'Lato', sans-serif; background-color: #f7fbfa; }
+    .hero { background: linear-gradient(145deg, #1a4d3a, #2E7D5E); padding: 3rem 2rem; border-radius: 40px; margin-bottom: 2rem; text-align: center; color: white; }
+    .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.3rem; max-width: 600px; margin: 0 auto; }
+    .privacy-badge { background-color: #fff3e0; border-left: 8px solid #e67e22; padding: 1.5rem; border-radius: 16px; margin: 2rem 0; }
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 2rem 0; }
+    .feature-card { background: white; padding: 1.8rem; border-radius: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+    .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .feature-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .cta-section { background: linear-gradient(135deg, #a9d7d0, #d8e2e0); padding: 2rem; border-radius: 30px; text-align: center; margin: 2rem 0; }
+    .stButton > button { background-color: #4f6b6a !important; color: white !important; border-radius: 40px !important; padding: 0.6rem 2rem !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- HERO SECTION ----------
+# Hero
 st.markdown("""
-<div style="background: linear-gradient(145deg, #1a4d3a, #2E7D5E); padding: 2.5rem 2rem; border-radius: 30px; text-align: center; margin-bottom: 2rem;">
-    <h1 style="font-size: 2.8rem; color: white; margin-bottom: 0.5rem; font-weight: 700;">🌿 The Lymphie Sanctuary</h1>
-    <p style="font-size: 1.3rem; color: rgba(255,255,255,0.9); max-width: 550px; margin: 0 auto 1rem auto;">Decode Your Symptoms. Reclaim Your Days.</p>
-    <div style="display: inline-block; background: rgba(255,255,255,0.15); padding: 0.5rem 1.5rem; border-radius: 50px;">
-        <span style="color: white; font-weight: 500;">✨ Trusted by lymphies worldwide.</span>
-    </div>
+<div class="hero">
+    <h1>🌿 The Lymphie Sanctuary</h1>
+    <p>Your Private Digital Symptom Journal</p>
 </div>
 """, unsafe_allow_html=True)
 
-# ---------- TOP DISCLAIMER ----------
 st.markdown("""
-<div class="disclaimer-box">
-    <p class="disclaimer-text">
-        <span class="disclaimer-icon">⚠️</span>
-        <strong>IMPORTANT:</strong> The Lymphie Sanctuary is a self-care companion, not a substitute for clinical diagnostics. 
-        Always consult your certified lymphedema therapist or physician before altering your treatment plan.
-    </p>
+Lymphedema management is enough work already. Stop the guesswork with a secure, 2‑minute daily log that stays entirely on your own device.
+""")
+
+# Privacy promise
+st.markdown("""
+<div class="privacy-badge">
+    <strong>🔒 No Accounts. No Databases. No Data‑Mining.</strong><br>
+    Unlike traditional health apps, The Sanctuary is <strong>Local‑First</strong>. Your measurements, photos, and notes are stored only in your browser's private memory. We don't see your data, we don't store it, and we can’t sell it. It belongs to you.
 </div>
 """, unsafe_allow_html=True)
 
-# ---------- INTRODUCTION ----------
-st.markdown("""
-<p style="font-size:1.1rem; color:#4f6b6a; margin:1rem 0 2rem 0; text-align:center; max-width:700px; margin-left:auto; margin-right:auto;">
-    Navigating lymphedema shouldn't require constant guesswork. The Sanctuary provides a calm, secure space to log your daily symptoms, uncover hidden lifestyle triggers, and build a comprehensive health history for you and your care team.
-</p>
-""", unsafe_allow_html=True)
-
-# ---------- FEATURE GRID ----------
-st.markdown("""
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+# Features
+st.subheader("How It Works")
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">🕊️</div>
-        <div class="feature-title">2-Minute Daily Check-In</div>
-        <div class="feature-desc">Respects your limited energy. Track swelling, compression, and mental wellness without overwhelm.</div>
+        <div class="feature-title">2-Minute Daily Check‑In</div>
+        Track swelling, compression, and mental energy without the overwhelm.
     </div>
-    <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <div class="feature-title">Visual Healing Journey</div>
-        <div class="feature-desc">See how stress, humidity, and movement impact your limb volume and pain levels over time.</div>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon">📄</div>
-        <div class="feature-title">Specialist-Ready Reports</div>
-        <div class="feature-desc">Generate clean PDF summaries of your symptoms and adherence to share with your care team.</div>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <div class="feature-title">Pinpoint Hidden Triggers</div>
-        <div class="feature-desc">Identify whether diet, travel, or weather are quietly impacting your swelling and flares.</div>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon">🔒</div>
-        <div class="feature-title">Uncompromising Privacy</div>
-        <div class="feature-desc">Your health data is encrypted and never, under any circumstances, sold to third parties.</div>
-    </div>
+    """, unsafe_allow_html=True)
+with col2:
+    st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">📈</div>
-        <div class="feature-title">Total Data Ownership</div>
-        <div class="feature-desc">Export your raw data to CSV anytime for your own analysis or to contribute to research.</div>
+        <div class="feature-title">Visual Trends</div>
+        Spot patterns between your diet, weather, and limb volume over time.
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+with col3:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">📥</div>
+        <div class="feature-title">Lifetime Export</div>
+        Turn your logs into a clean CSV file to share with your CLT or doctor.
+    </div>
+    """, unsafe_allow_html=True)
 
-# ---------- HOW YOUR DATA WORKS ----------
-st.markdown("---")
-st.markdown("""
-<h3 style="text-align:center; color:#4f6b6a; font-weight:600;">🔒 How Your Data Works</h3>
-<div style="background-color: #f0f6f4; padding: 1.5rem; border-radius: 20px; margin: 1rem 0;">
-    <p style="color:#2c5a54; font-size:1rem; text-align:center;">
-        Every entry you make is saved privately in your browser. You can download all your logs as a CSV file anytime – perfect for sharing with your care team or keeping a personal archive.
-    </p>
-    <p style="color:#2c5a54; font-size:1rem; text-align:center;">
-        <strong>✨ Analytics & Reports unlock after 7 days of logging.</strong> Once you have a week of data, you'll see your patterns and can generate a GP‑ready PDF.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ---------- EMAIL SIGNUP ----------
-st.markdown("---")
-st.markdown("""
-<h3 style="text-align:center; color:#4f6b6a; font-weight:600;">💌 Join the Early Access Community</h3>
-<p style="text-align:center; color:#4f6b6a; max-width:500px; margin:0.5rem auto 1.5rem auto;">
-    Be the first to experience new features, gain early access to personalized insights, and receive evidence-based lymphedema management strategies. Your inbox is an extension of our sanctuary; we respect your peace and never spam.
-</p>
-""", unsafe_allow_html=True)
-
-col1, col2, col3 = st.columns([1,2,1])
-with col2:
-    st.link_button(
-        "🌿 Join the Early Access Community", 
-        "https://docs.google.com/forms/d/1dO0Oryxyeeiuvj2GKqHWYPXDWzAHUKmkh__wlCZ9a1Y/edit",
-        use_container_width=True,
-        type="primary"
-    )
-
-st.markdown("""
-<div style="text-align: center; font-size: 0.8rem; color: #6c757d; margin-top: 0.2rem;">
-    You'll be taken to our secure signup page.<br>
-    Your privacy is respected.
-</div>
-""", unsafe_allow_html=True)
-
-# ---------- CALL TO ACTION ----------
+# Lifetime Access section
 st.markdown("""
 <div class="cta-section">
-    <div class="cta-title">Ready to decode your body?</div>
-    <div class="cta-sub">Enter The Sanctuary and take the first step toward reclaiming your days.</div>
+    <h3>Ready to own your data?</h3>
+    <p>Get Lifetime Access to the Export & Trends toolkit for a one‑time payment of <strong>$25</strong>.<br>No subscriptions, no hidden fees. Just a tool for life.</p>
 </div>
 """, unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
-    if st.button("🌿 Enter The Sanctuary", use_container_width=True):
+    if st.button("🌿 Get My Lifetime Key", use_container_width=True):
+        st.switch_page("pages/6_Settings.py")
+
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    if st.button("📝 Start Your First Log (Free)", use_container_width=True):
         st.switch_page("pages/1_Daily_Log.py")
 
-# ---------- BOTTOM DISCLAIMER ----------
-st.markdown("""
-<div class="disclaimer-box">
-    <p class="disclaimer-text">
-        <span class="disclaimer-icon">🔔</span>
-        <strong>REMEMBER:</strong> This tool is for informational and self-tracking purposes only. 
-        It is not medical advice. Always consult your healthcare provider before making changes to your treatment.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ---------- FOOTER ----------
-st.markdown("""
-<div class="footer">
-    © 2026 The Lymphie Sanctuary. All rights reserved. | 
-    <a href="#" style="color:#64748b; text-decoration:none;">Privacy</a> | 
-    <a href="#" style="color:#64748b; text-decoration:none;">Terms</a>
-</div>
-""", unsafe_allow_html=True)
+st.markdown("---")
+st.caption("© 2026 The Lymphie Sanctuary. All rights reserved. | [Privacy Policy](pages/4_Privacy.py) | [Terms of Service](pages/5_Terms.py)")
