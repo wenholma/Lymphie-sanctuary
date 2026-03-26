@@ -35,7 +35,6 @@ if "log_df" not in st.session_state:
         ]
         st.session_state.log_df = pd.DataFrame(columns=columns)
 
-# Helper for info icons
 def info_icon(text):
     st.markdown(f"<small style='color: gray;'>ℹ️ {text}</small>", unsafe_allow_html=True)
 
@@ -48,6 +47,8 @@ with st.form("daily_log_form"):
     with col2:
         entry_time = st.time_input("Time", value=datetime.now().time().replace(second=0, microsecond=0))
 
+    st.divider()  # subtle separator
+
     st.subheader("🦵 Limb Sensations")
     col1, col2 = st.columns(2)
     with col1:
@@ -58,6 +59,8 @@ with st.form("daily_log_form"):
         pain = st.slider("Pain / Discomfort (0–10)", 0, 10, 5,
                         help="Aching, throbbing, burning, or discomfort.")
         info_icon("0 = none; 10 = interferes with daily activities")
+
+    st.divider()
 
     st.subheader("👁️ Limb Appearance (vs baseline)")
     appearance_options = [
@@ -70,15 +73,21 @@ with st.form("daily_log_form"):
                               help="Baseline = your usual stable appearance on a good day.")
     info_icon("Baseline = your usual good day; pitting = mild indentation; marked = tight, shiny skin")
 
+    st.divider()
+
     st.subheader("📏 Measurements")
     measure_options = ["Yes — full measurement", "Yes — partial measurement", "No", "Not applicable"]
     measurement = st.radio("Did you take a limb circumference measurement today?", measure_options, horizontal=True)
+
+    st.divider()
 
     st.subheader("📍 Affected Areas")
     area_options = ["Left arm", "Right arm", "Left leg", "Right leg", "Trunk", "Head/neck", "Genital area", "Other"]
     affected_areas = st.multiselect("Select all that apply", area_options,
                                     help="Trunk = chest, abdomen, back; Select 'Other' and use Tags field below to specify.")
     info_icon("Select all areas where you noticed swelling or symptoms today. Use Tags for 'Other' details.")
+
+    st.divider()
 
     st.subheader("🧦 Compression & Self-Care")
     col1, col2 = st.columns(2)
@@ -103,6 +112,8 @@ with st.form("daily_log_form"):
         ]
         self_care = st.selectbox("Self-MLD / Dry brushing performed?", selfcare_options,
                                  help="Self-MLD = gentle skin stretching; Dry brushing = soft brush to stimulate lymph flow; Therapist MLD = professional treatment.")
+
+    st.divider()
 
     st.subheader("🍽️ Lifestyle & Triggers")
     st.markdown("**Dietary triggers** (select all that apply)")
@@ -146,6 +157,8 @@ with st.form("daily_log_form"):
         help="Select all that apply. The list stays open so you can choose multiple."
     )
 
+    st.divider()
+
     st.subheader("🧘 Wellness Context")
     col1, col2 = st.columns(2)
     with col1:
@@ -158,6 +171,8 @@ with st.form("daily_log_form"):
     self_compassion = st.slider("Self-compassion (0–10)", 0, 10, 5,
                                 help="How kind were you to yourself today? 0 = not at all; 10 = very compassionate")
 
+    st.divider()
+
     st.subheader("📝 Reflections")
     challenge = st.text_area(
         "What was your biggest challenge today?",
@@ -168,7 +183,7 @@ with st.form("daily_log_form"):
     )
     if challenge:
         st.caption(f"Characters: {len(challenge)}/500")
-    
+
     win = st.text_area(
         "What was a small win or something that helped today?",
         placeholder="e.g., remembered to elevate, had a good chat, wore compression all day...",
@@ -179,22 +194,28 @@ with st.form("daily_log_form"):
     if win:
         st.caption(f"Characters: {len(win)}/500")
 
-    st.subheader("🌤️ Environment (optional)")
-    col1, col2 = st.columns(2)
-    with col1:
-        temp = st.number_input(
-            "Temperature (°C)", 
-            value=None, 
-            step=0.1, 
-            format="%.1f",
-            min_value=-50.0,
-            max_value=60.0,
-            help="Please enter a realistic temperature between -50°C and 60°C."
-        )
-    with col2:
-        humidity = st.number_input("Humidity (%)", value=None, min_value=0, max_value=100, step=1)
+    st.caption("You don’t need perfect words. A few notes are enough.")
 
+    # Move Tags here (closer to Reflections)
     tags = st.text_input("Tags (optional)", placeholder="e.g., post-flight, flare, new garment, other areas")
+
+    st.divider()
+
+    # Collapsible Environment section
+    with st.expander("🌤️ Environment (optional)", expanded=False):
+        col1, col2 = st.columns(2)
+        with col1:
+            temp = st.number_input(
+                "Temperature (°C)", 
+                value=None, 
+                step=0.1, 
+                format="%.1f",
+                min_value=-50.0,
+                max_value=60.0,
+                help="Please enter a realistic temperature between -50°C and 60°C."
+            )
+        with col2:
+            humidity = st.number_input("Humidity (%)", value=None, min_value=0, max_value=100, step=1)
 
     submitted = st.form_submit_button("Save Entry")
 
@@ -229,9 +250,8 @@ if submitted:
         [st.session_state.log_df, pd.DataFrame([new_entry])],
         ignore_index=True
     )
-    # Save to localStorage
     save_to_localstorage("lymphie_logs", st.session_state.log_df.to_dict('records'))
-    st.success("Entry saved! It will remain in your browser until you clear cache or export it.")
+    st.success("Saved. Thank you for listening to your body today.")
 
 # ---------- Display recent entries ----------
 st.subheader("📋 Your Recent Entries")
