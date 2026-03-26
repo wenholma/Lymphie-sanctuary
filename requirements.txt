@@ -1,10 +1,5 @@
-streamlit
-plotly
+﻿streamlit
 pandas
-sqlalchemy
-matplotlib
-wordcloud
-textblob
+plotly
 fpdf2
-pillow
 streamlit-javascript
