@@ -2,27 +2,101 @@ import streamlit as st
 
 st.set_page_config(page_title="The Lymphie Sanctuary", page_icon="🌿", layout="centered")
 
-# Custom CSS (minimal version – you can keep your previous styling if you prefer)
+# Custom CSS for uplifting look
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;500;700&display=swap');
-    html, body, [class*="css"] { font-family: 'Lato', sans-serif; background-color: #f7fbfa; }
-    .hero { background: linear-gradient(145deg, #1a4d3a, #2E7D5E); padding: 3rem 2rem; border-radius: 40px; margin-bottom: 2rem; text-align: center; color: white; }
-    .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-    .hero p { font-size: 1.3rem; max-width: 600px; margin: 0 auto; }
-    .privacy-badge { background-color: #fff3e0; border-left: 8px solid #e67e22; padding: 1.5rem; border-radius: 16px; margin: 2rem 0; }
-    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 2rem 0; }
-    .feature-card { background: white; padding: 1.8rem; border-radius: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-    .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-    .feature-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .cta-section { background: linear-gradient(135deg, #a9d7d0, #d8e2e0); padding: 2rem; border-radius: 30px; text-align: center; margin: 2rem 0; }
-    .stButton > button { background-color: #4f6b6a !important; color: white !important; border-radius: 40px !important; padding: 0.6rem 2rem !important; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+    }
+    h1, h2, h3 {
+        color: #2E7D5E;
+    }
+    .main-header {
+        background: linear-gradient(145deg, #2E7D5E, #1e5f45);
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: white;
+    }
+    .main-header h1 {
+        color: white;
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+    .main-header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+    .privacy-badge {
+        background-color: #f0f7f4;
+        border-left: 8px solid #2E7D5E;
+        padding: 1.2rem;
+        border-radius: 12px;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .feature-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        height: 100%;
+        transition: transform 0.2s;
+    }
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    .feature-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #1a3b2e;
+    }
+    .cta-section {
+        background: #eaf7f2;
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        margin: 2rem 0;
+    }
+    .cta-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #2E7D5E;
+        margin-bottom: 1rem;
+    }
+    .stButton > button {
+        background-color: #2E7D5E !important;
+        color: white !important;
+        border-radius: 40px !important;
+        padding: 0.6rem 2rem !important;
+        border: none !important;
+        font-weight: 500 !important;
+    }
+    .stButton > button:hover {
+        background-color: #1e5f45 !important;
+    }
+    .footer {
+        text-align: center;
+        margin-top: 3rem;
+        padding-top: 1rem;
+        border-top: 1px solid #ddd;
+        font-size: 0.9rem;
+        color: #666;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# Hero
+# Header
 st.markdown("""
-<div class="hero">
+<div class="main-header">
     <h1>🌿 The Lymphie Sanctuary</h1>
     <p>Your Private Digital Symptom Journal</p>
 </div>
@@ -32,7 +106,7 @@ st.markdown("""
 Lymphedema management is enough work already. Stop the guesswork with a secure, 2‑minute daily log that stays entirely on your own device.
 """)
 
-# Privacy promise
+# Privacy badge
 st.markdown("""
 <div class="privacy-badge">
     <strong>🔒 No Accounts. No Databases. No Data‑Mining.</strong><br>
@@ -68,11 +142,11 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
-# Lifetime Access section
+# Call to action
 st.markdown("""
 <div class="cta-section">
-    <h3>Ready to own your data?</h3>
-    <p>Get Lifetime Access to the Export & Trends toolkit for a one‑time payment of <strong>$25</strong>.<br>No subscriptions, no hidden fees. Just a tool for life.</p>
+    <div class="cta-title">Ready to own your data?</div>
+    <p>Get Lifetime Access to the Export & Trends toolkit for a one‑time payment of <strong>$25</strong>. No subscriptions, no hidden fees. Just a tool for life.</p>
 </div>
 """, unsafe_allow_html=True)
 
