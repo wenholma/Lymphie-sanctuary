@@ -25,17 +25,17 @@ if premium:
 else:
     st.info("✨ **Unlock CSV Export**")
     st.markdown("""
-    With a one‑time payment of **$25**, you get:
+    With a one‑time payment of **$25 USD** (approx. NZ$40), you get:
     - **Lifetime access** – no subscriptions, no recurring fees.
     - **Unlimited CSV exports** of your logs to share with your care team or keep a backup.
     - **Support independent development** – help us keep The Sanctuary free for everyone.
     """)
 
-    # Replace this with your actual Lemon Squeezy link later
+    # Real Lemon Squeezy checkout link
     st.markdown("""
     <div style="text-align: center; margin: 2rem 0;">
-        <a href="https://your-lemon-squeezy-link.com" target="_blank" style="background-color: #4f6b6a; color: white; padding: 0.8rem 2rem; border-radius: 40px; text-decoration: none; font-weight: 600;">
-            💳 Get Lifetime Key ($25)
+        <a href="https://thelymphiesanctuary.lemonsqueezy.com/checkout/buy/633a040b-eb46-4aaa-9896-b4bfe8682eca" target="_blank" style="background-color: #4f6b6a; color: white; padding: 0.8rem 2rem; border-radius: 40px; text-decoration: none; font-weight: 600;">
+            💳 Get Lifetime Key ($25 USD)
         </a>
     </div>
     """, unsafe_allow_html=True)
@@ -45,7 +45,7 @@ else:
 
     license_key = st.text_input("License Key", placeholder="e.g., LKEY-XXXX-YYYY-ZZZZ")
     if st.button("Activate Key"):
-        # For testing, we use a hardcoded key. Replace with real validation later.
+        # For testing, include the test key. Add real keys here as you receive them.
         valid_keys = ["TEST-1234-ABCD"]
         if license_key in valid_keys:
             save_to_localstorage("premium", True)
