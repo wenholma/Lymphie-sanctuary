@@ -3,7 +3,7 @@ import streamlit as st
 st.set_page_config(page_title="Terms of Service", page_icon="⚖️")
 
 st.title("Terms of Service")
-st.markdown("**Last updated:** March 2026")
+st.markdown("**Last updated:** March 2025")
 
 st.markdown("""
 ### Acceptance of Terms

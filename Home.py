@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="The Lymphie Sanctuary", page_icon="🌿", layout="centered")
 
-# Custom CSS (same as before – keeps the look)
+# Custom CSS (unchanged – keeps the same look)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -91,6 +91,13 @@ st.markdown("""
         font-size: 0.9rem;
         color: #666;
     }
+    .about-box {
+        background-color: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 16px;
+        margin: 2rem 0;
+        border-left: 4px solid #2E7D5E;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -106,7 +113,7 @@ st.markdown("""
 Lymphedema management is enough work already. Stop the guesswork with a secure, 2‑minute daily log that stays entirely on your own device.
 """)
 
-# --- Grounding sentence (emotional warmth) ---
+# Grounding sentence
 st.markdown("*This is a quiet place to notice patterns — not to judge your body.*")
 
 # Privacy badge
@@ -145,11 +152,38 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
+# What you get with Lifetime Access
+st.subheader("What's Included")
+col1, col2 = st.columns(2)
+with col1:
+    st.markdown("""
+    **✓ Always free**
+    - Unlimited daily entries
+    - Local‑first storage (your data stays private)
+    - Gentle, warm interface
+    """)
+with col2:
+    st.markdown("""
+    **🔓 Lifetime Access (one‑time $25)**
+    - CSV export of all logs
+    - Trend visualizations
+    - Future updates at no extra cost
+    - Support independent development
+    """)
+
+# Founder story
+st.markdown("""
+<div class="about-box">
+    <strong>👋 About the creator</strong><br>
+    I’m Marece, a data scientist and someone who understands the challenge of managing a chronic condition. I built The Lymphie Sanctuary because I wanted a simple, private tool to track symptoms – without subscriptions, without data mining, and without making it feel clinical. This is a one‑person project, built with care for the community. I hope it helps you as much as it helps me.
+</div>
+""", unsafe_allow_html=True)
+
 # Call to action
 st.markdown("""
 <div class="cta-section">
     <div class="cta-title">Ready to own your data?</div>
-    <p>Get Lifetime Access to the Export & Trends toolkit for a one‑time payment of <strong>$25</strong>. No subscriptions, no hidden fees. Just a tool for life.</p>
+    <p>Get Lifetime Access to the Export & Trends toolkit for a one‑time payment of <strong>$25 USD</strong>.<br>No subscriptions, no hidden fees. Just a tool for life.</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -163,5 +197,6 @@ with col2:
     if st.button("📝 Start Your First Log (Free)", use_container_width=True):
         st.switch_page("pages/1_Daily_Log.py")
 
+# Footer
 st.markdown("---")
-st.caption("© 2026 The Lymphie Sanctuary. All rights reserved. | [Privacy Policy](pages/4_Privacy.py) | [Terms of Service](pages/5_Terms.py)")
+st.caption("© 2025 The Lymphie Sanctuary. All rights reserved. | [About](pages/7_About.py) | [Privacy Policy](pages/4_Privacy.py) | [Terms of Service](pages/5_Terms.py)")

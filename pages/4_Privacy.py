@@ -3,7 +3,7 @@ import streamlit as st
 st.set_page_config(page_title="Privacy Policy", page_icon="🔒")
 
 st.title("Privacy Policy")
-st.markdown("**Last updated:** March 2026")
+st.markdown("**Last updated:** March 2025")
 
 st.markdown("""
 ### Your Data Stays on Your Device
@@ -29,5 +29,5 @@ Because we never store your data on our servers, you retain complete control. Yo
 
 ### Contact
 
-If you have questions, contact us at [your email].
+If you have questions, you can reach me at **info@thelymphiesanctuary.com** (please allow a few days for a reply).
 """)
