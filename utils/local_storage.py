@@ -1,30 +1,77 @@
 import streamlit as st
 import json
-from streamlit_javascript import st_javascript
 
 def load_from_localstorage(key, default=None):
-    """Retrieve a value from browser localStorage."""
-    js_code = f"""
-        const value = localStorage.getItem('{key}');
-        return value ? JSON.parse(value) : null;
     """
-    result = st_javascript(js_code)
-    if result is None:
-        return default
-    return result
+    Read a value from browser localStorage.
+    Uses st.query_params to pass data from JavaScript to Python.
+    """
+    # Check if there's a pending value in query params
+    if f"_ls_{key}" in st.query_params:
+        try:
+            value = json.loads(st.query_params[f"_ls_{key}"])
+            # Clear it from URL
+            del st.query_params[f"_ls_{key}"]
+            return value
+        except:
+            pass
+    
+    # If no query param, inject JS to read from localStorage
+    # and reload the page with the value
+    js_code = f"""
+    <script>
+        const value = localStorage.getItem('{key}');
+        if (value !== null) {{
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('_ls_{key}', encodeURIComponent(value));
+            window.location.href = currentUrl.toString();
+        }}
+    </script>
+    """
+    st.components.v1.html(js_code, height=0)
+    return default
 
 def save_to_localstorage(key, value):
-    """Save a value to browser localStorage."""
-    js_code = f"""
-        localStorage.setItem('{key}', JSON.stringify({json.dumps(value)}));
-        return true;
     """
-    st_javascript(js_code)
+    Save a value to browser localStorage.
+    Injects JavaScript that writes directly to localStorage.
+    """
+    json_value = json.dumps(value)
+    
+    js_code = f"""
+    <script>
+        localStorage.setItem('{key}', JSON.stringify({json_value}));
+        document.body.innerHTML += '<div style="display:none;">SAVED:{key}</div>';
+    </script>
+    """
+    st.components.v1.html(js_code, height=0)
 
 def remove_from_localstorage(key):
-    """Remove a key from localStorage."""
+    """Remove a key from browser localStorage."""
     js_code = f"""
+    <script>
         localStorage.removeItem('{key}');
-        return true;
+    </script>
     """
-    st_javascript(js_code)
+    st.components.v1.html(js_code, height=0)
+    # Nuclear test - inject JS directly
+st.subheader("4. Nuclear Test")
+if st.button("NUKE - Force Save", key="nuke_btn"):
+    js = """
+    <script>
+        localStorage.setItem('nuke_test', 'boom');
+        document.body.style.backgroundColor = 'red';
+    </script>
+    """
+    st.components.v1.html(js, height=0)
+    st.write("JavaScript injected! Check load below.")
+
+if st.button("Check Nuke", key="check_nuke"):
+    js = """
+    <script>
+        const val = localStorage.getItem('nuke_test');
+        document.body.innerHTML += '<h1>' + val + '</h1>';
+    </script>
+    """
+    st.components.v1.html(js, height=0)
+    st.write("Check the page - do you see 'boom' in big text?")
