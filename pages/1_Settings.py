@@ -26,8 +26,22 @@ st.markdown("""
 
 st.title("⚙️ Settings & License")
 
+STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_4gM28s6GmfbO2S6cUc0sU00"
+premium = get_premium_status()
+
 # ------------------------------------------------------------------------------
-# PRIVACY BLURB (optional, before purchase)
+# STEP-BY-STEP FOR NEW USERS
+# ------------------------------------------------------------------------------
+if not premium:
+    st.info("""
+    **New here?** Here's the simple flow:
+    **1.** Click "Purchase" below → pay via Stripe → check your email for a license key
+    **2.** Paste the key in the box below → click "Activate"
+    **3.** Go to Daily Log and start tracking!
+    """)
+
+# ------------------------------------------------------------------------------
+# PRIVACY BLURB
 # ------------------------------------------------------------------------------
 st.markdown("""
 <div style="background: #F4F9F6; padding: 0.8rem 1rem; border-radius: 12px; margin-bottom: 1rem; font-size: 0.9rem;">
@@ -47,9 +61,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_4gM28s6GmfbO2S6cUc0sU00"
-premium = get_premium_status()
-
 st.subheader("🔑 Lifetime Access")
 
 if premium:
@@ -59,9 +70,7 @@ if premium:
     with st.expander("📧 Lost your license key?"):
         st.markdown("""
         Your license key was emailed to you after purchase. **Search your inbox** for "Lymphie Sanctuary" to find it.
-        
         Still can't find it? Email **info@thelymphiesanctuary.com** with the email address you used to purchase, and I'll look up your key and resend it.
-        
         *Note: Only your email and license key are stored on a secure server to enable key validation. No health data or personal logs are ever stored.*
         """)
     if st.button("Remove License (for testing)", type="secondary"):
@@ -86,14 +95,12 @@ else:
     if st.button("🔓 Activate License Key", type="primary", key="activate_btn"):
         if license_key:
             key = license_key.strip()
-            
             if key == "TEST-1234-ABCD-5678":
                 set_premium_status(True)
                 st.success("✅ License activated! You now have lifetime access.")
                 st.balloons()
                 time.sleep(2)
                 st.rerun()
-            
             try:
                 import requests
                 response = requests.post(
@@ -114,43 +121,52 @@ else:
         else:
             st.warning("Please enter a license key.")
 
+# ------------------------------------------------------------------------------
+# DATA MANAGEMENT (collapsed)
+# ------------------------------------------------------------------------------
 st.divider()
-st.subheader("🗂️ Data Management")
-st.markdown("All logs are stored **only in this browser's storage**.")
-col1, col2 = st.columns(2)
-with col1: st.warning("⚠️ Clearing browser cache will erase all logs.")
-with col2: st.info("📥 Export regularly from the **Export** page to keep a backup.")
-
-if st.button("🗑️ Delete ALL Local Data", type="secondary"):
-    st.session_state['confirm_delete'] = True
-if st.session_state.get('confirm_delete', False):
-    st.error("⚠️ This cannot be undone. Are you sure?")
+with st.expander("🗂️ Data Management (advanced)", expanded=False):
+    st.markdown("All logs are stored **only in this browser's storage**.")
     col1, col2 = st.columns(2)
-    with col1:
-        if st.button("✅ Yes, delete everything"):
-            from utils.database import delete_all_logs
-            delete_all_logs()
-            set_premium_status(False)
-            if "log_df" in st.session_state: del st.session_state.log_df
-            st.session_state['confirm_delete'] = False
-            st.success("All data has been erased.")
-            st.rerun()
-    with col2:
-        if st.button("❌ Cancel"): st.session_state['confirm_delete'] = False; st.rerun()
+    with col1: st.warning("⚠️ Clearing browser cache will erase all logs.")
+    with col2: st.info("📥 Export regularly from the **Export** page to keep a backup.")
+    if st.button("🗑️ Delete ALL Local Data", type="secondary"):
+        st.session_state['confirm_delete'] = True
+    if st.session_state.get('confirm_delete', False):
+        st.error("⚠️ This cannot be undone. Are you sure?")
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("✅ Yes, delete everything"):
+                from utils.database import delete_all_logs
+                delete_all_logs()
+                set_premium_status(False)
+                if "log_df" in st.session_state: del st.session_state.log_df
+                st.session_state['confirm_delete'] = False
+                st.success("All data has been erased.")
+                st.rerun()
+        with col2:
+            if st.button("❌ Cancel"): st.session_state['confirm_delete'] = False; st.rerun()
 
+# ------------------------------------------------------------------------------
+# GO TO DAILY LOG
+# ------------------------------------------------------------------------------
 st.divider()
 st.markdown("### 📝 Ready to start logging?")
 if st.button("Go to Your Daily Log", width='stretch'):
     st.switch_page("pages/2_Daily_Log.py")
 
+# ------------------------------------------------------------------------------
+# FAQS (collapsed)
+# ------------------------------------------------------------------------------
 st.divider()
-st.subheader("❓ Frequently Asked Questions")
-with st.expander("📱 How do I use this on my phone daily?"):
-    st.markdown("**iPhone:** Tap Share → Add to Home Screen. **Android:** Tap ⋮ → Add to Home Screen.")
-with st.expander("🔑 How do license keys work?"):
-    st.markdown("Sent to your email after purchase. Tied to you, not your device. Valid forever.")
-with st.expander("💾 What happens if I clear my browser cache?"):
-    st.markdown("Your logs will be permanently deleted. Export Excel backup weekly.")
+with st.expander("❓ Frequently Asked Questions", expanded=False):
+    with st.container():
+        st.markdown("**📱 How do I use this on my phone daily?**")
+        st.markdown("iPhone: Tap Share → Add to Home Screen. Android: Tap ⋮ → Add to Home Screen.")
+        st.markdown("**🔑 How do license keys work?**")
+        st.markdown("Sent to your email after purchase. Tied to you, not your device. Valid forever.")
+        st.markdown("**💾 What happens if I clear my browser cache?**")
+        st.markdown("Your logs will be permanently deleted. Export Excel backup weekly.")
 
 st.divider()
 st.caption("📧 Need help? Contact: **info@thelymphiesanctuary.com**")

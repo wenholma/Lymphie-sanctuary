@@ -340,6 +340,16 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# Medical disclaimer — unmissable
+st.markdown("""
+<div style="text-align: center; margin: 1rem 0 0.5rem 0; font-weight: 600; color: #1A3B2E; font-size: 1rem;">
+    ⚠️ This is a personal tracking tool, not medical advice.
+</div>
+""", unsafe_allow_html=True)
+
+# New purchaser banner
+st.info("🎉 **Just purchased?** Go to **Settings** → paste your license key → you're in!")
+
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     if st.button("🌿 Get Lifetime Key & Start Logging", width='stretch'):

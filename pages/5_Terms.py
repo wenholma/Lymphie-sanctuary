@@ -46,6 +46,7 @@ Lifetime Access keys are:
 - Non‑transferable — for personal use only.
 - Single‑user — one key per person.
 - Subject to revocation in cases of abuse, fraud, or unauthorized distribution.
+- **License keys are non-refundable once issued, as they are delivered instantly.**
 
 ### Limitation of Liability
 To the fullest extent permitted by law:

@@ -17,49 +17,12 @@ mobile_nav()
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
-
-    html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
-        color: #2C3E35;
-        font-size: 16px;
-    }
-    h1, h2, h3, h4 {
-        font-family: 'Nunito', sans-serif;
-        font-weight: 600;
-        color: #1A3B2E;
-    }
-
-    .stButton > button {
-        font-family: 'Nunito', sans-serif !important;
-        background-color: #2E7D5E !important;
-        color: white !important;
-        border-radius: 60px !important;
-        padding: 0.9rem 2.2rem !important;
-        border: none !important;
-        font-weight: 700 !important;
-        font-size: 1.1rem !important;
-        box-shadow: 0 4px 14px rgba(46, 125, 94, 0.15);
-        min-height: 48px;
-    }
-
-    .stDownloadButton > button {
-        font-family: 'Nunito', sans-serif !important;
-        background-color: #1E5F45 !important;
-        color: white !important;
-        border-radius: 60px !important;
-        padding: 1rem 2.4rem !important;
-        border: none !important;
-        font-weight: 700 !important;
-        font-size: 1.1rem !important;
-        min-height: 48px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-    }
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
+    html, body, [class*="css"] { font-family: 'Inter', sans-serif; color: #2C3E35; font-size: 16px; }
+    h1, h2, h3, h4 { font-family: 'Nunito', sans-serif; font-weight: 600; color: #1A3B2E; }
+    .stButton > button { font-family: 'Nunito', sans-serif !important; background-color: #2E7D5E !important; color: white !important; border-radius: 60px !important; padding: 0.9rem 2.2rem !important; border: none !important; font-weight: 700 !important; font-size: 1.1rem !important; min-height: 48px; }
+    .stDownloadButton > button { font-family: 'Nunito', sans-serif !important; background-color: #1E5F45 !important; color: white !important; border-radius: 60px !important; padding: 1rem 2.4rem !important; border: none !important; font-weight: 700 !important; font-size: 1.1rem !important; min-height: 48px; }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    #MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -70,7 +33,9 @@ premium = get_premium_status()
 logs = load_all_logs()
 
 if not logs:
-    st.info("📝 No entries yet. Head to **Daily Log** to add your first check-in.")
+    st.info("📝 No entries yet. Your daily logs will appear here once you start tracking.")
+    if st.button("📝 Go to Daily Log", width='stretch'):
+        st.switch_page("pages/2_Daily_Log.py")
     st.stop()
 
 df = pd.DataFrame(logs)
