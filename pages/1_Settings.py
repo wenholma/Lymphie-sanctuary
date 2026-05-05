@@ -26,7 +26,7 @@ st.markdown("""
 
 st.title("⚙️ Settings & License")
 
-STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_4gM28s6GmfbO2S6cUc0sU00"
+STRIPE_PAYMENT_LINK = "https://buy.stripe.com/28E4gz4iyfkhfCu0L60oM00"
 premium = get_premium_status()
 
 # ------------------------------------------------------------------------------
@@ -78,14 +78,14 @@ if premium:
         st.rerun()
 else:
     st.info("🔓 Activate your Lifetime Access key to unlock Excel export and trends.")
-    st.markdown("### 💳 Purchase Lifetime Access — $0.50 USD (Test)")
+    st.markdown("### 💳 Purchase Lifetime Access — $0.50 USD")
     st.markdown(f"""
     <div style="text-align: center; margin: 1.5rem 0;">
         <a href="{STRIPE_PAYMENT_LINK}" target="_blank" style="background-color: #2E7D5E; color: white; padding: 0.9rem 2.2rem; border-radius: 60px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; font-family: 'Nunito', sans-serif;">
-            💳 Purchase Lifetime Key ($0.50 USD Test)
+            💳 Purchase Lifetime Key ($0.50 USD)
         </a>
     </div>
-    <p style="text-align: center; font-size: 0.9rem; color: #6B7F74;">Test payment via Stripe. You'll receive your license key by email.</p>
+    <p style="text-align: center; font-size: 0.9rem; color: #6B7F74;">Secure payment via Stripe. You'll receive your license key by email.</p>
     """, unsafe_allow_html=True)
     st.divider()
     st.markdown("**Already purchased?** Paste your license key below.")
