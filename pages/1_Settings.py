@@ -5,7 +5,7 @@ import time
 sys.path.append('.')
 from utils.database import get_premium_status, set_premium_status
 
-st.set_page_config(page_title="Settings", page_icon="⚙️", layout="centered")
+st.set_page_config(page_title="Settings & License | The Lymphie Sanctuary", page_icon="⚙️", layout="centered")
 
 from utils.nav import mobile_nav
 mobile_nav()
