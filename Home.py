@@ -189,52 +189,59 @@ st.markdown("""
 
 st.markdown("""
 <div class="center-text">
-
-### Stop guessing. Start noticing.
-A **2‑minute check‑in** that helps you see connections between your body, your care, and your life.  
-No accounts. No judgement. Just clarity.
-
+<p style="font-family: 'Nunito', sans-serif; font-size: 1.4rem; font-weight: 700; color: #1A3B2E; margin-bottom: 0.2rem;">Stop guessing.</p>
+<p style="font-family: 'Nunito', sans-serif; font-size: 1.4rem; font-weight: 700; color: #1A3B2E; margin-top: 0; margin-bottom: 1rem;">Start noticing.</p>
+<p style="font-size: 1rem; color: #4A6357;">A <strong>2‑minute check‑in</strong> that helps you see connections between<br>your body, your care, and your life.</p>
+<p style="font-size: 1rem; color: #4A6357;">No accounts. No judgement. Just clarity.</p>
 </div>
 """, unsafe_allow_html=True)
 
 st.markdown("---")
 st.markdown("""
-Your daily log helps you check in with **9 key lymphoedema symptoms** each day, so you can start building a clear record of what affects you.
+Your daily log helps you check in with **key lymphoedema symptoms** each day, so you can start building a clear record of what affects you.
 """)
 
 col1, col2 = st.columns(2)
 with col1:
     st.markdown("""
-    **🦵 Limb sensations**  
+    **🦵 Limb sensations**
     Heaviness, tightness, pain — simple 0–10 scales.
 
-    **👁️ Appearance vs baseline**  
+    **👁️ Appearance vs baseline**
     Note changes in swelling or skin texture.
 
-    **📍 Affected areas**  
+    **📍 Affected areas**
     Mark exactly where you felt symptoms.
     """)
 with col2:
     st.markdown("""
-    **🧦 Compression & self‑care**  
+    **🧦 Compression & self‑care**
     Log what you wore and for how long.
 
-    **🍽️ Triggers & wellness**  
+    **🍽️ Triggers & wellness**
     Diet, stress, sleep, energy — all in one place.
 
-    **📝 Reflections**  
+    **📝 Reflections**
     Space for wins, challenges, and notes.
     """)
 
 st.markdown("---")
-st.subheader("✨ Everything included for life")
+
+# ------------------------------------------------------------------------------
+# FEATURES
+# ------------------------------------------------------------------------------
+st.markdown("""
+<h2 style="text-align: center; font-family: 'Nunito', sans-serif; color: #1A3B2E;">
+    ✨ Everything included<br>for life
+</h2>
+""", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3)
 with col1:
     st.markdown("""
     <div class="feature-card">
         <div class="feature-icon">📋</div>
-        <div class="feature-title">9 Key Symptoms</div>
+        <div class="feature-title">Key Symptoms</div>
         <div class="feature-desc">Track heaviness, pain, appearance, triggers, compression, and more — all in one place.</div>
     </div>
     """, unsafe_allow_html=True)
@@ -256,65 +263,88 @@ with col3:
     """, unsafe_allow_html=True)
 
 st.markdown("---")
-st.subheader("📖 How The Sanctuary Works")
+
+# ------------------------------------------------------------------------------
+# HOW IT WORKS
+# ------------------------------------------------------------------------------
+st.markdown("""
+<h2 style="text-align: center; font-family: 'Nunito', sans-serif; color: #1A3B2E;">
+    📖 How The Sanctuary<br>Works
+</h2>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <div style="background: linear-gradient(135deg, #F4F9F6 0%, #EAF3EE 100%); padding: 1.5rem 2rem; border-radius: 20px; margin: 1rem 0; border: 1px solid #C2D9CD;">
-
-<h4 style="margin-top: 0;">Your simple 4‑step journey 🌿</h4>
-
-**Step 1 — You're here.** This is the Home page. When you're ready, go to **Settings** to make your one‑time purchase.
-
-**Step 2 — Unlock.** Pay <strong>$9.99 once</strong> via Stripe on the Settings page. Check your email for your license key, paste it in, and activate. No subscriptions. No recurring charges. Ever.
-
-**Step 3 — Log.** Head to **Daily Log** and spend 2 minutes checking in with your body. Track 9 key lymphoedema symptoms with simple sliders and checkboxes.
-
-**Step 4 — Export.** Go to **Export** anytime to download a beautifully formatted Excel file. Share it with your CLT, doctor, or keep it for your own records.
-
+<h4 style="margin-top: 0; text-align: center;">Your simple 4‑step journey 🌿</h4>
+<p><strong>Step 1 — You're here.</strong> This is the Home page. When you're ready, go to <strong>Settings &amp; License</strong> to make your one‑time purchase.</p>
+<p><strong>Step 2 — Unlock.</strong> Pay <strong>$9.99 once-off forever</strong> via Stripe. Check your email for your license key, paste it in, and activate. No subscriptions. No recurring charges. Ever.</p>
+<p><strong>Step 3 — Log.</strong> Head to <strong>Daily Log</strong> and spend 2 minutes checking in with your body. Track key lymphoedema symptoms with simple sliders and checkboxes.</p>
+<p><strong>Step 4 — Export.</strong> Go to <strong>Export</strong> anytime to download a beautifully formatted Excel file. Share it with your lymphoedema therapist, doctor, or keep it for your own records.</p>
 </div>
 """, unsafe_allow_html=True)
 
 st.markdown("---")
 
+# ------------------------------------------------------------------------------
+# DATA & LICENSE INFO
+# ------------------------------------------------------------------------------
 col1, col2 = st.columns(2)
 with col1:
     st.markdown("""
-    **💾 Your Data Lives Here**
-    
-    - Everything saves to **this browser only**
-    - Like a private notebook on your phone
-    - We never see, store, or touch your logs
-    - Clear your cache? Data is gone — so export regularly
-    
-    *You're in complete control. Always.*
-    """)
+**💾 Your Data Lives on Your Phone Only**
+
+- All data saves to your phone browser only.
+- Like a private notebook on your phone.
+- We never see, store, or touch your logs.
+- Clear your cache? Data is gone — so export regularly.
+
+*You're in complete control. Always.*
+""")
 with col2:
     st.markdown("""
-    **🔑 Your License Stays With You**
-    
-    - Tied to your **email**, not your device
-    - Use it on your phone, tablet, or computer
-    - Lost it? Search your inbox for "Lymphie Sanctuary"
-    - One purchase = lifetime access on any device
-    
-    *No accounts. No passwords. Just a key.*
-    """)
+**🔑 Your License Stays With You**
 
+- Tied to your email, not your device.
+- Use it on your phone, tablet, or computer.
+- Lost it? Search your inbox for "Lymphie Sanctuary".
+- One purchase = lifetime access on any device.
+
+*No accounts. No passwords. Just a key.*
+""")
+
+# ------------------------------------------------------------------------------
+# FAQS
+# ------------------------------------------------------------------------------
 with st.expander("❓ What happens if I get a new phone or clear my cache?"):
     st.markdown("""
-    **If you clear your browser cache:** Your logs are removed. ✅ **Export an Excel backup regularly** (one click from Export page).
-    **If you get a new phone:** 1. On new device, go to **Settings** → paste your license key. 2. Keep a copy of your exported Excel file to reference previous logs.
+    **If you clear your browser cache:** Your logs are removed. Export an Excel backup regularly — one click from the Export page.
+
+    **If you get a new phone:** On your new device, go to **Settings & License** → paste your license key → activate. Keep a copy of your exported Excel file to reference previous logs.
+
     **Bottom line:** You own your data. Export regularly for peace of mind.
     """)
+
 with st.expander("🔒 Why no accounts or passwords?"):
-    st.markdown("Traditional apps store your health data on their servers. That means they can see it, sell it, or lose it in a breach. **The Sanctuary is local‑first.** Your logs never leave your device.")
+    st.markdown("""
+    Traditional apps store your health data on their servers. That means they can see it, sell it, or lose it in a breach.
+
+    **The Sanctuary is local‑first.** Your logs never leave your device. We only store your email and license key — nothing else.
+    """)
+
 with st.expander("📱 How do I use this daily like an app?"):
-    st.markdown("**iPhone:** Tap Share → Add to Home Screen → Name it 'Sanctuary'. **Android:** Tap ⋮ → Add to Home Screen.")
+    st.markdown("""
+    **iPhone:** Tap the **Share button** (the box with an arrow pointing up at the bottom of Safari) → scroll down and tap **Add to Home Screen** → tap **Add**. The app will appear on your home screen.
+
+    **Android:** Tap the **three dots ⋮** in the top right corner of Chrome → tap **Add to Home Screen**.
+
+    It opens like a native app — no App Store needed.
+    """)
+
 with st.expander("📧 Lost your license key?"):
     st.markdown("""
-    Search your inbox for "Lymphie Sanctuary" to find your license key email.
-    
-    Still can't find it? Email **info@thelymphiesanctuary.com** with the email you used to purchase, and I'll resend your key.
+    Search your inbox — including your **junk/spam folder** — for **"Lymphie Sanctuary"**.
+
+    Still can't find it? Email **info@thelymphiesanctuary.com** with the email address you used to purchase, and I'll resend your key within 2–3 days.
     """)
 
 # ------------------------------------------------------------------------------
@@ -323,9 +353,9 @@ with st.expander("📧 Lost your license key?"):
 st.markdown("""
 <div style="background: #F4F9F6; padding: 1.2rem 1.5rem; border-radius: 16px; margin: 1.5rem 0; border: 1px solid #C2D9CD; font-size: 0.95rem;">
     <strong>🔒 We separate your health logs from your purchase.</strong><br>
-    Your logs stay only on your device. We only store your email and license key so we can deliver and validate your purchase.<br>
-    In plain terms: <em>We know you bought a license. We have no idea what you log in it.</em><br>
-    <a href="/Privacy" target="_self">Privacy details →</a>
+    Your logs stay only on your device. We only store your email and license key so we can deliver and validate your purchase.<br><br>
+    <em>In plain terms: We know you bought a license. We have no idea what information you capture.</em><br><br>
+    <a href="/Privacy" target="_self">Privacy Policy →</a>
 </div>
 """, unsafe_allow_html=True)
 
@@ -336,30 +366,31 @@ st.markdown("""
 <div class="cta-block">
     <div class="cta-title">Ready to own your data?</div>
     <div class="price-large">$9.99 USD</div>
-    <div class="price-sub">One‑time payment. Lifetime access. <a href="/Terms" target="_self">Simple, transparent terms.</a></div>
+    <div class="price-sub">One‑time payment. Lifetime access. <a href="/Terms" target="_self" style="color: #2E7D5E;">Simple, transparent terms.</a></div>
 </div>
 """, unsafe_allow_html=True)
 
-# Medical disclaimer — unmissable
 st.markdown("""
 <div style="text-align: center; margin: 1rem 0 0.5rem 0; font-weight: 600; color: #1A3B2E; font-size: 1rem;">
     ⚠️ This is a personal tracking tool, not medical advice.
 </div>
 """, unsafe_allow_html=True)
 
-# New purchaser banner
-st.info("🎉 **Just purchased?** Go to **Settings** → paste your license key → you're in!")
+st.info("🎉 **Just purchased?** Go to **Settings & License** → paste your license key → you're in!")
 
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    if st.button("🌿 Get Lifetime Key & Start Logging", width='stretch'):
+    if st.button("🌿 Get Lifetime Key & Start Logging", use_container_width=True):
         st.switch_page("pages/1_Settings.py")
 
+# ------------------------------------------------------------------------------
+# FOOTER
+# ------------------------------------------------------------------------------
 st.markdown("""
 <div class="footer">
     © 2026 The Lymphie Sanctuary. All rights reserved.<br>
-    <a href="/Privacy" target="_self">Privacy Policy</a> · 
-    <a href="/Terms" target="_self">Terms of Service</a> · 
+    <a href="/Privacy" target="_self">Privacy Policy</a> ·
+    <a href="/Terms" target="_self">Terms of Service</a> ·
     <a href="/About" target="_self">About</a>
 </div>
 """, unsafe_allow_html=True)

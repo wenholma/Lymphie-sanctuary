@@ -34,9 +34,9 @@ premium = get_premium_status()
 # ------------------------------------------------------------------------------
 if not premium:
     st.info("""
-    **New here?** Here's the simple flow:
-    **1.** Click "Purchase" below → pay via Stripe → check your email for a license key
-    **2.** Copy and paste the key from your email into the box below → click "Activate"
+    **New here?** Here's the simple flow:\n
+    **1.** Click "Purchase" below → pay via Stripe → check your email for a license key\n
+    **2.** Copy and paste the key from your email into the box below → click "Activate"\n
     **3.** Go to Daily Log and start tracking!
     """)
 
@@ -53,8 +53,9 @@ st.markdown("""
 st.markdown("""
 <div class="green-box">
     <strong>📱 Use The Sanctuary like an app.</strong><br>
-    Tap <strong>Share → Add to Home Screen</strong> on your phone. It'll appear on your home screen and open like a native app — no App Store needed.<br><br>
-    <strong>🔒 Local‑first by design.</strong> Your logs never leave your device.<br>
+    <strong>iPhone:</strong> Tap the Share button (box with arrow) at the bottom of Safari → tap <strong>Add to Home Screen</strong>.<br>
+    <strong>Android:</strong> Tap the three dots ⋮ in Chrome → tap <strong>Add to Home Screen</strong>.<br><br>
+    <strong>🔒 Local‑first by design.</strong> Your logs never leave your device.
     No accounts. No servers. No tracking. You're not the product — you're the owner.<br><br>
     <strong>📥 Export regularly:</strong> Save your logs as a beautifully formatted Excel file. We recommend downloading a backup weekly.<br><br>
     <small>⚠️ This tool is for personal tracking only. It is not medical advice. Always consult your healthcare provider.</small>
@@ -68,21 +69,26 @@ st.subheader("🔑 Lifetime Access")
 
 if premium:
     st.success("✅ Lifetime Access active — thank you for supporting The Lymphie Sanctuary.")
+
     with st.expander("📱 Using a new device?"):
         st.markdown("""
         Your license key works on any device.
-        1. Open The Lymphie Sanctuary on your new device
-        2. Go to **Settings & License**
-        3. Paste your license key and click **Activate**
+        1. Open The Lymphie Sanctuary on your new device.
+        2. Go to **Settings & License**.
+        3. Paste your license key and click **Activate**.
         """)
+
     with st.expander("📧 Lost your license key?"):
         st.markdown("""
-        Your key was emailed to you after purchase — search your inbox (including **junk/spam**) for **"Lymphie Sanctuary"**.
+        Your key was emailed to you after purchase.
+
+        Search your inbox — including your **junk/spam folder** — for **"Lymphie Sanctuary"**.
 
         Still can't find it? Email **info@thelymphiesanctuary.com** with the email address you used to purchase and I'll resend it within 2–3 days.
 
         *Only your email and license key are stored on our secure server — no health data, ever.*
         """)
+
     if st.button("Remove License (for testing)", type="secondary"):
         set_premium_status(False)
         st.rerun()
@@ -98,13 +104,14 @@ else:
         </a>
     </div>
     <p style="text-align: center; font-size: 0.9rem; color: #6B7F74;">
-        Secure payment via Stripe. Your license key will arrive by email — check junk/spam if it doesn't appear within a few minutes.
+        Secure payment via Stripe. Your license key will arrive by email within a few minutes.<br>
+        <strong>Check your junk/spam folder</strong> if it doesn't appear in your inbox.
     </p>
     """, unsafe_allow_html=True)
 
     st.divider()
     st.markdown("**Already purchased?** Copy and paste your license key from your email below.")
-    st.caption("💡 Tip: Copy and paste directly from the email — don't type it manually to avoid errors.")
+    st.caption("💡 Tip: Copy and paste directly from the email — avoid typing manually to prevent errors.")
 
     license_key = st.text_input(
         "License Key",
@@ -114,13 +121,102 @@ else:
 
     if st.button("🔓 Activate License Key", type="primary", key="activate_btn"):
         if license_key:
-            # Clean the key — strip spaces, force uppercase, remove accidental newlines
+            # Clean the key thoroughly before validating
             key = license_key.strip().upper().replace(" ", "").replace("\n", "").replace("\r", "")
 
             # Test key shortcut
-            if key == "TEST-1234-ABCD-5678" or key == "TEST1234ABCD5678":
+            if key in ["TEST-1234-ABCD-5678", "TEST1234ABCD5678"]:
                 set_premium_status(True)
                 st.success("✅ License activated! You now have lifetime access.")
                 st.balloons()
                 time.sleep(2)
                 st.rerun()
+            else:
+                # Validate against live server
+                with st.spinner("Validating your license key — please wait..."):
+                    try:
+                        import requests
+                        response = requests.post(
+                            "https://lymphie-webhook.onrender.com/validate",
+                            json={"license_key": key},
+                            timeout=30
+                        )
+                        if response.status_code == 200 and response.json().get("valid"):
+                            set_premium_status(True)
+                            st.success("✅ License activated! You now have lifetime access.")
+                            st.balloons()
+                            time.sleep(2)
+                            st.rerun()
+                        else:
+                            st.error("""
+❌ License key not recognised. Please try:
+- Copying and pasting directly from your email
+- Checking your junk/spam folder for the correct key
+- Emailing info@thelymphiesanctuary.com if the problem continues
+                            """)
+                    except Exception:
+                        st.error("""
+❌ Could not reach the validation server. Please check your internet connection and try again.
+If the problem continues, email info@thelymphiesanctuary.com.
+                        """)
+        else:
+            st.warning("Please enter your license key.")
+
+# ------------------------------------------------------------------------------
+# DATA MANAGEMENT (collapsed)
+# ------------------------------------------------------------------------------
+st.divider()
+with st.expander("🗂️ Data Management (advanced)", expanded=False):
+    st.markdown("All logs are stored **only in this browser's storage**.")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.warning("⚠️ Clearing browser cache will erase all logs.")
+    with col2:
+        st.info("📥 Export regularly from the **Export** page to keep a backup.")
+    if st.button("🗑️ Delete ALL Local Data", type="secondary"):
+        st.session_state['confirm_delete'] = True
+    if st.session_state.get('confirm_delete', False):
+        st.error("⚠️ This cannot be undone. Are you sure?")
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("✅ Yes, delete everything"):
+                from utils.database import delete_all_logs
+                delete_all_logs()
+                set_premium_status(False)
+                if "log_df" in st.session_state:
+                    del st.session_state.log_df
+                st.session_state['confirm_delete'] = False
+                st.success("All data has been erased.")
+                st.rerun()
+        with col2:
+            if st.button("❌ Cancel"):
+                st.session_state['confirm_delete'] = False
+                st.rerun()
+
+# ------------------------------------------------------------------------------
+# GO TO DAILY LOG
+# ------------------------------------------------------------------------------
+st.divider()
+st.markdown("### 📝 Ready to start logging?")
+if st.button("Go to Your Daily Log", use_container_width=True):
+    st.switch_page("pages/2_Daily_Log.py")
+
+# ------------------------------------------------------------------------------
+# FAQS
+# ------------------------------------------------------------------------------
+st.divider()
+with st.expander("❓ Frequently Asked Questions", expanded=False):
+    st.markdown("**📱 How do I use this on my phone daily?**")
+    st.markdown("""
+    **iPhone:** Tap the Share button (box with arrow) at the bottom of Safari → tap **Add to Home Screen** → tap **Add**.
+    **Android:** Tap the three dots ⋮ in Chrome → tap **Add to Home Screen**.
+    """)
+    st.markdown("**🔑 How do license keys work?**")
+    st.markdown("Your key is emailed after purchase. It works on any device — paste it into Settings & License and click Activate. It never expires.")
+    st.markdown("**💾 What happens if I clear my browser cache?**")
+    st.markdown("Your health logs will be permanently deleted from this device. Export an Excel backup regularly from the Export page.")
+    st.markdown("**📧 I didn't receive my license key email.**")
+    st.markdown("Check your junk/spam folder and search for 'Lymphie Sanctuary'. If you still can't find it, email info@thelymphiesanctuary.com.")
+
+st.divider()
+st.caption("📧 Need help? Contact: **info@thelymphiesanctuary.com**")
