@@ -32,11 +32,11 @@ def mobile_nav():
     </style>
     <div class="mobile-nav">
         <a href="/" target="_self">🏠 Home</a>
-        <a href="/Settings" target="_self">⚙️ Settings</a>
+        <a href="/Settings" target="_self">⚙️ Settings & License</a>
         <a href="/Daily_Log" target="_self">📝 Daily Log</a>
         <a href="/Export" target="_self">📊 Export</a>
         <a href="/Privacy" target="_self">🔒 Privacy</a>
-        <a href="/Terms" target="_self">⚖️ Terms</a>
+        <a href="/Terms" target="_self">⚖️ Terms of Service</a>
         <a href="/About" target="_self">👋 About</a>
     </div>
     """, unsafe_allow_html=True)
