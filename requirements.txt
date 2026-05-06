@@ -1,5 +1,7 @@
-﻿streamlit
+streamlit
 pandas
 plotly
 fpdf2
 streamlit-javascript
+openpyxl
+requests
