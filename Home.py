@@ -277,7 +277,7 @@ st.markdown("""
 <div style="background: linear-gradient(135deg, #F4F9F6 0%, #EAF3EE 100%); padding: 1.5rem 2rem; border-radius: 20px; margin: 1rem 0; border: 1px solid #C2D9CD;">
 <h4 style="margin-top: 0; text-align: center;">Your simple 4‑step journey 🌿</h4>
 <p><strong>Step 1 — You're here.</strong> This is the Home page. When you're ready, go to <strong>Settings &amp; License</strong> to make your one‑time purchase.</p>
-<p><strong>Step 2 — Unlock.</strong> Pay <strong>$9.99 once-off forever</strong> via Stripe. Check your email for your license key, paste it in, and activate. No subscriptions. No recurring charges. Ever.</p>
+<p><strong>Step 2 — Unlock.</strong> Pay <strong>NZ$19.99 once-off forever</strong> via Stripe. Check your email for your license key, paste it in, and activate. No subscriptions. No recurring charges. Ever.</p>
 <p><strong>Step 3 — Log.</strong> Head to <strong>Daily Log</strong> and spend 2 minutes checking in with your body. Track key lymphoedema symptoms with simple sliders and checkboxes.</p>
 <p><strong>Step 4 — Export.</strong> Go to <strong>Export</strong> anytime to download a beautifully formatted Excel file. Share it with your lymphoedema therapist, doctor, or keep it for your own records.</p>
 </div>
@@ -365,7 +365,7 @@ st.markdown("""
 st.markdown("""
 <div class="cta-block">
     <div class="cta-title">Ready to own your data?</div>
-    <div class="price-large">$9.99 USD</div>
+    <div class="price-large">NZ$19.99</div>
     <div class="price-sub">One‑time payment. Lifetime access. <a href="/Terms" target="_self" style="color: #2E7D5E;">Simple, transparent terms.</a></div>
 </div>
 """, unsafe_allow_html=True)

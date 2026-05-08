@@ -27,7 +27,7 @@ st.title("🌿 Daily Lymphie Log")
 st.markdown("Track your symptoms, triggers, and wellness in under 2 minutes.")
 
 # ------------------------------------------------------------------------------
-# LICENSE GATE — must have premium to log
+# LICENSE GATE
 # ------------------------------------------------------------------------------
 premium = get_premium_status()
 if not premium:
@@ -35,7 +35,7 @@ if not premium:
     🔑 **Lifetime Access required to log entries.**
     Purchase your one-time license key on the Settings page to unlock the Daily Log, Excel export, and trends.
     """)
-    if st.button("⚙️ Go to Settings to Unlock", type="primary"):
+    if st.button("⚙️ Go to Settings & License to Unlock", type="primary"):
         st.switch_page("pages/1_Settings.py")
     st.stop()
 
@@ -68,11 +68,19 @@ def tip(text):
     st.markdown(f"<small style='color: #6B7F74;'>ℹ️ {text}</small>", unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
+# FORM RESET FLAG
+# ------------------------------------------------------------------------------
+if st.session_state.get("form_just_saved"):
+    for key in list(st.session_state.keys()):
+        if key.startswith("form_"):
+            del st.session_state[key]
+    st.session_state["form_just_saved"] = False
+
+# ------------------------------------------------------------------------------
 # DAILY LOG FORM
 # ------------------------------------------------------------------------------
 with st.form("daily_log_form"):
 
-    # DATE & TIME
     st.subheader("📅 Entry Details")
     col1, col2 = st.columns(2)
     with col1:
@@ -80,11 +88,10 @@ with st.form("daily_log_form"):
         tip("Today's date is pre-filled — change if logging for a different day.")
     with col2:
         entry_time = st.time_input("Time", value=datetime.now().time().replace(second=0, microsecond=0), key="form_time", step=300)
-        tip("Time of your check-in. Step = 5 minutes.")
+        tip("Time of your check-in. Steps in 5-minute increments.")
 
     st.divider()
 
-    # LIMB SENSATIONS
     st.subheader("🦵 Limb Sensations")
     tip("Rate how your affected limb(s) felt today overall.")
     col1, col2 = st.columns(2)
@@ -97,7 +104,6 @@ with st.form("daily_log_form"):
 
     st.divider()
 
-    # LIMB APPEARANCE
     st.subheader("👁️ Limb Appearance (vs your baseline)")
     appearance = st.selectbox("How did the limb look today?", [
         "Baseline / Normal",
@@ -105,41 +111,39 @@ with st.form("daily_log_form"):
         "Noticeable swelling (firm)",
         "Marked swelling / skin stretched"
     ], key="form_appearance")
-    tip("Baseline = your usual 'good day'. Pitting = skin indents when pressed. Marked = skin looks tight or shiny.")
+    tip("Baseline = your usual good day. Pitting = skin indents when pressed. Marked = skin looks tight or shiny.")
 
     st.divider()
 
-    # MEASUREMENTS
     st.subheader("📏 Measurements")
     measurement = st.radio(
         "Did you take a limb circumference measurement today?",
-        ["Yes — full measurement", "Yes — partial measurement", "No", "Not applicable"],
+        ["No", "Yes — full measurement", "Yes — partial measurement", "Not applicable"],
         horizontal=True, key="form_measurement"
     )
-    tip("Full = all measurement points. Partial = some points only. Not applicable = measurements aren't part of your routine.")
+    tip("Full = all measurement points. Partial = some points only. Not applicable = not part of your routine.")
 
     st.divider()
 
-    # AFFECTED AREAS
     st.subheader("📍 Affected Areas")
     affected_areas = st.multiselect(
         "Select all areas where you noticed swelling or symptoms today",
         ["Left arm", "Right arm", "Left leg", "Right leg", "Trunk", "Head/neck", "Genital area", "Other"],
         key="form_areas"
     )
-    tip("Select every area affected — you can choose multiple. Leave blank if no specific area stood out.")
+    tip("Select every area affected today. Leave blank if no specific area stood out.")
 
     st.divider()
 
-    # COMPRESSION & SELF-CARE
     st.subheader("🧦 Compression & Self-Care")
     tip("Log everything you wore or did today to manage your lymphoedema.")
     col1, col2 = st.columns(2)
     with col1:
         compression = st.multiselect(
             "Compression worn today (select all that apply)",
-            ["Not applicable", "None", "Light support (OTC)", "Circular knit (standard)",
-             "Flat knit (custom)", "Bandages / wraps", "Night garment", "Kinesio taping"],
+            ["None", "Light support (OTC)", "Circular knit (standard)",
+             "Flat knit (custom)", "Bandages / wraps", "Night garment",
+             "Kinesio taping", "Not applicable"],
             key="form_compression"
         )
         tip("Select all garments worn. E.g. day garment + night garment = select both.")
@@ -148,14 +152,15 @@ with st.form("daily_log_form"):
     with col2:
         self_care = st.multiselect(
             "Self-care performed today (select all that apply)",
-            ["None", "Self MLD", "Therapist MLD", "Dry brushing", "Elevation", "Exercise / movement", "Skin care / moisturising", "Not applicable"],
+            ["None", "Self MLD", "Therapist MLD", "Dry brushing",
+             "Elevation", "Exercise / movement", "Skin care / moisturising",
+             "Not applicable"],
             key="form_selfcare"
         )
         tip("MLD = Manual Lymphatic Drainage. Select everything you did today.")
 
     st.divider()
 
-    # TRIGGERS
     st.subheader("🍽️ Lifestyle & Triggers")
     tip("Triggers are things that may worsen lymphoedema symptoms. Select all that applied today.")
     diet_triggers = st.multiselect(
@@ -182,7 +187,6 @@ with st.form("daily_log_form"):
 
     st.divider()
 
-    # WELLNESS
     st.subheader("🧘 Wellness Context")
     tip("These help you spot connections between your overall wellbeing and your symptoms.")
     col1, col2 = st.columns(2)
@@ -203,7 +207,6 @@ with st.form("daily_log_form"):
 
     st.divider()
 
-    # REFLECTIONS
     st.subheader("📝 Reflections")
     tip("Optional but valuable — patterns often emerge from your own words over time.")
     challenge = st.text_area(
@@ -270,8 +273,11 @@ if submitted:
         save_log(new_entry)
         logs = load_all_logs()
         st.session_state.log_df = pd.DataFrame(logs)
-        st.success(f"✅ Entry saved — {len(logs)} total entries logged. Export regularly to keep a backup.")
+        st.session_state["form_just_saved"] = True
+        st.success(f"✅ Entry saved — {len(logs)} total entries logged.")
+        st.caption("💾 Export regularly from the Export page to keep a permanent backup.")
         st.balloons()
+        st.rerun()
     except Exception as e:
         st.error(f"❌ Failed to save: {e}")
 

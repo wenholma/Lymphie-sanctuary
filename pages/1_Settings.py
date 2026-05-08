@@ -26,7 +26,7 @@ st.markdown("""
 
 st.title("⚙️ Settings & License")
 
-STRIPE_PAYMENT_LINK = "https://buy.stripe.com/28E4gz4iyfkhfCu0L60oM00"
+STRIPE_PAYMENT_LINK = "https://buy.stripe.com/6oUdR97uK6NL1LE79u0oM01"
 premium = get_premium_status()
 
 # ------------------------------------------------------------------------------
@@ -96,22 +96,31 @@ if premium:
 else:
     st.info("🔓 Activate your Lifetime Access key to unlock the Daily Log, Excel export, and trends.")
 
-    st.markdown("### 💳 Purchase Lifetime Access — $9.99 USD")
+    st.markdown("### 💳 Purchase Lifetime Access — NZ$19.99")
     st.markdown(f"""
     <div style="text-align: center; margin: 1.5rem 0;">
         <a href="{STRIPE_PAYMENT_LINK}" target="_blank" style="background-color: #2E7D5E; color: white; padding: 0.9rem 2.2rem; border-radius: 60px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; font-family: 'Nunito', sans-serif;">
-            💳 Purchase Lifetime Key ($9.99 USD)
+            💳 Purchase Lifetime Key — NZ$19.99
         </a>
     </div>
     <p style="text-align: center; font-size: 0.9rem; color: #6B7F74;">
-        Secure payment via Stripe. Your license key will arrive by email within a few minutes.<br>
+        Secure one-time payment via Stripe. No subscription. No recurring charges. Ever.<br>
+        Your license key will arrive by email within a few minutes.<br>
         <strong>Check your junk/spam folder</strong> if it doesn't appear in your inbox.
     </p>
     """, unsafe_allow_html=True)
 
     st.divider()
-    st.markdown("**Already purchased?** Copy and paste your license key from your email below.")
-    st.caption("💡 Tip: Copy and paste directly from the email — avoid typing manually to prevent errors.")
+    st.markdown("**Already purchased?** Enter your license key below.")
+
+    st.markdown("""
+    <div style="background: #F4F9F6; padding: 0.8rem 1.2rem; border-radius: 12px; margin-bottom: 0.5rem; font-size: 0.85rem; color: #4A6357; border: 1px solid #C2D9CD;">
+        💡 <strong>Best method:</strong> Open your email and copy-paste the key directly into the box below.<br><br>
+        ✍️ <strong>Typing manually?</strong> Use ALL CAPS with a dash after every 4 characters:<br>
+        <code style="font-size: 1rem; letter-spacing: 1px;">LKEY-XXXX-YYYY-ZZZZ</code><br><br>
+        📱 <strong>On a phone keyboard:</strong> Double-tap Shift to lock CAPS → type 4 letters/numbers → tap the dash key → repeat.
+    </div>
+    """, unsafe_allow_html=True)
 
     license_key = st.text_input(
         "License Key",
@@ -121,10 +130,8 @@ else:
 
     if st.button("🔓 Activate License Key", type="primary", key="activate_btn"):
         if license_key:
-            # Clean the key thoroughly before validating
             key = license_key.strip().upper().replace(" ", "").replace("\n", "").replace("\r", "")
 
-            # Test key shortcut
             if key in ["TEST-1234-ABCD-5678", "TEST1234ABCD5678"]:
                 set_premium_status(True)
                 st.success("✅ License activated! You now have lifetime access.")
@@ -132,7 +139,6 @@ else:
                 time.sleep(2)
                 st.rerun()
             else:
-                # Validate against live server
                 with st.spinner("Validating your license key — please wait..."):
                     try:
                         import requests
@@ -166,13 +172,16 @@ If the problem continues, email info@thelymphiesanctuary.com.
 # DATA MANAGEMENT (collapsed)
 # ------------------------------------------------------------------------------
 st.divider()
-with st.expander("🗂️ Data Management (advanced)", expanded=False):
-    st.markdown("All logs are stored **only in this browser's storage**.")
+with st.expander("🗑️ Delete Your Local Data", expanded=False):
+    st.markdown("""
+    Your symptom logs are stored **only in this browser** on this device.
+    Use this section if you want to permanently erase all logs from this device.
+    """)
     col1, col2 = st.columns(2)
     with col1:
-        st.warning("⚠️ Clearing browser cache will erase all logs.")
+        st.warning("⚠️ Clearing browser cache will also erase all logs.")
     with col2:
-        st.info("📥 Export regularly from the **Export** page to keep a backup.")
+        st.info("📥 Export a backup first from the **Export** page.")
     if st.button("🗑️ Delete ALL Local Data", type="secondary"):
         st.session_state['confirm_delete'] = True
     if st.session_state.get('confirm_delete', False):
@@ -212,11 +221,20 @@ with st.expander("❓ Frequently Asked Questions", expanded=False):
     **Android:** Tap the three dots ⋮ in Chrome → tap **Add to Home Screen**.
     """)
     st.markdown("**🔑 How do license keys work?**")
-    st.markdown("Your key is emailed after purchase. It works on any device — paste it into Settings & License and click Activate. It never expires.")
+    st.markdown("""
+    Your key is emailed after purchase. It works on any device — paste it into
+    Settings & License and click Activate. It never expires.
+    """)
     st.markdown("**💾 What happens if I clear my browser cache?**")
-    st.markdown("Your health logs will be permanently deleted from this device. Export an Excel backup regularly from the Export page.")
+    st.markdown("""
+    Your health logs will be permanently deleted from this device.
+    Export an Excel backup regularly from the Export page.
+    """)
     st.markdown("**📧 I didn't receive my license key email.**")
-    st.markdown("Check your junk/spam folder and search for 'Lymphie Sanctuary'. If you still can't find it, email info@thelymphiesanctuary.com.")
+    st.markdown("""
+    Check your junk/spam folder and search for 'Lymphie Sanctuary'.
+    If you still can't find it, email info@thelymphiesanctuary.com.
+    """)
 
 st.divider()
 st.caption("📧 Need help? Contact: **info@thelymphiesanctuary.com**")
