@@ -87,8 +87,13 @@ with st.form("daily_log_form"):
         entry_date = st.date_input("Date", value=datetime.now().date(), key="form_date")
         tip("Today's date is pre-filled — change if logging for a different day.")
     with col2:
-        entry_time = st.time_input("Time", value=datetime.now().time().replace(second=0, microsecond=0), key="form_time", step=300)
-        tip("Time of your check-in. Steps in 5-minute increments.")
+        entry_time = st.time_input(
+            "Time",
+            value=datetime.now().time().replace(second=0, microsecond=0),
+            key="form_time",
+            step=300
+        )
+        tip("Time of your check-in — use the arrows to adjust in 5-minute steps.")
 
     st.divider()
 
@@ -212,31 +217,48 @@ with st.form("daily_log_form"):
     challenge = st.text_area(
         "Biggest challenge today?",
         placeholder="e.g., pain after walking to the letterbox, couldn't get garment on...",
-        max_chars=300, height=80, key="form_challenge"
+        max_chars=1000, height=80, key="form_challenge"
     )
+    tip("Up to 1000 characters. Paste freely — text will be cut off once the limit is reached.")
     win = st.text_area(
         "Small win today? 🌱",
         placeholder="e.g., remembered to elevate, drank 2L of water, went for a gentle walk...",
-        max_chars=300, height=80, key="form_win"
+        max_chars=1000, height=80, key="form_win"
     )
+    tip("Up to 1000 characters. Even tiny wins count — this is your space.")
     tags = st.text_input(
         "Tags (optional)",
         placeholder="e.g., flare, new garment, post-travel, good day",
         key="form_tags"
     )
-    tip("Tags help you filter and find patterns quickly in your export.")
+    tip("Tags help you filter and find patterns quickly in your export. Press Save below when done.")
 
     st.divider()
+
+    st.caption("💡 Use the Save button below to save your entry — not the Enter key.")
 
     with st.expander("🌤️ Environment (optional)", expanded=False):
         tip("Environmental conditions can affect swelling — useful if you notice weather-related patterns.")
         col1, col2 = st.columns(2)
         with col1:
-            temp = st.number_input("Temperature (°C)", value=None, step=0.5, key="form_temp")
-            tip("Outdoor or indoor temperature today.")
+            temp = st.number_input(
+                "Temperature (°C)",
+                value=None,
+                step=0.5,
+                min_value=-20.0,
+                max_value=55.0,
+                key="form_temp"
+            )
+            tip("Outdoor or indoor temperature today. Valid range: -20°C to 55°C.")
         with col2:
-            humidity = st.number_input("Humidity (%)", value=None, min_value=0, max_value=100, key="form_humidity")
-            tip("High humidity can worsen swelling for some people.")
+            humidity = st.number_input(
+                "Humidity (%)",
+                value=None,
+                min_value=0,
+                max_value=100,
+                key="form_humidity"
+            )
+            tip("High humidity can worsen swelling for some people. Enter a value between 0 and 100.")
 
     submitted = st.form_submit_button("💾 Save Today's Entry", use_container_width=True)
 
@@ -275,7 +297,7 @@ if submitted:
         st.session_state.log_df = pd.DataFrame(logs)
         st.session_state["form_just_saved"] = True
         st.success(f"✅ Entry saved — {len(logs)} total entries logged.")
-        st.caption("💾 Export regularly from the Export page to keep a permanent backup.")
+        st.caption("💾 Export regularly from the Export page to keep a permanent backup of your data.")
         st.balloons()
         st.rerun()
     except Exception as e:
