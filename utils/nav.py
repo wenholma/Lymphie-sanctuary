@@ -4,18 +4,31 @@ def mobile_nav():
     """Show navigation buttons at the top of every page for mobile users."""
     st.markdown("""
     <style>
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
-        [data-testid="stToolbar"] {visibility: hidden;}
-        [data-testid="stDecoration"] {visibility: hidden;}
-        [data-testid="stStatusWidget"] {visibility: hidden;}
-        .viewerBadge_container__1QSob {display: none;}
-        .styles_viewerBadge__1yB5_ {display: none;}
-        .viewerBadge_link__1S137 {display: none;}
-        .viewerBadge_text__1JaDK {display: none;}
-        [data-testid="collapsedControl"] {display: none;}
-        section[data-testid="stSidebar"] {display: none;}
+        #MainMenu {visibility: hidden !important;}
+        footer {visibility: hidden !important;}
+        header {visibility: hidden !important;}
+        [data-testid="stToolbar"] {visibility: hidden !important; display: none !important;}
+        [data-testid="stDecoration"] {visibility: hidden !important; display: none !important;}
+        [data-testid="stStatusWidget"] {visibility: hidden !important; display: none !important;}
+        [data-testid="collapsedControl"] {display: none !important;}
+        [data-testid="stAppViewBlockContainer"] ~ div {display: none !important;}
+        section[data-testid="stSidebar"] {display: none !important;}
+        .viewerBadge_container__1QSob {display: none !important;}
+        .styles_viewerBadge__1yB5_ {display: none !important;}
+        .viewerBadge_link__1S137 {display: none !important;}
+        .viewerBadge_text__1JaDK {display: none !important;}
+        ._profileContainer_pgbpb_53 {display: none !important;}
+        ._profile_pgbpb_61 {display: none !important;}
+        ._profilePreview_pgbpb_74 {display: none !important;}
+        a[href*="share.streamlit.io"] {display: none !important;}
+        a[href*="streamlit.io"] img {display: none !important;}
+        div[class*="profileContainer"] {display: none !important;}
+        div[class*="viewerBadge"] {display: none !important;}
+        div[class*="_profileContainer"] {display: none !important;}
+        div[class*="_profile"] {display: none !important;}
+        div[class*="stAppDeployButton"] {display: none !important;}
+        .stDeployButton {display: none !important;}
+        [data-testid="stDeployButton"] {display: none !important;}
 
         .mobile-nav {
             display: flex;
