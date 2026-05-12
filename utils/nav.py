@@ -4,6 +4,19 @@ def mobile_nav():
     """Show navigation buttons at the top of every page for mobile users."""
     st.markdown("""
     <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        [data-testid="stToolbar"] {visibility: hidden;}
+        [data-testid="stDecoration"] {visibility: hidden;}
+        [data-testid="stStatusWidget"] {visibility: hidden;}
+        .viewerBadge_container__1QSob {display: none;}
+        .styles_viewerBadge__1yB5_ {display: none;}
+        .viewerBadge_link__1S137 {display: none;}
+        .viewerBadge_text__1JaDK {display: none;}
+        [data-testid="collapsedControl"] {display: none;}
+        section[data-testid="stSidebar"] {display: none;}
+
         .mobile-nav {
             display: flex;
             flex-wrap: wrap;
