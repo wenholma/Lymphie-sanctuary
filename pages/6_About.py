@@ -25,7 +25,7 @@ st.markdown("""
 
 I'm a data scientist living with a chronic condition. I built The Lymphie Sanctuary because I needed a tool that was simple, private, and actually helpful — not another subscription with a dashboard of ads.
 
-This is a one‑person project, made with care for the lymphoedema community. I hope it brings you clarity and a little less overwhelm.
+This is a one‑person project, made with care for the lymphoedema community. I hope it brings you clarity and a bit more breathing room.
 
 ---
 
