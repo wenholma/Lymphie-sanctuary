@@ -50,19 +50,24 @@ def mobile_nav():
             font-weight: 600;
             border: 1px solid #C2D9CD;
             white-space: nowrap;
+            cursor: pointer;
         }
         .mobile-nav a:hover {
             background: #2E7D5E;
             color: white;
         }
+        .mobile-nav a:active {
+            background: #1A3B2E;
+            color: white;
+        }
     </style>
     <div class="mobile-nav">
-        <a href="/" target="_self">🏠 Home</a>
-        <a href="/Settings" target="_self">⚙️ Settings & License</a>
-        <a href="/Daily_Log" target="_self">📝 Daily Log</a>
-        <a href="/Export" target="_self">📊 Export</a>
-        <a href="/Privacy" target="_self">🔒 Privacy Policy</a>
-        <a href="/Terms" target="_self">⚖️ Terms of Service</a>
-        <a href="/About" target="_self">👋 About</a>
+        <a href="/" target="_self" onclick="window.location.href='/'">🏠 Home</a>
+        <a href="/Settings" target="_self" onclick="window.location.href='/Settings'">⚙️ Settings & License</a>
+        <a href="/Daily_Log" target="_self" onclick="window.location.href='/Daily_Log'">📝 Daily Log</a>
+        <a href="/Export" target="_self" onclick="window.location.href='/Export'">📊 Export</a>
+        <a href="/Privacy" target="_self" onclick="window.location.href='/Privacy'">🔒 Privacy Policy</a>
+        <a href="/Terms" target="_self" onclick="window.location.href='/Terms'">⚖️ Terms of Service</a>
+        <a href="/About" target="_self" onclick="window.location.href='/About'">👋 About</a>
     </div>
     """, unsafe_allow_html=True)
