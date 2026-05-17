@@ -1,4 +1,23 @@
 import streamlit as st
+import threading
+import urllib.request
+
+# ------------------------------------------------------------------------------
+# KEEP ALIVE — prevents Streamlit from sleeping
+# ------------------------------------------------------------------------------
+def keep_alive():
+    import time
+    while True:
+        try:
+            urllib.request.urlopen('https://thelymphiesanctuary.streamlit.app')
+        except:
+            pass
+        time.sleep(240)
+
+if 'keep_alive_started' not in st.session_state:
+    st.session_state['keep_alive_started'] = True
+    thread = threading.Thread(target=keep_alive, daemon=True)
+    thread.start()
 
 st.set_page_config(
     page_title="The Lymphie Sanctuary",
