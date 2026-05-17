@@ -1,23 +1,20 @@
 import streamlit as st
-import threading
-import urllib.request
 
 # ------------------------------------------------------------------------------
-# KEEP ALIVE — prevents Streamlit from sleeping
+# REDIRECT FROM STREAMLIT CLOUD TO RENDER (ALWAYS-ON)
 # ------------------------------------------------------------------------------
-def keep_alive():
-    import time
-    while True:
-        try:
-            urllib.request.urlopen('https://thelymphiesanctuary.streamlit.app')
-        except:
-            pass
-        time.sleep(240)
+import os
 
-if 'keep_alive_started' not in st.session_state:
-    st.session_state['keep_alive_started'] = True
-    thread = threading.Thread(target=keep_alive, daemon=True)
-    thread.start()
+# Detect if running on Streamlit Cloud
+if "streamlit.app" in os.environ.get("STREAMLIT_SERVER_URL", ""):
+    st.markdown("""
+    <meta http-equiv="refresh" content="0; url=https://lymphie-sanctuary-app.onrender.com">
+    <div style="text-align: center; padding: 2rem; font-family: sans-serif;">
+        <p>Redirecting to our always-on site...</p>
+        <p><a href="https://lymphie-sanctuary-app.onrender.com">Click here</a> if nothing happens.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.stop()
 
 st.set_page_config(
     page_title="The Lymphie Sanctuary",
