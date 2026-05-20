@@ -99,41 +99,81 @@ if premium:
         workbook = writer.book
         worksheet = writer.sheets['Lymphie Sanctuary Logs']
 
+        # ── Styles ──────────────────────────────────────────────
         header_font = Font(name='Calibri', size=11, bold=True, color='FFFFFF')
         header_fill = PatternFill(start_color='2E7D5E', end_color='2E7D5E', fill_type='solid')
         header_alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+
         cell_alignment = Alignment(vertical='top', wrap_text=True)
-        thin_border = Border(
-            left=Side(style='thin', color='DDE9E2'),
-            right=Side(style='thin', color='DDE9E2'),
-            top=Side(style='thin', color='DDE9E2'),
-            bottom=Side(style='thin', color='DDE9E2')
+        cell_font = Font(name='Calibri', size=10, color='000000')
+
+        # Black border for every cell
+        black_border = Border(
+            left=Side(style='thin', color='000000'),
+            right=Side(style='thin', color='000000'),
+            top=Side(style='thin', color='000000'),
+            bottom=Side(style='thin', color='000000')
         )
 
+        # ── Column width presets (characters) ──────────────────
+        column_widths = {
+            'Date': 12,
+            'Time': 8,
+            'Heaviness (0-10)': 14,
+            'Pain (0-10)': 12,
+            'Limb Appearance': 28,
+            'Measurement Taken': 22,
+            'Affected Areas': 30,
+            'Compression Worn': 28,
+            'Compression Hours': 16,
+            'Home Self-Care': 30,
+            'Professional Treatment': 30,
+            'Movement & Exercise': 28,
+            'Dietary Triggers': 28,
+            'Environmental Triggers': 30,
+            'Health Triggers': 28,
+            'Stress (0-10)': 12,
+            'Sleep Quality': 18,
+            'Energy (0-10)': 12,
+            'Mobility (0-10)': 14,
+            'Self-Compassion (0-10)': 18,
+            'Biggest Challenge': 45,
+            'Small Win': 45,
+            'Temperature (°C)': 16,
+            'Humidity (%)': 14,
+            'Tags': 25
+        }
+
+        # ── Format all cells ────────────────────────────────────
         for col_idx in range(1, len(df_export.columns) + 1):
             cell = worksheet.cell(row=1, column=col_idx)
             cell.font = header_font
             cell.fill = header_fill
             cell.alignment = header_alignment
-            cell.border = thin_border
+            cell.border = black_border
+
+            # Apply column width
+            col_name = df_export.columns[col_idx - 1]
+            if col_name in column_widths:
+                worksheet.column_dimensions[get_column_letter(col_idx)].width = column_widths[col_name]
+            else:
+                worksheet.column_dimensions[get_column_letter(col_idx)].width = 20
 
         for row_idx in range(2, len(df_export) + 2):
             for col_idx in range(1, len(df_export.columns) + 1):
                 cell = worksheet.cell(row=row_idx, column=col_idx)
                 cell.alignment = cell_alignment
-                cell.border = thin_border
-                cell.font = Font(name='Calibri', size=10)
+                cell.border = black_border
+                cell.font = cell_font
 
-        for col_idx, col_name in enumerate(df_export.columns, 1):
-            max_length = len(str(col_name)) + 2
-            for row in range(2, len(df_export) + 2):
-                cell_value = str(worksheet.cell(row=row, column=col_idx).value or '')
-                max_length = max(max_length, len(cell_value))
-            worksheet.column_dimensions[get_column_letter(col_idx)].width = min(max_length + 2, 40)
+        # Row heights
+        worksheet.row_dimensions[1].height = 30
+        for row_idx in range(2, len(df_export) + 2):
+            worksheet.row_dimensions[row_idx].height = 22
 
+        # Freeze & filter
         worksheet.freeze_panes = 'A2'
         worksheet.auto_filter.ref = f"A1:{get_column_letter(len(df_export.columns))}{len(df_export) + 1}"
-        worksheet.row_dimensions[1].height = 25
 
     output.seek(0)
     excel_data = output.read()
@@ -147,6 +187,7 @@ if premium:
     )
 
     st.success("✅ Lifetime Access active — export anytime.")
+    st.caption("✨ Your Excel file includes formatted headers, black professional borders, auto-sized columns, and is ready to share with your CLT or doctor.")
 
 else:
     st.warning("✨ Full Export requires Lifetime Access")
