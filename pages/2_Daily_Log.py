@@ -149,7 +149,7 @@ with st.form("daily_log_form"):
 
     compression = st.multiselect(
         "Compression worn today (select all that apply)",
-        ["None", "Light support (OTC)", "Circular knit (standard)",
+        ["None", "Light support (over-the-counter compression)", "Circular knit (standard)",
          "Flat knit (custom)", "Bandages / wraps", "Night garment",
          "Kinesio taping", "Not applicable"],
         key="form_compression"
