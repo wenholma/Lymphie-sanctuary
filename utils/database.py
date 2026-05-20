@@ -6,7 +6,7 @@ import os
 DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "lymphie_logs.db")
 
 def init_db():
-    """Create the logs table if it doesn't exist."""
+    """Create the logs table if it doesn't exist, and migrate if needed."""
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute('''
@@ -22,6 +22,8 @@ def init_db():
             compression_type TEXT,
             compression_hours INTEGER,
             self_care TEXT,
+            professional_treatment TEXT,
+            movement_exercise TEXT,
             dietary_triggers TEXT,
             environmental_triggers TEXT,
             health_triggers TEXT,
@@ -39,6 +41,17 @@ def init_db():
         )
     ''')
     conn.commit()
+
+    # Safe migration — add new columns if they don't exist yet
+    existing_columns = [row[1] for row in c.execute("PRAGMA table_info(logs)").fetchall()]
+    new_columns = {
+        "professional_treatment": "TEXT",
+        "movement_exercise": "TEXT"
+    }
+    for col_name, col_type in new_columns.items():
+        if col_name not in existing_columns:
+            c.execute(f"ALTER TABLE logs ADD COLUMN {col_name} {col_type}")
+    conn.commit()
     conn.close()
 
 def save_log(entry_dict):
@@ -46,15 +59,16 @@ def save_log(entry_dict):
     init_db()
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    
+
     columns = [
         "date", "time", "heaviness", "pain", "limb_appearance", "measurement_taken",
         "affected_areas", "compression_type", "compression_hours", "self_care",
+        "professional_treatment", "movement_exercise",
         "dietary_triggers", "environmental_triggers", "health_triggers", "stress",
         "sleep_quality", "energy", "mobility", "self_compassion", "biggest_challenge",
         "small_win", "temperature", "humidity", "tags"
     ]
-    
+
     mapping = {
         "Date": "date",
         "Time": "time",
@@ -66,6 +80,8 @@ def save_log(entry_dict):
         "Compression Type": "compression_type",
         "Compression Hours": "compression_hours",
         "Self Care": "self_care",
+        "Professional Treatment": "professional_treatment",
+        "Movement & Exercise": "movement_exercise",
         "Dietary Triggers": "dietary_triggers",
         "Environmental Triggers": "environmental_triggers",
         "Health Triggers": "health_triggers",
@@ -80,17 +96,16 @@ def save_log(entry_dict):
         "Humidity": "humidity",
         "Tags": "tags"
     }
-    
+
     values = {}
     for form_key, db_col in mapping.items():
         val = entry_dict.get(form_key, "")
         if val == "":
             val = None
         values[db_col] = val
-    
+
     placeholders = ", ".join(["?" for _ in columns])
     sql = f"INSERT INTO logs ({', '.join(columns)}) VALUES ({placeholders})"
-    
     c.execute(sql, [values[col] for col in columns])
     conn.commit()
     conn.close()

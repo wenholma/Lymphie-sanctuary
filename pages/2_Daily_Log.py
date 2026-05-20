@@ -59,6 +59,7 @@ if "log_df" not in st.session_state:
         st.session_state.log_df = pd.DataFrame(columns=[
             "Date", "Time", "Heaviness", "Pain", "Limb Appearance", "Measurement Taken",
             "Affected Areas", "Compression Type", "Compression Hours", "Self Care",
+            "Professional Treatment", "Movement & Exercise",
             "Dietary Triggers", "Environmental Triggers", "Health Triggers", "Stress",
             "Sleep Quality", "Energy", "Mobility", "Self Compassion", "Biggest Challenge",
             "Small Win", "Temperature", "Humidity", "Tags"
@@ -140,29 +141,102 @@ with st.form("daily_log_form"):
 
     st.divider()
 
+    # ------------------------------------------------------------------------------
+    # COMPRESSION & SELF-CARE — EXPANDED
+    # ------------------------------------------------------------------------------
     st.subheader("🧦 Compression & Self-Care")
     tip("Log everything you wore or did today to manage your lymphoedema.")
-    col1, col2 = st.columns(2)
-    with col1:
-        compression = st.multiselect(
-            "Compression worn today (select all that apply)",
-            ["None", "Light support (OTC)", "Circular knit (standard)",
-             "Flat knit (custom)", "Bandages / wraps", "Night garment",
-             "Kinesio taping", "Not applicable"],
-            key="form_compression"
-        )
-        tip("Select all garments worn. E.g. day garment + night garment = select both.")
-        compression_hours = st.slider("Total hours of compression worn today", 0, 24, 0, key="form_comp_hours")
-        tip("Approximate total hours across all garments combined.")
-    with col2:
-        self_care = st.multiselect(
-            "Self-care performed today (select all that apply)",
-            ["None", "Self MLD", "Therapist MLD", "Dry brushing",
-             "Elevation", "Exercise / movement", "Skin care / moisturising",
-             "Not applicable"],
-            key="form_selfcare"
-        )
-        tip("MLD = Manual Lymphatic Drainage. Select everything you did today.")
+
+    compression = st.multiselect(
+        "Compression worn today (select all that apply)",
+        ["None", "Light support (OTC)", "Circular knit (standard)",
+         "Flat knit (custom)", "Bandages / wraps", "Night garment",
+         "Kinesio taping", "Not applicable"],
+        key="form_compression"
+    )
+    tip("Select all garments worn. E.g. day garment + night garment = select both.")
+
+    compression_hours = st.slider("Total hours of compression worn today", 0, 24, 0, key="form_comp_hours")
+    tip("Approximate total hours across all garments combined.")
+
+    st.divider()
+
+    st.subheader("🙌 Home Self-Care Today")
+    tip("Select everything you did yourself at home to support your lymphoedema management.")
+    self_care = st.multiselect(
+        "Home self-care performed today (select all that apply)",
+        [
+            "None",
+            "Self MLD",
+            "Dry brushing",
+            "Elevation",
+            "Lymphatic breathing / breathwork",
+            "Rebounding (mini trampoline)",
+            "Lymphatic yoga / stretching",
+            "Walking with compression",
+            "Skin care / moisturising",
+            "Cold / warm therapy",
+            "Diaphragmatic breathing",
+            "Not applicable"
+        ],
+        key="form_selfcare"
+    )
+    tip("MLD = Manual Lymphatic Drainage. Select everything you did yourself today.")
+
+    st.divider()
+
+    st.subheader("🏥 Professional Treatments Received Today")
+    tip("Did you receive any professional or clinical treatment today? Select all that apply.")
+    professional_treatment = st.multiselect(
+        "Professional treatments received today (select all that apply)",
+        [
+            "None",
+            "Therapist MLD — Vodder method",
+            "Therapist MLD — Földi method",
+            "Therapist MLD — Casley-Smith method",
+            "Therapist MLD — Leduc method",
+            "Therapist MLD — other method",
+            "Decongestive Lymphatic Therapy (DLT/CDT)",
+            "Deep Oscillation Therapy",
+            "Lymphastim / Pneumatic Compression (IPC)",
+            "Low Level Laser Therapy (LLLT)",
+            "Bowen Therapy / NST",
+            "Reflexology / Lymphatic Reflexology (RLD)",
+            "Vacuflex",
+            "Myofascial Release",
+            "Craniosacral Therapy",
+            "Acupuncture",
+            "Sound Therapy",
+            "Remedial / Therapeutic Massage",
+            "Other professional treatment",
+            "Not applicable"
+        ],
+        key="form_professional"
+    )
+    tip("These are treatments performed by a qualified therapist or clinician.")
+
+    st.divider()
+
+    st.subheader("🏃 Movement & Exercise Today")
+    tip("Movement is one of the most powerful tools for managing lymphoedema — log what you did.")
+    movement_exercise = st.multiselect(
+        "Movement & exercise today (select all that apply)",
+        [
+            "None",
+            "Gentle walking",
+            "Swimming / aqua therapy",
+            "Aqua Lymphatic Therapy",
+            "Lymphatic yoga",
+            "Pilates",
+            "Rebounding",
+            "Guided exercise programme",
+            "Breathwork for lymphatic flow",
+            "Other movement",
+            "Not applicable"
+        ],
+        key="form_movement"
+    )
+    tip("Even gentle walking counts — select everything that applies.")
 
     st.divider()
 
@@ -277,6 +351,8 @@ if submitted:
         "Compression Type": ", ".join(compression) if compression else "",
         "Compression Hours": compression_hours,
         "Self Care": ", ".join(self_care) if self_care else "",
+        "Professional Treatment": ", ".join(professional_treatment) if professional_treatment else "",
+        "Movement & Exercise": ", ".join(movement_exercise) if movement_exercise else "",
         "Dietary Triggers": ", ".join(diet_triggers) if diet_triggers else "",
         "Environmental Triggers": ", ".join(env_triggers) if env_triggers else "",
         "Health Triggers": ", ".join(health_triggers) if health_triggers else "",
