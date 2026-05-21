@@ -66,4 +66,4 @@ I read every email (though replies may take 2–3 days).
 To everyone managing lymphoedema — you're doing enough already. I hope The Sanctuary makes tracking one small part of your day a little easier.
 
 <div class="signature">— Marece</div>
-""")
+""", unsafe_allow_html=True)
