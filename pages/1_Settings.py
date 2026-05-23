@@ -19,6 +19,7 @@ st.markdown("""
     .stButton > button[kind="secondary"] { background-color: #FFFFFF !important; color: #2E7D5E !important; border: 2px solid #2E7D5E !important; }
     .stTextInput > div > div > input { border-radius: 12px !important; border: 2px solid #E2EDE6 !important; padding: 0.8rem 1rem !important; font-size: 1rem !important; min-height: 48px; }
     .green-box { background: linear-gradient(135deg, #EAF3EE 0%, #D4E8DC 100%); border-left: 6px solid #2E7D5E; padding: 1.4rem 1.8rem; border-radius: 20px; margin: 2rem 0 1.5rem 0; }
+    .activation-box { background: linear-gradient(135deg, #FFFDF5 0%, #FFF9E6 100%); border: 2px solid #E6C940; padding: 1.4rem 1.8rem; border-radius: 20px; margin: 1rem 0 2rem 0; }
     @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
     #MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}
 </style>
@@ -29,42 +30,9 @@ st.title("⚙️ Settings & License")
 STRIPE_PAYMENT_LINK = "https://buy.stripe.com/6oUdR97uK6NL1LE79u0oM01"
 premium = get_premium_status()
 
-# ------------------------------------------------------------------------------
-# NEW USER FLOW GUIDE
-# ------------------------------------------------------------------------------
-if not premium:
-    st.info("""
-    **New here?** Here's the simple flow:\n
-    **1.** Click "Purchase" below → pay via Stripe → check your email for a license key\n
-    **2.** Copy and paste the key from your email into the box below → click "Activate"\n
-    **3.** Go to Daily Log and start tracking!
-    """)
-
-# ------------------------------------------------------------------------------
-# PRIVACY BLURB
-# ------------------------------------------------------------------------------
-st.markdown("""
-<div style="background: #F4F9F6; padding: 0.8rem 1rem; border-radius: 12px; margin-bottom: 1rem; font-size: 0.9rem;">
-    🔒 Your health data stays on your device. We only store your email + license key.
-    <a href="/Privacy" target="_self">Privacy Policy →</a>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="green-box">
-    <strong>📱 Use The Sanctuary like an app.</strong><br>
-    <strong>iPhone:</strong> Tap the Share button (box with arrow) at the bottom of Safari → tap <strong>Add to Home Screen</strong>.<br>
-    <strong>Android:</strong> Tap the three dots ⋮ in Chrome → tap <strong>Add to Home Screen</strong>.<br><br>
-    <strong>🔒 Local‑first by design.</strong> Your logs never leave your device.
-    No accounts. No servers. No tracking. You're not the product — you're the owner.<br><br>
-    <strong>📥 Export regularly:</strong> Save your logs as a beautifully formatted Excel file. We recommend downloading a backup weekly.<br><br>
-    <small>⚠️ This tool is for personal tracking only. It is not medical advice. Always consult your healthcare provider.</small>
-</div>
-""", unsafe_allow_html=True)
-
-# ------------------------------------------------------------------------------
-# LIFETIME ACCESS
-# ------------------------------------------------------------------------------
+# ═══════════════════════════════════════════════════════════════
+# LICENSE ACTIVATION — MOVED TO THE VERY TOP
+# ═══════════════════════════════════════════════════════════════
 st.subheader("🔑 Lifetime Access")
 
 if premium:
@@ -94,31 +62,11 @@ if premium:
         st.rerun()
 
 else:
-    st.info("🔓 Activate your Lifetime Access key to unlock the Daily Log, Excel export, and trends.")
-
-    st.markdown("### 💳 Purchase Lifetime Access — NZ$19.99")
-    st.markdown(f"""
-    <div style="text-align: center; margin: 1.5rem 0;">
-        <a href="{STRIPE_PAYMENT_LINK}" target="_blank" style="background-color: #2E7D5E; color: white; padding: 0.9rem 2.2rem; border-radius: 60px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; font-family: 'Nunito', sans-serif;">
-            💳 Purchase Lifetime Key — NZ$19.99
-        </a>
-    </div>
-    <p style="text-align: center; font-size: 0.9rem; color: #6B7F74;">
-        Secure one-time payment via Stripe. No subscription. No recurring charges. Ever.<br>
-        Your license key will arrive by email within a few minutes.<br>
-        <strong>Check your junk/spam folder</strong> if it doesn't appear in your inbox.
-    </p>
-    """, unsafe_allow_html=True)
-
-    st.divider()
-    st.markdown("**Already purchased?** Enter your license key below.")
-
+    # Prominent activation box at the top
     st.markdown("""
-    <div style="background: #F4F9F6; padding: 0.8rem 1.2rem; border-radius: 12px; margin-bottom: 0.5rem; font-size: 0.85rem; color: #4A6357; border: 1px solid #C2D9CD;">
-        💡 <strong>Best method:</strong> Open your email and copy-paste the key directly into the box below.<br><br>
-        ✍️ <strong>Typing manually?</strong> Use ALL CAPS with a dash after every 4 characters:<br>
-        <code style="font-size: 1rem; letter-spacing: 1px;">LKEY-XXXX-YYYY-ZZZZ</code><br><br>
-        📱 <strong>On a phone keyboard:</strong> Double-tap Shift to lock CAPS → type 4 letters/numbers → tap the dash key → repeat.
+    <div class="activation-box">
+        <h3 style="margin-top: 0; color: #1A3B2E;">🔑 Already purchased?</h3>
+        <p style="margin-bottom: 0.5rem; font-weight: 600;">Enter your license key here to unlock everything.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -127,6 +75,14 @@ else:
         placeholder="LKEY-XXXX-YYYY-ZZZZ",
         key="license_key_input"
     )
+
+    st.markdown("""
+    <div style="background: #F4F9F6; padding: 0.8rem 1.2rem; border-radius: 12px; margin-bottom: 0.5rem; font-size: 0.85rem; color: #4A6357; border: 1px solid #C2D9CD;">
+        💡 <strong>Best method:</strong> Open your email and copy-paste the key directly into the box above.<br>
+        ✍️ <strong>Typing manually?</strong> Use ALL CAPS with a dash after every 4 characters: <code style="font-size: 1rem; letter-spacing: 1px;">LKEY-XXXX-YYYY-ZZZZ</code><br>
+        📱 <strong>On a phone:</strong> Double-tap Shift to lock CAPS → type 4 letters/numbers → tap dash → repeat.
+    </div>
+    """, unsafe_allow_html=True)
 
     if st.button("🔓 Activate License Key", type="primary", key="activate_btn"):
         if license_key:
@@ -168,9 +124,57 @@ If the problem continues, email info@thelymphiesanctuary.com.
         else:
             st.warning("Please enter your license key.")
 
-# ------------------------------------------------------------------------------
-# DATA MANAGEMENT (collapsed)
-# ------------------------------------------------------------------------------
+    st.divider()
+
+    # Purchase section — now below the activation box
+    st.markdown("### 💳 Don't have a key yet?")
+    st.markdown(f"""
+    <div style="text-align: center; margin: 1.5rem 0;">
+        <a href="{STRIPE_PAYMENT_LINK}" target="_blank" style="background-color: #2E7D5E; color: white; padding: 0.9rem 2.2rem; border-radius: 60px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; font-family: 'Nunito', sans-serif;">
+            💳 Purchase Lifetime Key — NZ$19.99
+        </a>
+    </div>
+    <p style="text-align: center; font-size: 0.9rem; color: #6B7F74;">
+        Secure one-time payment via Stripe. No subscription. No recurring charges. Ever.<br>
+        Your license key will arrive by email within a few minutes.<br>
+        <strong>Check your junk/spam folder</strong> if it doesn't appear in your inbox.
+    </p>
+    """, unsafe_allow_html=True)
+
+    # New user flow guide — now at the bottom
+    st.info("""
+    **New here?** Here's the simple flow:\n
+    **1.** Click "Purchase" above → pay via Stripe → check your email for a license key\n
+    **2.** Copy and paste the key from your email into the box at the top → click "Activate"\n
+    **3.** Go to Daily Log and start tracking!
+    """)
+
+# ═══════════════════════════════════════════════════════════════
+# PRIVACY & INFO (below activation)
+# ═══════════════════════════════════════════════════════════════
+st.divider()
+st.markdown("""
+<div style="background: #F4F9F6; padding: 0.8rem 1rem; border-radius: 12px; margin-bottom: 1rem; font-size: 0.9rem;">
+    🔒 Your health data stays on your device. We only store your email + license key.
+    <a href="/Privacy" target="_self">Privacy Policy →</a>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="green-box">
+    <strong>📱 Use The Sanctuary like an app.</strong><br>
+    <strong>iPhone:</strong> Tap the Share button (box with arrow) at the bottom of Safari → tap <strong>Add to Home Screen</strong>.<br>
+    <strong>Android:</strong> Tap the three dots ⋮ in Chrome → tap <strong>Add to Home Screen</strong>.<br><br>
+    <strong>🔒 Local‑first by design.</strong> Your logs never leave your device.
+    No accounts. No servers. No tracking. You're not the product — you're the owner.<br><br>
+    <strong>📥 Export regularly:</strong> Save your logs as a beautifully formatted Excel file. We recommend downloading a backup weekly.<br><br>
+    <small>⚠️ This tool is for personal tracking only. It is not medical advice. Always consult your healthcare provider.</small>
+</div>
+""", unsafe_allow_html=True)
+
+# ═══════════════════════════════════════════════════════════════
+# DATA MANAGEMENT
+# ═══════════════════════════════════════════════════════════════
 st.divider()
 with st.expander("🗑️ Delete Your Local Data", expanded=False):
     st.markdown("""
@@ -202,17 +206,17 @@ with st.expander("🗑️ Delete Your Local Data", expanded=False):
                 st.session_state['confirm_delete'] = False
                 st.rerun()
 
-# ------------------------------------------------------------------------------
+# ═══════════════════════════════════════════════════════════════
 # GO TO DAILY LOG
-# ------------------------------------------------------------------------------
+# ═══════════════════════════════════════════════════════════════
 st.divider()
 st.markdown("### 📝 Ready to start logging?")
 if st.button("Go to Your Daily Log", use_container_width=True):
     st.switch_page("pages/2_Daily_Log.py")
 
-# ------------------------------------------------------------------------------
+# ═══════════════════════════════════════════════════════════════
 # FAQS
-# ------------------------------------------------------------------------------
+# ═══════════════════════════════════════════════════════════════
 st.divider()
 with st.expander("❓ Frequently Asked Questions", expanded=False):
     st.markdown("**📱 How do I use this on my phone daily?**")
