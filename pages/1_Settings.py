@@ -88,39 +88,33 @@ else:
         if license_key:
             key = license_key.strip().upper().replace(" ", "").replace("\n", "").replace("\r", "")
 
-            if key in ["TEST-1234-ABCD-5678", "TEST1234ABCD5678"]:
-                set_premium_status(True)
-                st.success("✅ License activated! You now have lifetime access.")
-                st.balloons()
-                time.sleep(2)
-                st.rerun()
-            else:
-                with st.spinner("Validating your license key — please wait..."):
-                    try:
-                        import requests
-                        response = requests.post(
-                            "https://lymphie-webhook.onrender.com/validate",
-                            json={"license_key": key},
-                            timeout=30
-                        )
-                        if response.status_code == 200 and response.json().get("valid"):
-                            set_premium_status(True)
-                            st.success("✅ License activated! You now have lifetime access.")
-                            st.balloons()
-                            time.sleep(2)
-                            st.rerun()
-                        else:
-                            st.error("""
+            # All keys validated against the server — no test bypass
+            with st.spinner("Validating your license key — please wait..."):
+                try:
+                    import requests
+                    response = requests.post(
+                        "https://lymphie-webhook.onrender.com/validate",
+                        json={"license_key": key},
+                        timeout=30
+                    )
+                    if response.status_code == 200 and response.json().get("valid"):
+                        set_premium_status(True)
+                        st.success("✅ License activated! You now have lifetime access.")
+                        st.balloons()
+                        time.sleep(2)
+                        st.rerun()
+                    else:
+                        st.error("""
 ❌ License key not recognised. Please try:
 - Copying and pasting directly from your email
 - Checking your junk/spam folder for the correct key
 - Emailing info@thelymphiesanctuary.com if the problem continues
-                            """)
-                    except Exception:
-                        st.error("""
+                        """)
+                except Exception:
+                    st.error("""
 ❌ Could not reach the validation server. Please check your internet connection and try again.
 If the problem continues, email info@thelymphiesanctuary.com.
-                        """)
+                    """)
         else:
             st.warning("Please enter your license key.")
 
