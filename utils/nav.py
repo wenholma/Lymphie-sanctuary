@@ -60,23 +60,12 @@ def mobile_nav():
             background: #1A3B2E;
             color: white;
         }
-        /* Highlight the Coming Soon button slightly */
-        .mobile-nav a.whats-coming {
-            border-color: #E6C940;
-            color: #1A3B2E;
-            background: #FFF9E6;
-        }
-        .mobile-nav a.whats-coming:hover {
-            background: #E6C940;
-            color: #1A3B2E;
-        }
     </style>
     <div class="mobile-nav">
         <a href="/" target="_self" onclick="window.location.href='/'">🏠 Home</a>
         <a href="/Settings" target="_self" onclick="window.location.href='/Settings'">⚙️ Settings & License</a>
         <a href="/Daily_Log" target="_self" onclick="window.location.href='/Daily_Log'">📝 Daily Log</a>
         <a href="/Export" target="_self" onclick="window.location.href='/Export'">📊 Export</a>
-        <a href="/Whats_Coming" target="_self" class="whats-coming" onclick="window.location.href='/Whats_Coming'">🚀 What's Coming</a>
         <a href="/Privacy" target="_self" onclick="window.location.href='/Privacy'">🔒 Privacy Policy</a>
         <a href="/Terms" target="_self" onclick="window.location.href='/Terms'">⚖️ Terms of Service</a>
         <a href="/About" target="_self" onclick="window.location.href='/About'">👋 About</a>
