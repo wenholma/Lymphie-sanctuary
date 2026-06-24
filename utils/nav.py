@@ -66,6 +66,7 @@ def mobile_nav():
         <a href="/Settings" target="_self" onclick="window.location.href='/Settings'">⚙️ Settings & License</a>
         <a href="/Daily_Log" target="_self" onclick="window.location.href='/Daily_Log'">📝 Daily Log</a>
         <a href="/Export" target="_self" onclick="window.location.href='/Export'">📊 Export</a>
+        <a href="/Media" target="_self" onclick="window.location.href='/Media'">🎙️ Media</a>
         <a href="/Privacy" target="_self" onclick="window.location.href='/Privacy'">🔒 Privacy Policy</a>
         <a href="/Terms" target="_self" onclick="window.location.href='/Terms'">⚖️ Terms of Service</a>
         <a href="/About" target="_self" onclick="window.location.href='/About'">👋 About</a>
