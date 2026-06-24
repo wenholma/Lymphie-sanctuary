@@ -31,8 +31,8 @@ def mobile_nav():
         [data-testid="stDeployButton"] {display: none !important;}
 
         .mobile-nav {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 0.4rem;
             justify-content: center;
             margin-bottom: 1rem;
@@ -43,14 +43,15 @@ def mobile_nav():
         .mobile-nav a {
             background: white;
             color: #2E7D5E;
-            padding: 0.5rem 0.8rem;
+            padding: 0.5rem 0.4rem;
             border-radius: 20px;
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             border: 1px solid #C2D9CD;
             white-space: nowrap;
             cursor: pointer;
+            text-align: center;
         }
         .mobile-nav a:hover {
             background: #2E7D5E;
@@ -67,8 +68,8 @@ def mobile_nav():
         <a href="/Daily_Log" target="_self" onclick="window.location.href='/Daily_Log'">📝 Daily Log</a>
         <a href="/Export" target="_self" onclick="window.location.href='/Export'">📊 Export</a>
         <a href="/Media" target="_self" onclick="window.location.href='/Media'">🎙️ Media</a>
-        <a href="/Privacy" target="_self" onclick="window.location.href='/Privacy'">🔒 Privacy Policy</a>
-        <a href="/Terms" target="_self" onclick="window.location.href='/Terms'">⚖️ Terms of Service</a>
+        <a href="/Privacy" target="_self" onclick="window.location.href='/Privacy'">🔒 Privacy</a>
+        <a href="/Terms" target="_self" onclick="window.location.href='/Terms'">⚖️ Terms</a>
         <a href="/About" target="_self" onclick="window.location.href='/About'">👋 About</a>
     </div>
     """, unsafe_allow_html=True)
