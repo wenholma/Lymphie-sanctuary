@@ -33,20 +33,20 @@ def mobile_nav():
         .mobile-nav {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 0.4rem;
+            gap: 0.5rem;
             justify-content: center;
             margin-bottom: 1rem;
-            padding: 0.5rem;
+            padding: 0.6rem;
             background: #F4F9F6;
             border-radius: 16px;
         }
         .mobile-nav a {
             background: white;
             color: #2E7D5E;
-            padding: 0.5rem 0.4rem;
+            padding: 0.6rem 0.4rem;
             border-radius: 20px;
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 600;
             border: 1px solid #C2D9CD;
             white-space: nowrap;
