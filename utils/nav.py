@@ -1,7 +1,7 @@
 import streamlit as st
 
 def mobile_nav():
-    """Show navigation buttons at the top of every page for mobile users."""
+    """Show polished navigation buttons at the top of every page."""
     st.markdown("""
     <style>
         #MainMenu {visibility: hidden !important;}
@@ -30,46 +30,66 @@ def mobile_nav():
         .stDeployButton {display: none !important;}
         [data-testid="stDeployButton"] {display: none !important;}
 
-        .mobile-nav {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 0.5rem;
+        .sanctuary-nav {
+            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 1rem;
-            padding: 0.6rem;
-            background: #F4F9F6;
-            border-radius: 16px;
+            align-items: center;
+            gap: 0.6rem;
+            margin: 0 auto 1.2rem auto;
+            padding: 0.8rem 1rem;
+            background: linear-gradient(135deg, #F4F9F6 0%, #EAF3EE 100%);
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(46, 125, 94, 0.06);
         }
-        .mobile-nav a {
+
+        .sanctuary-nav a {
             background: white;
-            color: #2E7D5E;
-            padding: 0.6rem 0.4rem;
-            border-radius: 20px;
+            color: #1A3B2E;
+            padding: 0.7rem 1.2rem;
+            border-radius: 40px;
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            border: 1px solid #C2D9CD;
+            font-family: 'Nunito', sans-serif;
+            letter-spacing: -0.01em;
+            border: 1px solid #D4E8DC;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
             white-space: nowrap;
-            cursor: pointer;
-            text-align: center;
         }
-        .mobile-nav a:hover {
+
+        .sanctuary-nav a:hover {
             background: #2E7D5E;
             color: white;
+            border-color: #2E7D5E;
+            box-shadow: 0 6px 14px rgba(46, 125, 94, 0.15);
+            transform: translateY(-1px);
         }
-        .mobile-nav a:active {
+
+        .sanctuary-nav a:active {
             background: #1A3B2E;
             color: white;
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Slightly smaller text for very small screens */
+        @media (max-width: 400px) {
+            .sanctuary-nav a {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.9rem;
+            }
         }
     </style>
-    <div class="mobile-nav">
-        <a href="/" target="_self" onclick="window.location.href='/'">🏠 Home</a>
-        <a href="/Settings" target="_self" onclick="window.location.href='/Settings'">⚙️ Settings & License</a>
-        <a href="/Daily_Log" target="_self" onclick="window.location.href='/Daily_Log'">📝 Daily Log</a>
-        <a href="/Export" target="_self" onclick="window.location.href='/Export'">📊 Export</a>
-        <a href="/Media" target="_self" onclick="window.location.href='/Media'">🎙️ Media</a>
-        <a href="/Privacy" target="_self" onclick="window.location.href='/Privacy'">🔒 Privacy</a>
-        <a href="/Terms" target="_self" onclick="window.location.href='/Terms'">⚖️ Terms</a>
-        <a href="/About" target="_self" onclick="window.location.href='/About'">👋 About</a>
+    <div class="sanctuary-nav">
+        <a href="/" target="_self">🏠 Home</a>
+        <a href="/Settings" target="_self">⚙️ Settings</a>
+        <a href="/Daily_Log" target="_self">📝 Daily Log</a>
+        <a href="/Export" target="_self">📊 Export</a>
+        <a href="/Media" target="_self">🎙️ Media</a>
+        <a href="/Privacy" target="_self">🔒 Privacy</a>
+        <a href="/Terms" target="_self">⚖️ Terms</a>
+        <a href="/About" target="_self">👋 About</a>
     </div>
     """, unsafe_allow_html=True)
