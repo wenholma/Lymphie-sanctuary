@@ -86,6 +86,14 @@ st.markdown("""
         margin-top: 0.3rem;
         font-size: 0.95rem;
     }
+    .hero .credit {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.75rem;
+        color: #9BAFA6;
+        margin-top: 0.8rem;
+        font-style: italic;
+        letter-spacing: 0.03em;
+    }
 
     .center-text { text-align: center; }
 
@@ -206,6 +214,7 @@ st.markdown("""
     <h1>🌿 The Lymphie Sanctuary</h1>
     <div class="subhead">A digital notebook for managing your lymphoedema.</div>
     <div class="tagline">Your private daily symptom journal.</div>
+    <div class="credit">Designed by Marece Wenhold (PhD)</div>
 </div>
 """, unsafe_allow_html=True)
 
