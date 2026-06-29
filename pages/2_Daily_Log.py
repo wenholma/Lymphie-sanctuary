@@ -232,9 +232,26 @@ with tab_insights:
         st.stop()
 
     df = st.session_state.log_df.copy()
-    numeric_cols = ['Heaviness', 'Pain', 'Stress', 'Energy', 'Mobility', 'Self Compassion', 'Compression Hours']
-    for col in numeric_cols:
-        if col in df.columns:
+
+    # Helper to find a column regardless of naming convention
+    def get_col(df, *possible_names):
+        for name in possible_names:
+            if name in df.columns:
+                return name
+        return None
+
+    heaviness_col = get_col(df, 'Heaviness', 'heaviness')
+    pain_col = get_col(df, 'Pain', 'pain')
+    stress_col = get_col(df, 'Stress', 'stress')
+    energy_col = get_col(df, 'Energy', 'energy')
+    mobility_col = get_col(df, 'Mobility', 'mobility')
+    compassion_col = get_col(df, 'Self Compassion', 'Self-Compassion (0-10)', 'self_compassion')
+    comp_hours_col = get_col(df, 'Compression Hours', 'compression_hours')
+    sleep_col = get_col(df, 'Sleep Quality', 'sleep_quality')
+
+    # Convert numeric columns
+    for col in [heaviness_col, pain_col, stress_col, energy_col, mobility_col, compassion_col, comp_hours_col]:
+        if col and col in df.columns:
             df[col] = pd.to_numeric(df[col], errors='coerce')
 
     today = df.iloc[0]
@@ -242,41 +259,80 @@ with tab_insights:
 
     # ---- TREND CARDS ----
     st.markdown("### 📈 Today vs. Your Weekly Average")
+
     col1, col2, col3 = st.columns(3)
 
-    # Helper to safely show metric
-    def show_metric(col, label, metric_col, higher_better=False):
-        if metric_col not in df.columns or recent.empty:
-            return
-        avg = recent[metric_col].mean()
-        val = today[metric_col]
-        if pd.isna(val) or pd.isna(avg):
-            return
-        delta = val - avg
-        if higher_better:
-            if delta > 0.5:
-                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta=f"↑ {delta:.1f}")
-            elif delta < -0.5:
-                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta=f"↓ {abs(delta):.1f}", delta_color="off")
-            else:
-                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta="→ Stable")
-        else:
-            if delta < -0.5:
-                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta=f"↓ {abs(delta):.1f} Better", delta_color="inverse")
-            elif delta > 0.5:
-                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta=f"↑ {delta:.1f} Worse", delta_color="off")
-            else:
-                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta="→ Stable")
-
     with col1:
-        show_metric(col1, "Heaviness", "Heaviness")
-        show_metric(col1, "Pain", "Pain")
+        if heaviness_col and not recent.empty:
+            avg = recent[heaviness_col].mean()
+            val = today[heaviness_col]
+            if pd.notna(val) and pd.notna(avg):
+                delta = val - avg
+                if delta < -0.5:
+                    st.metric("Heaviness", f"{val:.0f}/10", delta=f"↓ {abs(delta):.1f} Better", delta_color="inverse")
+                elif delta > 0.5:
+                    st.metric("Heaviness", f"{val:.0f}/10", delta=f"↑ {delta:.1f} Worse", delta_color="off")
+                else:
+                    st.metric("Heaviness", f"{val:.0f}/10", delta="→ Stable")
+        if pain_col and not recent.empty:
+            avg = recent[pain_col].mean()
+            val = today[pain_col]
+            if pd.notna(val) and pd.notna(avg):
+                delta = val - avg
+                if delta < -0.5:
+                    st.metric("Pain", f"{val:.0f}/10", delta=f"↓ {abs(delta):.1f} Better", delta_color="inverse")
+                elif delta > 0.5:
+                    st.metric("Pain", f"{val:.0f}/10", delta=f"↑ {delta:.1f} Worse", delta_color="off")
+                else:
+                    st.metric("Pain", f"{val:.0f}/10", delta="→ Stable")
+
     with col2:
-        show_metric(col2, "Stress", "Stress")
-        show_metric(col2, "Energy", "Energy", higher_better=True)
+        if stress_col and not recent.empty:
+            avg = recent[stress_col].mean()
+            val = today[stress_col]
+            if pd.notna(val) and pd.notna(avg):
+                delta = val - avg
+                if delta < -0.5:
+                    st.metric("Stress", f"{val:.0f}/10", delta=f"↓ {abs(delta):.1f} Calmer", delta_color="inverse")
+                elif delta > 0.5:
+                    st.metric("Stress", f"{val:.0f}/10", delta=f"↑ {delta:.1f} Higher", delta_color="off")
+                else:
+                    st.metric("Stress", f"{val:.0f}/10", delta="→ Stable")
+        if energy_col and not recent.empty:
+            avg = recent[energy_col].mean()
+            val = today[energy_col]
+            if pd.notna(val) and pd.notna(avg):
+                delta = val - avg
+                if delta > 0.5:
+                    st.metric("Energy", f"{val:.0f}/10", delta=f"↑ {delta:.1f}")
+                elif delta < -0.5:
+                    st.metric("Energy", f"{val:.0f}/10", delta=f"↓ {abs(delta):.1f}", delta_color="off")
+                else:
+                    st.metric("Energy", f"{val:.0f}/10", delta="→ Stable")
+
     with col3:
-        show_metric(col3, "Compression", "Compression Hours", higher_better=True)
-        show_metric(col3, "Self-Compassion", "Self Compassion", higher_better=True)
+        if comp_hours_col and not recent.empty:
+            avg = recent[comp_hours_col].mean()
+            val = today[comp_hours_col]
+            if pd.notna(val) and pd.notna(avg):
+                delta = val - avg
+                if delta > 1:
+                    st.metric("Compression", f"{val:.0f}h", delta=f"↑ {delta:.1f}h")
+                elif delta < -1:
+                    st.metric("Compression", f"{val:.0f}h", delta=f"↓ {abs(delta):.1f}h", delta_color="off")
+                else:
+                    st.metric("Compression", f"{val:.0f}h", delta="→ On track")
+        if compassion_col and not recent.empty:
+            avg = recent[compassion_col].mean()
+            val = today[compassion_col]
+            if pd.notna(val) and pd.notna(avg):
+                delta = val - avg
+                if delta > 0.5:
+                    st.metric("Self-Compassion", f"{val:.0f}/10", delta=f"↑ Growing 🌱")
+                elif delta < -0.5:
+                    st.metric("Self-Compassion", f"{val:.0f}/10", delta=f"↓ Be gentle", delta_color="off")
+                else:
+                    st.metric("Self-Compassion", f"{val:.0f}/10", delta="→ Steady")
 
     # ---- PATTERN ALERTS ----
     if len(df) >= 3:
@@ -284,30 +340,30 @@ with tab_insights:
         st.markdown("### 🔍 Pattern Alerts")
         alerts = []
 
-        if 'Compression Hours' in df.columns and 'Heaviness' in df.columns:
-            high_comp = df[df['Compression Hours'] >= 12]
-            low_comp = df[df['Compression Hours'] < 12]
+        if comp_hours_col and heaviness_col and comp_hours_col in df.columns and heaviness_col in df.columns:
+            high_comp = df[df[comp_hours_col] >= 12]
+            low_comp = df[df[comp_hours_col] < 12]
             if len(high_comp) >= 2 and len(low_comp) >= 2:
-                high_avg = high_comp['Heaviness'].mean()
-                low_avg = low_comp['Heaviness'].mean()
+                high_avg = high_comp[heaviness_col].mean()
+                low_avg = low_comp[heaviness_col].mean()
                 if low_avg > high_avg + 1:
                     alerts.append(f"🔑 **Compression is working.** Heaviness averages {low_avg:.1f}/10 with <12h compression vs {high_avg:.1f}/10 with 12+h.")
 
-        if 'Sleep Quality' in df.columns and 'Pain' in df.columns:
-            poor_sleep = df[df['Sleep Quality'].str.contains('Poor', na=False)]
-            good_sleep = df[df['Sleep Quality'].str.contains('Good|Very good', na=False)]
+        if sleep_col and pain_col and sleep_col in df.columns and pain_col in df.columns:
+            poor_sleep = df[df[sleep_col].astype(str).str.contains('Poor', na=False)]
+            good_sleep = df[df[sleep_col].astype(str).str.contains('Good|Very good', na=False)]
             if len(poor_sleep) >= 2 and len(good_sleep) >= 2:
-                poor_avg = poor_sleep['Pain'].mean()
-                good_avg = good_sleep['Pain'].mean()
+                poor_avg = poor_sleep[pain_col].mean()
+                good_avg = good_sleep[pain_col].mean()
                 if poor_avg > good_avg + 1:
                     alerts.append(f"💤 **Sleep matters.** Pain averages {poor_avg:.1f}/10 after poor sleep vs {good_avg:.1f}/10 after good sleep.")
 
-        if 'Stress' in df.columns and 'Heaviness' in df.columns:
-            high_stress = df[df['Stress'] >= 7]
-            low_stress = df[df['Stress'] <= 4]
+        if stress_col and heaviness_col and stress_col in df.columns and heaviness_col in df.columns:
+            high_stress = df[df[stress_col] >= 7]
+            low_stress = df[df[stress_col] <= 4]
             if len(high_stress) >= 2 and len(low_stress) >= 2:
-                high_avg = high_stress['Heaviness'].mean()
-                low_avg = low_stress['Heaviness'].mean()
+                high_avg = high_stress[heaviness_col].mean()
+                low_avg = low_stress[heaviness_col].mean()
                 if high_avg > low_avg + 1:
                     alerts.append(f"🧘 **Stress affects swelling.** Heaviness averages {high_avg:.1f}/10 on high-stress days vs {low_avg:.1f}/10 on calmer days.")
 
@@ -325,20 +381,20 @@ with tab_insights:
         risk_factors = []
         recent_5 = df.head(5)
 
-        if 'Heaviness' in df.columns and recent_5['Heaviness'].mean() >= 7:
+        if heaviness_col and recent_5[heaviness_col].mean() >= 7:
             risk_score += 3
             risk_factors.append("Heaviness averaging 7+ this week")
-        if 'Sleep Quality' in df.columns:
-            poor_count = recent_5['Sleep Quality'].str.contains('Poor', na=False).sum()
+        if sleep_col:
+            poor_count = recent_5[sleep_col].astype(str).str.contains('Poor', na=False).sum()
             if poor_count >= 3:
                 risk_score += 2
                 risk_factors.append(f"Poor sleep on {poor_count} of 5 nights")
-        if 'Stress' in df.columns and recent_5['Stress'].mean() >= 7:
+        if stress_col and recent_5[stress_col].mean() >= 7:
             risk_score += 2
-            risk_factors.append(f"Average stress {recent_5['Stress'].mean():.1f}/10")
-        if 'Compression Hours' in df.columns and recent_5['Compression Hours'].mean() < 10:
+            risk_factors.append(f"Average stress {recent_5[stress_col].mean():.1f}/10")
+        if comp_hours_col and recent_5[comp_hours_col].mean() < 10:
             risk_score += 2
-            risk_factors.append(f"Compression averaging {recent_5['Compression Hours'].mean():.0f}h")
+            risk_factors.append(f"Compression averaging {recent_5[comp_hours_col].mean():.0f}h")
 
         if risk_score >= 5:
             st.error(f"⚠️ Elevated flare risk. Score: {risk_score}/10")
@@ -354,11 +410,11 @@ with tab_insights:
         st.markdown("---")
         st.markdown("### 🌿 Tomorrow's Focus")
         suggestions = []
-        comp_today = safe_get(today, 'Compression Hours', 0)
-        stress_today = safe_get(today, 'Stress', 5)
-        if comp_today < 12:
+        comp_today = safe_get(today, comp_hours_col, 0) if comp_hours_col else 0
+        stress_today = safe_get(today, stress_col, 5) if stress_col else 5
+        if comp_today and comp_today < 12:
             suggestions.append("Wear compression for **12+ hours** tomorrow.")
-        if stress_today >= 7:
+        if stress_today and stress_today >= 7:
             suggestions.append("Try **5 minutes of diaphragmatic breathing** before bed.")
         if suggestions:
             random.shuffle(suggestions)
@@ -372,11 +428,11 @@ with tab_insights:
         st.markdown("### 📋 Weekly Clinical Summary")
         recent_7 = df.head(7)
         summary = f"**This week ({len(recent_7)} entries):** "
-        if 'Heaviness' in df.columns:
-            summary += f"Heaviness averaged {recent_7['Heaviness'].mean():.1f}/10. "
-        if 'Pain' in df.columns:
-            summary += f"Pain averaged {recent_7['Pain'].mean():.1f}/10. "
-        if 'Compression Hours' in df.columns:
-            summary += f"Compression averaged {recent_7['Compression Hours'].mean():.0f}h/day. "
+        if heaviness_col:
+            summary += f"Heaviness averaged {recent_7[heaviness_col].mean():.1f}/10. "
+        if pain_col:
+            summary += f"Pain averaged {recent_7[pain_col].mean():.1f}/10. "
+        if comp_hours_col:
+            summary += f"Compression averaged {recent_7[comp_hours_col].mean():.0f}h/day. "
         st.info(summary)
         st.caption("Share this with your therapist at your next appointment.")
