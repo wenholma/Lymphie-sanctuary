@@ -79,8 +79,14 @@ if "log_df" not in st.session_state:
             "Small Win", "Temperature", "Humidity", "Tags"
         ])
 
-def tip(text):
-    st.markdown(f"<small style='color: #6B7F74;'>ℹ️ {text}</small>", unsafe_allow_html=True)
+def safe_get(series, key, default=None):
+    """Safely get a value from a pandas Series, returning default if key is missing."""
+    if series is None or key not in series.index:
+        return default
+    val = series[key]
+    if pd.isna(val):
+        return default
+    return val
 
 # ==============================================================================
 # TABS
@@ -88,13 +94,15 @@ def tip(text):
 tab_log, tab_insights = st.tabs(["📝 Daily Log", "🧠 My Insights"])
 
 # ------------------------------------------------------------------------------
-# TAB 1: DAILY LOG (single form, always works)
+# TAB 1: DAILY LOG
 # ------------------------------------------------------------------------------
 with tab_log:
     st.markdown("### Your 2‑Minute Check‑In")
-    
+    st.info("""
+    ✨ **Here's the magic:** Fill in as much or as little as you like. After you save, jump over to the **🧠 My Insights** tab to see your personal trends, pattern alerts, flare risk, and a clinical summary ready for your therapist.
+    """)
+
     with st.form("daily_log_form", clear_on_submit=True):
-        # Two columns for the most important sliders (always visible)
         col1, col2 = st.columns(2)
         with col1:
             entry_date = st.date_input("Date", value=datetime.now().date(), key="d_date")
@@ -106,8 +114,7 @@ with tab_log:
             compression_hours = st.slider("Compression Hours", 0, 24, 0, key="d_comp_hours")
             energy = st.slider("Energy (0–10)", 0, 10, 5, key="d_energy")
             mobility = st.slider("Mobility (0–10)", 0, 10, 5, key="d_mobility")
-        
-        # Expandable sections for additional details
+
         with st.expander("👁️ Appearance & Measurements", expanded=False):
             appearance = st.selectbox("How did the limb look today?", [
                 "Baseline / Normal", "Slight puffiness (pitting)",
@@ -116,12 +123,12 @@ with tab_log:
             measurement = st.radio("Measurements taken?", 
                 ["No", "Yes — full measurement", "Yes — partial measurement", "Not applicable"],
                 horizontal=True, key="d_measurement")
-        
+
         with st.expander("📍 Affected Areas", expanded=False):
             affected_areas = st.multiselect("Select all areas with symptoms today",
                 ["Left arm", "Right arm", "Left leg", "Right leg", "Trunk", "Head/neck", "Genital area", "Other"],
                 key="d_areas")
-        
+
         with st.expander("🧦 Compression & Self‑Care", expanded=False):
             compression = st.multiselect("Compression worn today",
                 ["None", "Light support (OTC)", "Circular knit (standard)", "Flat knit (custom)",
@@ -132,7 +139,7 @@ with tab_log:
                  "Rebounding (mini trampoline)", "Lymphatic yoga / stretching", "Walking with compression",
                  "Skin care / moisturising", "Cold / warm therapy", "Diaphragmatic breathing", "Not applicable"],
                 key="d_selfcare")
-        
+
         with st.expander("🏥 Professional Treatments & Movement", expanded=False):
             prof_treatment = st.multiselect("Professional treatments received today",
                 ["None", "Therapist MLD — Vodder", "Therapist MLD — Földi", "Therapist MLD — Casley-Smith",
@@ -146,7 +153,7 @@ with tab_log:
                  "Lymphatic yoga", "Pilates", "Rebounding", "Guided exercise programme",
                  "Breathwork for lymphatic flow", "Other movement", "Not applicable"],
                 key="d_movement")
-        
+
         with st.expander("🍽️ Lifestyle & Triggers", expanded=False):
             diet_triggers = st.multiselect("Dietary triggers",
                 ["High-salt meal", "High sugar", "Alcohol", "Caffeine", "Processed foods",
@@ -157,26 +164,26 @@ with tab_log:
             health_triggers = st.multiselect("Health triggers",
                 ["Infection", "Menstrual cycle", "New medication", "Fatigue", "Poor sleep",
                  "Stress spike", "Recent illness", "None / not applicable"], key="d_health")
-        
+
         with st.expander("🧘 Wellness Context", expanded=False):
             sleep_quality = st.selectbox("Sleep quality last night",
                 ["Very good (8h+)", "Good (7–8h)", "Fair (5–7h)", "Poor (<5h)"], key="d_sleep")
             self_compassion = st.slider("Self-compassion (0–10)", 0, 10, 5, key="d_selfcomp")
-        
+
         with st.expander("📝 Reflections & Tags", expanded=False):
             challenge = st.text_area("Biggest challenge today?", max_chars=1000, height=80, key="d_challenge")
             win = st.text_area("Small win today? 🌱", max_chars=1000, height=80, key="d_win")
             tags = st.text_input("Tags (optional)", placeholder="e.g., flare, new garment", key="d_tags")
-        
+
         with st.expander("🌤️ Environment (optional)", expanded=False):
             c1, c2 = st.columns(2)
             with c1:
                 temp = st.number_input("Temperature (°C)", value=None, step=0.5, min_value=-20.0, max_value=55.0, key="d_temp")
             with c2:
                 humidity = st.number_input("Humidity (%)", value=None, min_value=0, max_value=100, key="d_humidity")
-        
+
         submitted = st.form_submit_button("💾 Save Today's Entry", use_container_width=True)
-    
+
     if submitted:
         new_entry = {
             "Date": entry_date.strftime("%Y-%m-%d"), "Time": entry_time.strftime("%H:%M"),
@@ -201,7 +208,7 @@ with tab_log:
             st.session_state.log_df = pd.DataFrame(logs)
             st.success(f"✅ Entry saved! ({len(logs)} total entries logged)")
             st.balloons()
-            # Force refresh to show updated insights
+            st.info("👉 Jump to the **🧠 My Insights** tab to see your updated trends, patterns, and clinical summary.")
             st.rerun()
         except Exception as e:
             st.error(f"❌ Failed to save: {e}")
@@ -211,102 +218,72 @@ with tab_log:
 # ------------------------------------------------------------------------------
 with tab_insights:
     st.markdown("## 🧠 My Insights")
-    
+    st.info("""
+    📊 **What you'll see here (once you've logged a few entries):**
+    - **Trend arrows** comparing today's values to your weekly average.
+    - **Pattern alerts** revealing your personal triggers and what helps.
+    - **Flare risk assessment** based on recent data.
+    - **Tomorrow's focus** – a small, personalised action to try.
+    - **Weekly clinical summary** ready to share with your therapist.
+    """)
+
     if st.session_state.log_df.empty or len(st.session_state.log_df) < 2:
-        st.info("📝 Log at least 2 entries to unlock your personal insights. Patterns emerge over time.")
+        st.warning("📝 Log at least 2 entries to unlock your personal insights. Patterns emerge over time.")
         st.stop()
-    
+
     df = st.session_state.log_df.copy()
     numeric_cols = ['Heaviness', 'Pain', 'Stress', 'Energy', 'Mobility', 'Self Compassion', 'Compression Hours']
     for col in numeric_cols:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors='coerce')
-    
+
     today = df.iloc[0]
     recent = df.iloc[1:8] if len(df) > 1 else df.iloc[1:]
-    
+
     # ---- TREND CARDS ----
     st.markdown("### 📈 Today vs. Your Weekly Average")
     col1, col2, col3 = st.columns(3)
-    
+
+    # Helper to safely show metric
+    def show_metric(col, label, metric_col, higher_better=False):
+        if metric_col not in df.columns or recent.empty:
+            return
+        avg = recent[metric_col].mean()
+        val = today[metric_col]
+        if pd.isna(val) or pd.isna(avg):
+            return
+        delta = val - avg
+        if higher_better:
+            if delta > 0.5:
+                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta=f"↑ {delta:.1f}")
+            elif delta < -0.5:
+                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta=f"↓ {abs(delta):.1f}", delta_color="off")
+            else:
+                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta="→ Stable")
+        else:
+            if delta < -0.5:
+                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta=f"↓ {abs(delta):.1f} Better", delta_color="inverse")
+            elif delta > 0.5:
+                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta=f"↑ {delta:.1f} Worse", delta_color="off")
+            else:
+                col.metric(label, f"{val:.0f}{'h' if 'Hours' in metric_col else '/10'}", delta="→ Stable")
+
     with col1:
-        if 'Heaviness' in df.columns and not recent.empty:
-            avg = recent['Heaviness'].mean()
-            val = today['Heaviness']
-            if pd.notna(val) and pd.notna(avg):
-                delta = val - avg
-                if delta < -0.5:
-                    st.metric("Heaviness", f"{val:.0f}/10", delta=f"↓ {abs(delta):.1f} Better", delta_color="inverse")
-                elif delta > 0.5:
-                    st.metric("Heaviness", f"{val:.0f}/10", delta=f"↑ {delta:.1f} Worse", delta_color="off")
-                else:
-                    st.metric("Heaviness", f"{val:.0f}/10", delta="→ Stable")
-        if 'Pain' in df.columns and not recent.empty:
-            avg = recent['Pain'].mean()
-            val = today['Pain']
-            if pd.notna(val) and pd.notna(avg):
-                delta = val - avg
-                if delta < -0.5:
-                    st.metric("Pain", f"{val:.0f}/10", delta=f"↓ {abs(delta):.1f} Better", delta_color="inverse")
-                elif delta > 0.5:
-                    st.metric("Pain", f"{val:.0f}/10", delta=f"↑ {delta:.1f} Worse", delta_color="off")
-                else:
-                    st.metric("Pain", f"{val:.0f}/10", delta="→ Stable")
-    
+        show_metric(col1, "Heaviness", "Heaviness")
+        show_metric(col1, "Pain", "Pain")
     with col2:
-        if 'Stress' in df.columns and not recent.empty:
-            avg = recent['Stress'].mean()
-            val = today['Stress']
-            if pd.notna(val) and pd.notna(avg):
-                delta = val - avg
-                if delta < -0.5:
-                    st.metric("Stress", f"{val:.0f}/10", delta=f"↓ {abs(delta):.1f} Calmer", delta_color="inverse")
-                elif delta > 0.5:
-                    st.metric("Stress", f"{val:.0f}/10", delta=f"↑ {delta:.1f} Higher", delta_color="off")
-                else:
-                    st.metric("Stress", f"{val:.0f}/10", delta="→ Stable")
-        if 'Energy' in df.columns and not recent.empty:
-            avg = recent['Energy'].mean()
-            val = today['Energy']
-            if pd.notna(val) and pd.notna(avg):
-                delta = val - avg
-                if delta > 0.5:
-                    st.metric("Energy", f"{val:.0f}/10", delta=f"↑ {delta:.1f}")
-                elif delta < -0.5:
-                    st.metric("Energy", f"{val:.0f}/10", delta=f"↓ {abs(delta):.1f}", delta_color="off")
-                else:
-                    st.metric("Energy", f"{val:.0f}/10", delta="→ Stable")
-    
+        show_metric(col2, "Stress", "Stress")
+        show_metric(col2, "Energy", "Energy", higher_better=True)
     with col3:
-        if 'Compression Hours' in df.columns and not recent.empty:
-            avg = recent['Compression Hours'].mean()
-            val = today['Compression Hours']
-            if pd.notna(val) and pd.notna(avg):
-                delta = val - avg
-                if delta > 1:
-                    st.metric("Compression", f"{val:.0f}h", delta=f"↑ {delta:.1f}h")
-                elif delta < -1:
-                    st.metric("Compression", f"{val:.0f}h", delta=f"↓ {abs(delta):.1f}h", delta_color="off")
-                else:
-                    st.metric("Compression", f"{val:.0f}h", delta="→ On track")
-        if 'Self Compassion' in df.columns and not recent.empty:
-            avg = recent['Self Compassion'].mean()
-            val = today['Self Compassion']
-            if pd.notna(val) and pd.notna(avg):
-                delta = val - avg
-                if delta > 0.5:
-                    st.metric("Self-Compassion", f"{val:.0f}/10", delta=f"↑ Growing 🌱")
-                elif delta < -0.5:
-                    st.metric("Self-Compassion", f"{val:.0f}/10", delta=f"↓ Be gentle", delta_color="off")
-                else:
-                    st.metric("Self-Compassion", f"{val:.0f}/10", delta="→ Steady")
-    
+        show_metric(col3, "Compression", "Compression Hours", higher_better=True)
+        show_metric(col3, "Self-Compassion", "Self Compassion", higher_better=True)
+
     # ---- PATTERN ALERTS ----
     if len(df) >= 3:
         st.markdown("---")
         st.markdown("### 🔍 Pattern Alerts")
         alerts = []
-        
+
         if 'Compression Hours' in df.columns and 'Heaviness' in df.columns:
             high_comp = df[df['Compression Hours'] >= 12]
             low_comp = df[df['Compression Hours'] < 12]
@@ -315,27 +292,31 @@ with tab_insights:
                 low_avg = low_comp['Heaviness'].mean()
                 if low_avg > high_avg + 1:
                     alerts.append(f"🔑 **Compression is working.** Heaviness averages {low_avg:.1f}/10 with <12h compression vs {high_avg:.1f}/10 with 12+h.")
-        
+
         if 'Sleep Quality' in df.columns and 'Pain' in df.columns:
             poor_sleep = df[df['Sleep Quality'].str.contains('Poor', na=False)]
             good_sleep = df[df['Sleep Quality'].str.contains('Good|Very good', na=False)]
             if len(poor_sleep) >= 2 and len(good_sleep) >= 2:
-                if poor_sleep['Pain'].mean() > good_sleep['Pain'].mean() + 1:
-                    alerts.append(f"💤 **Sleep matters.** Pain averages {poor_sleep['Pain'].mean():.1f}/10 after poor sleep vs {good_sleep['Pain'].mean():.1f}/10 after good sleep.")
-        
+                poor_avg = poor_sleep['Pain'].mean()
+                good_avg = good_sleep['Pain'].mean()
+                if poor_avg > good_avg + 1:
+                    alerts.append(f"💤 **Sleep matters.** Pain averages {poor_avg:.1f}/10 after poor sleep vs {good_avg:.1f}/10 after good sleep.")
+
         if 'Stress' in df.columns and 'Heaviness' in df.columns:
             high_stress = df[df['Stress'] >= 7]
             low_stress = df[df['Stress'] <= 4]
             if len(high_stress) >= 2 and len(low_stress) >= 2:
-                if high_stress['Heaviness'].mean() > low_stress['Heaviness'].mean() + 1:
-                    alerts.append(f"🧘 **Stress affects swelling.** Heaviness averages {high_stress['Heaviness'].mean():.1f}/10 on high-stress days vs {low_stress['Heaviness'].mean():.1f}/10 on calmer days.")
-        
+                high_avg = high_stress['Heaviness'].mean()
+                low_avg = low_stress['Heaviness'].mean()
+                if high_avg > low_avg + 1:
+                    alerts.append(f"🧘 **Stress affects swelling.** Heaviness averages {high_avg:.1f}/10 on high-stress days vs {low_avg:.1f}/10 on calmer days.")
+
         if alerts:
             for alert in alerts:
                 st.info(alert)
         else:
             st.caption("Keep logging! Patterns emerge after more entries.")
-    
+
     # ---- FLARE RISK ----
     if len(df) >= 5:
         st.markdown("---")
@@ -343,7 +324,7 @@ with tab_insights:
         risk_score = 0
         risk_factors = []
         recent_5 = df.head(5)
-        
+
         if 'Heaviness' in df.columns and recent_5['Heaviness'].mean() >= 7:
             risk_score += 3
             risk_factors.append("Heaviness averaging 7+ this week")
@@ -358,7 +339,7 @@ with tab_insights:
         if 'Compression Hours' in df.columns and recent_5['Compression Hours'].mean() < 10:
             risk_score += 2
             risk_factors.append(f"Compression averaging {recent_5['Compression Hours'].mean():.0f}h")
-        
+
         if risk_score >= 5:
             st.error(f"⚠️ Elevated flare risk. Score: {risk_score}/10")
         elif risk_score >= 3:
@@ -367,22 +348,24 @@ with tab_insights:
             st.success(f"✅ Low risk. Score: {risk_score}/10")
         for factor in risk_factors:
             st.markdown(f"- {factor}")
-    
-    # ---- DAILY PRESCRIPTION ----
+
+    # ---- TOMORROW'S FOCUS ----
     if len(df) >= 2:
         st.markdown("---")
         st.markdown("### 🌿 Tomorrow's Focus")
         suggestions = []
-        if pd.notna(today.get('Compression Hours', 0)) and today['Compression Hours'] < 12:
+        comp_today = safe_get(today, 'Compression Hours', 0)
+        stress_today = safe_get(today, 'Stress', 5)
+        if comp_today < 12:
             suggestions.append("Wear compression for **12+ hours** tomorrow.")
-        if pd.notna(today.get('Stress', 5)) and today['Stress'] >= 7:
+        if stress_today >= 7:
             suggestions.append("Try **5 minutes of diaphragmatic breathing** before bed.")
         if suggestions:
             random.shuffle(suggestions)
             st.info(suggestions[0])
         else:
             st.success("You're doing well. Keep your current routine. 🌿")
-    
+
     # ---- WEEKLY CLINICAL SUMMARY ----
     if len(df) >= 7:
         st.markdown("---")

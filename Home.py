@@ -309,7 +309,7 @@ st.markdown("""
 <h4 style="margin-top: 0; text-align: center;">Your simple 4‑step journey 🌿</h4>
 <p><strong>Step 1 — You're here.</strong> This is the Home page. When you're ready, go to <strong>Settings &amp; License</strong> to make your one‑time purchase.</p>
 <p><strong>Step 2 — Unlock.</strong> Pay <strong>NZ$19.99 once-off forever</strong> via Stripe. Check your email for your license key, paste it in, and activate. No subscriptions. No recurring charges. Ever.</p>
-<p><strong>Step 3 — Log.</strong> Head to <strong>Daily Log</strong> and spend 2 minutes checking in with your body. Track key lymphoedema symptoms with simple sliders and checkboxes.</p>
+<p><strong>Step 3 — Log.</strong> Head to <strong>Daily Log</strong> and spend 2 minutes checking in. After you save, open the <strong>🧠 My Insights</strong> tab to see your personal trends, pattern alerts, flare risk, and a clinical summary ready for your therapist.</p>
 <p><strong>Step 4 — Export.</strong> Go to <strong>Export</strong> anytime to download a beautifully formatted Excel file. Share it with your lymphoedema therapist, doctor, or keep it for your own records.</p>
 </div>
 """, unsafe_allow_html=True)
