@@ -9,22 +9,13 @@ from openpyxl.utils import get_column_letter
 sys.path.append('.')
 from utils.database import load_all_logs, get_premium_status
 
-st.set_page_config(page_title="Export & History", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Export & History | The Lymphie Sanctuary", page_icon="📊", layout="wide")
 
 from utils.nav import mobile_nav
 mobile_nav()
 
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
-    html, body, [class*="css"] { font-family: 'Inter', sans-serif; color: #2C3E35; font-size: 16px; }
-    h1, h2, h3, h4 { font-family: 'Nunito', sans-serif; font-weight: 600; color: #1A3B2E; }
-    .stButton > button { font-family: 'Nunito', sans-serif !important; background-color: #2E7D5E !important; color: white !important; border-radius: 60px !important; padding: 0.9rem 2.2rem !important; border: none !important; font-weight: 700 !important; font-size: 1.1rem !important; min-height: 48px; }
-    .stDownloadButton > button { font-family: 'Nunito', sans-serif !important; background-color: #1E5F45 !important; color: white !important; border-radius: 60px !important; padding: 1rem 2.4rem !important; border: none !important; font-weight: 700 !important; font-size: 1.1rem !important; min-height: 48px; }
-    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
-    #MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}
-</style>
-""", unsafe_allow_html=True)
+from utils.styles import apply_styles
+apply_styles()
 
 st.title("📊 Export & History")
 st.caption("View your past entries and download your data.")
@@ -47,7 +38,7 @@ st.caption(f"📊 **{len(logs)}** total entries logged")
 st.markdown("---")
 st.subheader("💾 Backup Reminder")
 st.markdown("""
-<div style="background: linear-gradient(135deg, #F4F9F6 0%, #EAF3EE 100%); padding: 1.2rem; border-radius: 12px; border-left: 4px solid #2E7D5E;">
+<div style="background: var(--tint); padding: 1.2rem; border-radius: 12px; border-left: 4px solid var(--teal);">
     <strong>📥 Your data is stored locally in a database file.</strong><br>
     Download an Excel backup regularly and keep it somewhere safe.
 </div>
@@ -101,13 +92,12 @@ if premium:
 
         # ── Styles ──────────────────────────────────────────────
         header_font = Font(name='Calibri', size=11, bold=True, color='FFFFFF')
-        header_fill = PatternFill(start_color='2E7D5E', end_color='2E7D5E', fill_type='solid')
+        header_fill = PatternFill(start_color='0F766E', end_color='0F766E', fill_type='solid')
         header_alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
 
         cell_alignment = Alignment(vertical='top', wrap_text=True)
         cell_font = Font(name='Calibri', size=10, color='000000')
 
-        # Black border for every cell
         black_border = Border(
             left=Side(style='thin', color='000000'),
             right=Side(style='thin', color='000000'),
@@ -115,36 +105,18 @@ if premium:
             bottom=Side(style='thin', color='000000')
         )
 
-        # ── Column width presets (characters) ──────────────────
         column_widths = {
-            'Date': 12,
-            'Time': 8,
-            'Heaviness (0-10)': 14,
-            'Pain (0-10)': 12,
-            'Limb Appearance': 28,
-            'Measurement Taken': 22,
-            'Affected Areas': 30,
-            'Compression Worn': 28,
-            'Compression Hours': 16,
-            'Home Self-Care': 30,
-            'Professional Treatment': 30,
-            'Movement & Exercise': 28,
-            'Dietary Triggers': 28,
-            'Environmental Triggers': 30,
-            'Health Triggers': 28,
-            'Stress (0-10)': 12,
-            'Sleep Quality': 18,
-            'Energy (0-10)': 12,
-            'Mobility (0-10)': 14,
-            'Self-Compassion (0-10)': 18,
-            'Biggest Challenge': 45,
-            'Small Win': 45,
-            'Temperature (°C)': 16,
-            'Humidity (%)': 14,
-            'Tags': 25
+            'Date': 12, 'Time': 8, 'Heaviness (0-10)': 14, 'Pain (0-10)': 12,
+            'Limb Appearance': 28, 'Measurement Taken': 22, 'Affected Areas': 30,
+            'Compression Worn': 28, 'Compression Hours': 16, 'Home Self-Care': 30,
+            'Professional Treatment': 30, 'Movement & Exercise': 28,
+            'Dietary Triggers': 28, 'Environmental Triggers': 30, 'Health Triggers': 28,
+            'Stress (0-10)': 12, 'Sleep Quality': 18, 'Energy (0-10)': 12,
+            'Mobility (0-10)': 14, 'Self-Compassion (0-10)': 18,
+            'Biggest Challenge': 45, 'Small Win': 45, 'Temperature (°C)': 16,
+            'Humidity (%)': 14, 'Tags': 25
         }
 
-        # ── Format all cells ────────────────────────────────────
         for col_idx in range(1, len(df_export.columns) + 1):
             cell = worksheet.cell(row=1, column=col_idx)
             cell.font = header_font
@@ -152,7 +124,6 @@ if premium:
             cell.alignment = header_alignment
             cell.border = black_border
 
-            # Apply column width
             col_name = df_export.columns[col_idx - 1]
             if col_name in column_widths:
                 worksheet.column_dimensions[get_column_letter(col_idx)].width = column_widths[col_name]
@@ -166,12 +137,10 @@ if premium:
                 cell.border = black_border
                 cell.font = cell_font
 
-        # Row heights
         worksheet.row_dimensions[1].height = 30
         for row_idx in range(2, len(df_export) + 2):
             worksheet.row_dimensions[row_idx].height = 22
 
-        # Freeze & filter
         worksheet.freeze_panes = 'A2'
         worksheet.auto_filter.ref = f"A1:{get_column_letter(len(df_export.columns))}{len(df_export) + 1}"
 
@@ -187,15 +156,24 @@ if premium:
     )
 
     st.success("✅ Lifetime Access active — export anytime.")
-    st.caption("✨ Your Excel file includes formatted headers, black professional borders, auto-sized columns, and is ready to share with your CLT or doctor.")
+    st.caption("✨ Formatted, professional, and ready to take to your next appointment. Show your therapist what your body has actually been doing.")
 
 else:
     st.warning("✨ Full Export requires Lifetime Access")
     st.markdown("""
-    <div style="background: #EAF3EE; padding: 1.5rem; border-radius: 16px; margin: 1rem 0; text-align: center;">
+    <div style="background: var(--tint); padding: 1.5rem; border-radius: 16px; margin: 1rem 0; text-align: center;">
         <h3 style="color: #1A3B2E; margin-bottom: 0.5rem; font-family: 'Nunito', sans-serif;">NZ$19.99 — One‑time payment</h3>
         <p>Lifetime access to formatted Excel exports, trend visualizations, and all future updates.</p>
     </div>
     """, unsafe_allow_html=True)
     if st.button("🌿 Go to Settings to Unlock", use_container_width=True):
         st.switch_page("pages/1_Settings.py")
+
+# ─── BRAND FOOTER ────────────────────────────────────────────────
+st.divider()
+st.markdown("""
+<div class="brand-footer">
+    Does your workplace support staff with lymphoedema?
+    <a href="https://www.lymphatwork.com" target="_blank">Lymphoedema at Work →</a>
+</div>
+""", unsafe_allow_html=True)

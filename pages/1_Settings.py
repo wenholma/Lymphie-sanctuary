@@ -10,29 +10,16 @@ st.set_page_config(page_title="Settings & License | The Lymphie Sanctuary", page
 from utils.nav import mobile_nav
 mobile_nav()
 
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
-    html, body, [class*="css"] { font-family: 'Inter', sans-serif; color: #2C3E35; font-size: 16px; }
-    h1, h2, h3, h4 { font-family: 'Nunito', sans-serif; font-weight: 600; color: #1A3B2E; }
-    .stButton > button { font-family: 'Nunito', sans-serif !important; background-color: #2E7D5E !important; color: white !important; border-radius: 60px !important; padding: 0.9rem 2.2rem !important; border: none !important; font-weight: 700 !important; font-size: 1.1rem !important; min-height: 48px; }
-    .stButton > button[kind="secondary"] { background-color: #FFFFFF !important; color: #2E7D5E !important; border: 2px solid #2E7D5E !important; }
-    .stTextInput > div > div > input { border-radius: 12px !important; border: 2px solid #E2EDE6 !important; padding: 0.8rem 1rem !important; font-size: 1rem !important; min-height: 48px; }
-    .green-box { background: linear-gradient(135deg, #EAF3EE 0%, #D4E8DC 100%); border-left: 6px solid #2E7D5E; padding: 1.4rem 1.8rem; border-radius: 20px; margin: 2rem 0 1.5rem 0; }
-    .activation-box { background: linear-gradient(135deg, #FFFDF5 0%, #FFF9E6 100%); border: 2px solid #E6C940; padding: 1.4rem 1.8rem; border-radius: 20px; margin: 1rem 0 2rem 0; }
-    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
-    #MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}
-</style>
-""", unsafe_allow_html=True)
+from utils.styles import apply_styles
+apply_styles()
 
 st.title("⚙️ Settings & License")
+st.caption("Your licence, your privacy, your control.")
 
 STRIPE_PAYMENT_LINK = "https://buy.stripe.com/6oUdR97uK6NL1LE79u0oM01"
 premium = get_premium_status()
 
-# ═══════════════════════════════════════════════════════════════
-# LICENSE ACTIVATION — MOVED TO THE VERY TOP
-# ═══════════════════════════════════════════════════════════════
+# ─── LICENSE ACTIVATION ──────────────────────────────────────────
 st.subheader("🔑 Lifetime Access")
 
 if premium:
@@ -124,7 +111,7 @@ If the problem continues, email info@thelymphiesanctuary.com.
     st.markdown("### 💳 Don't have a key yet?")
     st.markdown(f"""
     <div style="text-align: center; margin: 1.5rem 0;">
-        <a href="{STRIPE_PAYMENT_LINK}" target="_blank" style="background-color: #2E7D5E; color: white; padding: 0.9rem 2.2rem; border-radius: 60px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; font-family: 'Nunito', sans-serif;">
+        <a href="{STRIPE_PAYMENT_LINK}" target="_blank" style="background-color: #0F766E; color: white; padding: 0.9rem 2.2rem; border-radius: 60px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; font-family: 'Nunito', sans-serif; box-shadow: 0 2px 8px rgba(15,118,110,0.25);">
             💳 Purchase Lifetime Key — NZ$19.99
         </a>
     </div>
@@ -143,9 +130,7 @@ If the problem continues, email info@thelymphiesanctuary.com.
     **3.** Go to Daily Log and start tracking!
     """)
 
-# ═══════════════════════════════════════════════════════════════
-# PRIVACY & INFO (below activation)
-# ═══════════════════════════════════════════════════════════════
+# ─── PRIVACY & INFO ──────────────────────────────────────────────
 st.divider()
 st.markdown("""
 <div style="background: #F4F9F6; padding: 0.8rem 1rem; border-radius: 12px; margin-bottom: 1rem; font-size: 0.9rem;">
@@ -162,13 +147,11 @@ st.markdown("""
     <strong>🔒 Local‑first by design.</strong> Your logs never leave your device.
     No accounts. No servers. No tracking. You're not the product — you're the owner.<br><br>
     <strong>📥 Export regularly:</strong> Save your logs as a beautifully formatted Excel file. We recommend downloading a backup weekly.<br><br>
-    <small>⚠️ This tool is for personal tracking only. It is not medical advice. Always consult your healthcare provider.</small>
+    <small>⚠️ Personal tracking only — not medical advice. Always work with your lymphoedema therapist or GP.</small>
 </div>
 """, unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════
-# DATA MANAGEMENT
-# ═══════════════════════════════════════════════════════════════
+# ─── DATA MANAGEMENT ─────────────────────────────────────────────
 st.divider()
 with st.expander("🗑️ Delete Your Local Data", expanded=False):
     st.markdown("""
@@ -200,17 +183,13 @@ with st.expander("🗑️ Delete Your Local Data", expanded=False):
                 st.session_state['confirm_delete'] = False
                 st.rerun()
 
-# ═══════════════════════════════════════════════════════════════
-# GO TO DAILY LOG
-# ═══════════════════════════════════════════════════════════════
+# ─── GO TO DAILY LOG ──────────────────────────────────────────────
 st.divider()
 st.markdown("### 📝 Ready to start logging?")
 if st.button("Go to Your Daily Log", use_container_width=True):
     st.switch_page("pages/2_Daily_Log.py")
 
-# ═══════════════════════════════════════════════════════════════
-# FAQS
-# ═══════════════════════════════════════════════════════════════
+# ─── FAQS ─────────────────────────────────────────────────────────
 st.divider()
 with st.expander("❓ Frequently Asked Questions", expanded=False):
     st.markdown("**📱 How do I use this on my phone daily?**")
@@ -236,3 +215,12 @@ with st.expander("❓ Frequently Asked Questions", expanded=False):
 
 st.divider()
 st.caption("📧 Need help? Contact: **info@thelymphiesanctuary.com**")
+
+# ─── BRAND FOOTER ────────────────────────────────────────────────
+st.divider()
+st.markdown("""
+<div class="brand-footer">
+    Does your workplace support staff with lymphoedema?
+    <a href="https://www.lymphatwork.com" target="_blank">Lymphoedema at Work →</a>
+</div>
+""", unsafe_allow_html=True)

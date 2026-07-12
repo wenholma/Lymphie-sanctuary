@@ -5,14 +5,8 @@ st.set_page_config(page_title="Privacy Policy | The Lymphie Sanctuary", page_ico
 from utils.nav import mobile_nav
 mobile_nav()
 
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
-    html, body, [class*="css"] { font-family: 'Inter', sans-serif; color: #2C3E35; font-size: 16px; line-height: 1.7; }
-    h1, h2, h3 { font-family: 'Nunito', sans-serif; font-weight: 600; color: #1A3B2E; }
-    #MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}
-</style>
-""", unsafe_allow_html=True)
+from utils.styles import apply_styles
+apply_styles()
 
 st.title("🔒 Privacy Policy")
 st.caption("Last updated: May 2026")
@@ -130,3 +124,12 @@ We may update this policy. Material changes will be posted with a version date. 
 📧 **info@thelymphiesanctuary.com**
 Please allow 2–3 days for a reply.
 """)
+
+# ─── BRAND FOOTER ────────────────────────────────────────────────
+st.divider()
+st.markdown("""
+<div class="brand-footer">
+    Does your workplace support staff with lymphoedema?
+    <a href="https://www.lymphatwork.com" target="_blank">Lymphoedema at Work →</a>
+</div>
+""", unsafe_allow_html=True)

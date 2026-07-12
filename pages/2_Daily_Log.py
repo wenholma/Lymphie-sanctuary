@@ -12,41 +12,13 @@ st.set_page_config(page_title="Daily Lymphie Log | The Lymphie Sanctuary", page_
 from utils.nav import mobile_nav
 mobile_nav()
 
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
-    html, body, [class*="css"] { font-family: 'Inter', sans-serif; color: #2C3E35; font-size: 16px; }
-    h1, h2, h3, h4 { font-family: 'Nunito', sans-serif; font-weight: 600; color: #1A3B2E; }
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 0.5rem;
-        background: #F4F9F6;
-        border-radius: 20px;
-        padding: 0.4rem;
-    }
-    .stTabs [data-baseweb="tab"] {
-        font-family: 'Nunito', sans-serif;
-        font-weight: 600;
-        font-size: 0.9rem;
-        border-radius: 16px;
-        padding: 0.6rem 1.2rem;
-    }
-    .stTabs [aria-selected="true"] {
-        background: #2E7D5E !important;
-        color: white !important;
-    }
-    .stButton > button { font-family: 'Nunito', sans-serif !important; background-color: #2E7D5E !important; color: white !important; border-radius: 60px !important; padding: 0.9rem 2.2rem !important; border: none !important; font-weight: 700 !important; font-size: 1.1rem !important; min-height: 48px; }
-    .stWarning { border-radius: 16px !important; border-left: 6px solid #2E7D5E !important; background: linear-gradient(135deg, #F4F9F6 0%, #EAF3EE 100%) !important; padding: 1rem 1.5rem !important; }
-    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
-    #MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}
-</style>
-""", unsafe_allow_html=True)
+from utils.styles import apply_styles
+apply_styles()
 
 st.title("🌿 Daily Lymphie Log")
-st.caption("Your private daily intelligence companion.")
+st.caption("Two minutes. Your patterns. Your story.")
 
-# ------------------------------------------------------------------------------
-# LICENSE GATE
-# ------------------------------------------------------------------------------
+# ─── LICENSE GATE ──────────────────────────────────────────────────
 premium = get_premium_status()
 if not premium:
     st.warning("🔑 **Lifetime Access required.** Purchase your one-time license key on the Settings page.")
@@ -54,17 +26,15 @@ if not premium:
         st.switch_page("pages/1_Settings.py")
     st.stop()
 
-# ------------------------------------------------------------------------------
-# PRIVACY NOTICE
-# ------------------------------------------------------------------------------
-st.info("""
-🔒 **Your data stays on this device.** We never see, store, or access your health data.
-⚠️ Personal tracking only — not medical advice.
-""")
+# ─── PRIVACY NOTICE ──────────────────────────────────────────────
+st.markdown("""
+<div class="green-box">
+    🔒 Everything you log stays on this device only. We never see it, store it, or touch it.<br>
+    This is a personal tracking tool — not medical advice. Always work with your therapist or GP.
+</div>
+""", unsafe_allow_html=True)
 
-# ------------------------------------------------------------------------------
-# LOAD DATA
-# ------------------------------------------------------------------------------
+# ─── LOAD DATA ────────────────────────────────────────────────────
 if "log_df" not in st.session_state:
     logs = load_all_logs()
     if logs:
@@ -88,19 +58,13 @@ def safe_get(series, key, default=None):
         return default
     return val
 
-# ==============================================================================
-# TABS
-# ==============================================================================
+# ─── TABS ──────────────────────────────────────────────────────────
 tab_log, tab_insights = st.tabs(["📝 Daily Log", "🧠 My Insights"])
 
-# ------------------------------------------------------------------------------
-# TAB 1: DAILY LOG
-# ------------------------------------------------------------------------------
+# ─── TAB 1: DAILY LOG ────────────────────────────────────────────
 with tab_log:
-    st.markdown("### Your 2‑Minute Check‑In")
-    st.info("""
-    ✨ **Here's the magic:** Fill in as much or as little as you like. After you save, jump over to the **🧠 My Insights** tab to see your personal trends, pattern alerts, flare risk, and a clinical summary ready for your therapist.
-    """)
+    st.markdown("### Your Daily Check-In")
+    st.markdown("*Two minutes. As much or as little as you like. No pressure.*")
 
     with st.form("daily_log_form", clear_on_submit=True):
         col1, col2 = st.columns(2)
@@ -213,9 +177,7 @@ with tab_log:
         except Exception as e:
             st.error(f"❌ Failed to save: {e}")
 
-# ------------------------------------------------------------------------------
-# TAB 2: MY INSIGHTS
-# ------------------------------------------------------------------------------
+# ─── TAB 2: MY INSIGHTS ──────────────────────────────────────────
 with tab_insights:
     st.markdown("## 🧠 My Insights")
     st.info("""
@@ -257,7 +219,7 @@ with tab_insights:
     today = df.iloc[0]
     recent = df.iloc[1:8] if len(df) > 1 else df.iloc[1:]
 
-    # ---- TREND CARDS ----
+    # ─── TREND CARDS ──────────────────────────────────────────────
     st.markdown("### 📈 Today vs. Your Weekly Average")
 
     col1, col2, col3 = st.columns(3)
@@ -334,7 +296,7 @@ with tab_insights:
                 else:
                     st.metric("Self-Compassion", f"{val:.0f}/10", delta="→ Steady")
 
-    # ---- PATTERN ALERTS ----
+    # ─── PATTERN ALERTS ───────────────────────────────────────────
     if len(df) >= 3:
         st.markdown("---")
         st.markdown("### 🔍 Pattern Alerts")
@@ -360,79 +322,4 @@ with tab_insights:
 
         if stress_col and heaviness_col and stress_col in df.columns and heaviness_col in df.columns:
             high_stress = df[df[stress_col] >= 7]
-            low_stress = df[df[stress_col] <= 4]
-            if len(high_stress) >= 2 and len(low_stress) >= 2:
-                high_avg = high_stress[heaviness_col].mean()
-                low_avg = low_stress[heaviness_col].mean()
-                if high_avg > low_avg + 1:
-                    alerts.append(f"🧘 **Stress affects swelling.** Heaviness averages {high_avg:.1f}/10 on high-stress days vs {low_avg:.1f}/10 on calmer days.")
-
-        if alerts:
-            for alert in alerts:
-                st.info(alert)
-        else:
-            st.caption("Keep logging! Patterns emerge after more entries.")
-
-    # ---- FLARE RISK ----
-    if len(df) >= 5:
-        st.markdown("---")
-        st.markdown("### ⚠️ Flare Risk Assessment")
-        risk_score = 0
-        risk_factors = []
-        recent_5 = df.head(5)
-
-        if heaviness_col and recent_5[heaviness_col].mean() >= 7:
-            risk_score += 3
-            risk_factors.append("Heaviness averaging 7+ this week")
-        if sleep_col:
-            poor_count = recent_5[sleep_col].astype(str).str.contains('Poor', na=False).sum()
-            if poor_count >= 3:
-                risk_score += 2
-                risk_factors.append(f"Poor sleep on {poor_count} of 5 nights")
-        if stress_col and recent_5[stress_col].mean() >= 7:
-            risk_score += 2
-            risk_factors.append(f"Average stress {recent_5[stress_col].mean():.1f}/10")
-        if comp_hours_col and recent_5[comp_hours_col].mean() < 10:
-            risk_score += 2
-            risk_factors.append(f"Compression averaging {recent_5[comp_hours_col].mean():.0f}h")
-
-        if risk_score >= 5:
-            st.error(f"⚠️ Elevated flare risk. Score: {risk_score}/10")
-        elif risk_score >= 3:
-            st.warning(f"🟡 Moderate risk. Score: {risk_score}/10")
-        else:
-            st.success(f"✅ Low risk. Score: {risk_score}/10")
-        for factor in risk_factors:
-            st.markdown(f"- {factor}")
-
-    # ---- TOMORROW'S FOCUS ----
-    if len(df) >= 2:
-        st.markdown("---")
-        st.markdown("### 🌿 Tomorrow's Focus")
-        suggestions = []
-        comp_today = safe_get(today, comp_hours_col, 0) if comp_hours_col else 0
-        stress_today = safe_get(today, stress_col, 5) if stress_col else 5
-        if comp_today and comp_today < 12:
-            suggestions.append("Wear compression for **12+ hours** tomorrow.")
-        if stress_today and stress_today >= 7:
-            suggestions.append("Try **5 minutes of diaphragmatic breathing** before bed.")
-        if suggestions:
-            random.shuffle(suggestions)
-            st.info(suggestions[0])
-        else:
-            st.success("You're doing well. Keep your current routine. 🌿")
-
-    # ---- WEEKLY CLINICAL SUMMARY ----
-    if len(df) >= 7:
-        st.markdown("---")
-        st.markdown("### 📋 Weekly Clinical Summary")
-        recent_7 = df.head(7)
-        summary = f"**This week ({len(recent_7)} entries):** "
-        if heaviness_col:
-            summary += f"Heaviness averaged {recent_7[heaviness_col].mean():.1f}/10. "
-        if pain_col:
-            summary += f"Pain averaged {recent_7[pain_col].mean():.1f}/10. "
-        if comp_hours_col:
-            summary += f"Compression averaged {recent_7[comp_hours_col].mean():.0f}h/day. "
-        st.info(summary)
-        st.caption("Share this with your therapist at your next appointment.")
+            low

@@ -4,19 +4,76 @@ st.set_page_config(page_title="Media | The Lymphie Sanctuary", page_icon="🎙�
 
 from utils.nav import mobile_nav
 mobile_nav()
-
+from utils.styles import apply_styles
+apply_styles()
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
-    html, body, [class*="css"] { font-family: 'Inter', sans-serif; color: #2C3E35; font-size: 16px; }
-    h1, h2, h3 { font-family: 'Nunito', sans-serif; font-weight: 600; color: #1A3B2E; }
+    :root {
+        --teal: #0F766E;
+        --ink: #0F1F1B;
+        --tint: #EAF6F1;
+        --body-text: #22302B;
+        --muted-text: #647A73;
+        --mint: #4FE3BC;
+    }
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+        color: var(--body-text);
+        font-size: 16px;
+        background-color: #FAFCFA;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+        color: var(--ink);
+    }
+    .stCaption, .stMarkdown p, li, div {
+        color: var(--body-text);
+    }
+    .stCaption { color: var(--muted-text); }
     .highlight-box {
-        background: linear-gradient(135deg, #F4F9F6 0%, #FFFFFF 100%);
-        border-left: 6px solid #2E7D5E;
+        background: linear-gradient(135deg, var(--tint) 0%, #FFFFFF 100%);
+        border-left: 6px solid var(--teal);
         padding: 1rem 1.5rem;
         border-radius: 12px;
         margin: 0.8rem 0;
     }
+    .stButton button, .stDownloadButton button, .stForm button[type="submit"] {
+        background-color: var(--teal) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        font-family: 'Nunito', sans-serif !important;
+        border: none !important;
+        border-radius: 60px !important;
+        padding: 0.9rem 2.2rem !important;
+        font-size: 1.1rem !important;
+        min-height: 48px !important;
+        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.25) !important;
+        transition: all 0.2s ease !important;
+        letter-spacing: 0.3px !important;
+        cursor: pointer !important;
+    }
+    .stButton button:hover, .stDownloadButton button:hover, .stForm button[type="submit"]:hover {
+        background-color: #0D5F58 !important;
+        box-shadow: 0 4px 16px rgba(15, 118, 110, 0.35) !important;
+        transform: translateY(-2px);
+    }
+    .stButton button:active, .stDownloadButton button:active {
+        transform: scale(0.97);
+        box-shadow: 0 1px 4px rgba(15, 118, 110, 0.2) !important;
+    }
+    a { color: var(--teal); text-decoration: none; font-weight: 500; }
+    a:hover { color: #0D5F58; text-decoration: underline; }
+    .brand-footer {
+        text-align: center;
+        padding: 1.5rem 0 0.5rem 0;
+        font-size: 0.85rem;
+        color: var(--muted-text);
+        border-top: 1px solid #e0e8e0;
+        margin-top: 2rem;
+    }
+    .brand-footer a { color: var(--teal); font-weight: 500; }
     #MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
@@ -24,9 +81,14 @@ st.markdown("""
 st.title("🎙️ Media")
 
 st.markdown("""
-### 🎧 Radio Interview — June 2026
+### Radio Interview — June 2026
 
-I spoke with Access Media about living with lymphoedema and building The Lymphie Sanctuary.
+In June 2026 I spoke with Access Media about what it's actually like to live with lymphoedema,
+why I built The Lymphie Sanctuary, and what patient-led innovation can do for chronic illness care.
+
+If you've ever sat in a clinic appointment and genuinely couldn't remember your week —
+or felt the invisible weight of managing something no one else can see —
+this one's for you.
 """)
 
 # Working button using st.link_button (native Streamlit, always works)
@@ -41,8 +103,6 @@ st.caption("Click the button above to open the interview in a new tab.")
 st.markdown("---")
 
 st.subheader("📋 Interview Highlights")
-
-st.markdown("#### Key Discussion Points")
 
 st.markdown("""
 <div class="highlight-box">
@@ -95,3 +155,12 @@ The Lymphie Sanctuary is a private, 2‑minute daily symptom journal for people 
 
 🌿 [thelymphiesanctuary.com](https://thelymphiesanctuary.com)
 """)
+
+# ─── BRAND FOOTER ────────────────────────────────────────────────
+st.divider()
+st.markdown("""
+<div class="brand-footer">
+    Does your workplace support staff with lymphoedema?
+    <a href="https://www.lymphatwork.com" target="_blank">Lymphoedema at Work →</a>
+</div>
+""", unsafe_allow_html=True)
